@@ -27,7 +27,7 @@ module.exports = function(context) {
     extras: [
       'roboto-font',
       'material-icons', // optional, you are not bound to it
-      // 'ionicons-v4',
+      'ionicons-v4',// optional, you are not bound to it
       // 'mdi-v3',
       // 'fontawesome-v5',
       // 'eva-icons'
@@ -61,7 +61,7 @@ module.exports = function(context) {
         'Notify',
       ],
 
-      // iconSet: 'ionicons-v4'
+      iconSet: 'ionicons-v4',
       // lang: 'de' // Quasar language
     },
 
@@ -97,7 +97,7 @@ module.exports = function(context) {
           configFile,
         })]
         if(!config.resolve.extensions){config.resolve.extensions = []}
-        config.resolve.alias['@'] = resolve('src')
+        config.resolve.alias[srcAlias] = resolve('src')
         config.resolve.extensions.push('.ts', '.tsx')
         config.module.rules.push( {
           test: /\.tsx?$/,
@@ -116,7 +116,10 @@ module.exports = function(context) {
             },
           ],
         })
-        config.plugins.push(new ForkTsCheckerWebpackPlugin())
+        config.plugins.push(new ForkTsCheckerWebpackPlugin({
+          tsconfig: configFile,
+          vue: true,
+        }))
         // pug
         config.module.rules.push({
           test: /\.pug$/,
