@@ -55,8 +55,7 @@
     "tslint": "^5.16.0",
     "typescript": "^3.4.5",
     "vue-auto-routing": "^0.3.0",
-    "vue-styleguidist": "^3.13.1",
-    "vuepress": "^1.0.0-alpha.47"
+    "vue-styleguidist": "^3.13.1"
   },
   "engines": {
     "node": ">= 8.9.0",
