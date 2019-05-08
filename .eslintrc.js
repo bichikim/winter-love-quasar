@@ -192,6 +192,7 @@ module.exports = {
     'no-useless-return': 'error',
     'no-void': 'error',
     'no-with': 'error',
+    'no-unused-vars': 'warn',
     'nonblock-statement-body-position': 'error',
     'object-curly-spacing': ['error', 'never'],
     'quotes': ['error', 'single'],

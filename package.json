@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "dev": "quasar dev",
+    "dev:pwa": "quasar dev --mode pwa",
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",
     "lint": "eslint --ext .js,.vue src",
@@ -15,17 +16,17 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.1.1",
+    "@quasar/extras": "^1.1.2",
     "axios": "^0.18.0",
     "quasar": "^1.0.0-beta.16",
     "vue-class-component": "^7.0.2",
+    "vue-i18n": "^8.10.0",
     "vue-property-decorator": "^8.1.0",
-    "vue-router-layout": "^0.1.4",
-    "vue-i18n": "^8.10.0"
+    "vue-router-layout": "^0.1.4"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
-    "@quasar/app": "^1.0.0-beta.16",
+    "@quasar/app": "^1.0.0-beta.22",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/node": "11.9.5",
@@ -35,7 +36,6 @@
     "@typescript-eslint/parser": "^1.6.0",
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.1",
-    "vue-auto-routing": "^0.3.0",
     "eslint-plugin-html": "^5.0.3",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-vue": "^5.2.2",
@@ -59,7 +59,8 @@
     "ts-node": "^8.0.3",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
     "tslint": "^5.15.0",
-    "typescript": "^3.3.3333"
+    "typescript": "^3.3.3333",
+    "vue-auto-routing": "^0.3.0"
   },
   "engines": {
     "node": ">= 8.9.0",
