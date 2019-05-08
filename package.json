@@ -36,6 +36,7 @@
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.1",
     "vue-auto-routing": "^0.3.0",
+    "eslint-plugin-html": "^5.0.3",
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-vue": "^5.2.2",
     "fork-ts-checker-webpack-plugin": "^1.0.0",

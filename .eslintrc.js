@@ -1,56 +1,87 @@
 module.exports = {
-  root: true,
-
+  plugins: ['html', '@typescript-eslint', 'import', 'vue'],
+  env: {
+    'commonjs': true,
+    'browser': true,
+    'es6': true,
+    'amd': true,
+    'node': true,
+    'mocha': true,
+  },
+  settings: {
+    'import/parsers': {
+      '@typescript-eslint/parser': [ '.ts', '.tsx', 'vue'],
+    },
+  },
+  extends: ['eslint:recommended', 'plugin:vue/recommended', 'plugin:import/warnings'],
   parserOptions: {
     parser: '@typescript-eslint/parser',
     sourceType: 'module',
     useJSXTextNode: true,
     jsx: true,
   },
-
-  settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': [ '.ts', '.tsx', 'vue'],
+  overrides: [
+    {
+      files: ['*.js'],
+      rules: {
+        'indent': 'off',
+      },
     },
-  },
-
-  env: {
-    browser: true,
-    mocha: true,
-  },
-
-  extends: [
-    // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-settingserror-prevention
-    // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential',
-    'plugin:vue/recommended'
+    {
+      files: ['*.ts', '*.vue', '*.tsx'],
+      rules: {
+        'indent': 'off',
+        'new-cap': 'off',
+        'no-undef': 'off',
+        'no-undefined': 'off',
+        'no-unused-vars': 'off',
+        'no-dupe-class-members': 'off',
+      },
+    },
+    {
+      files: ['*.vue'],
+      rules: {
+        'max-len': 'off',
+      },
+    },
+    {
+      files: ['*.d.ts'],
+      rules: {
+        'import/no-duplicates': 'off',
+        'typescript/interface-name-prefix': 'off',
+        'typescript/no-namespace': 'off',
+        'no-magic-numbers': 'off',
+      },
+    },
+    {
+      files: [
+        '*.spec.js',
+        '*.spec.ts',
+        '*.test.ts',
+        '*.test.js',
+      ],
+      rules: {
+        'no-magic-numbers': 'off',
+        'max-nested-callbacks': 'off',
+        'no-undef': 'off',
+      },
+    },
   ],
-
-  // required to lint *.vue files
-  plugins: [
-    '@typescript-eslint', 'import', 'vue'
-  ],
-
-  globals: {
-    'ga': true, // Google Analytics
-    'cordova': true,
-    '__statics': true
-  },
-
-  // add your custom rules here
   rules: {
+    /**************************************
+     * import
+     **************************************/
     /**************************************
      * common javascript options
      **************************************/
     // off
     'one-var': 'off',
-    'no-undef': 'off',
-
+    'no-undef': 'error',
+    'no-console': ['warn', {allow: ['warn', 'error']}],
     'linebreak-style': 'off',
     'no-prototype-builtins': 'off',
     'class-methods-use-this': 'off',
     // on
-
     'array-callback-return': 'error',
     'arrow-parens': ['error', 'always'],
     'arrow-spacing': ['error', {before: true, after: true}],
@@ -62,11 +93,11 @@ module.exports = {
       'error',
       'always',
       {
-        line: {
-          ignorePattern: '^(\w)*',
+        'line': {
+          'ignorePattern': '^(\w)*',
         },
-        block: {
-          ignorePattern: '^( ?)(tslint:disable|eslint-disable|istanbul ignore)',
+        'block': {
+          'ignorePattern': '^( ?)(tslint:disable|eslint-disable|istanbul ignore)',
         },
       },
     ],
@@ -80,9 +111,9 @@ module.exports = {
     'guard-for-in': 'error',
     'indent': ['error', 2, { 'SwitchCase': 1 }],
     'keyword-spacing': ['error', {
-      before: false,
-      after: false,
-      overrides: {
+      'before': false,
+      'after': false,
+      'overrides': {
         'default': {before: true, after: true},
         'const' : {before: true, after: true},
         'let' : {before: true, after: true},
@@ -110,7 +141,6 @@ module.exports = {
     'no-buffer-constructor': 'error',
     'no-caller': 'error',
     'no-catch-shadow': 'error',
-    'no-console': ['warn', {allow: ['warn', 'error']}],
     'no-div-regex': 'error',
     'no-else-return': 'error',
     'no-empty-function': 'error',
@@ -162,22 +192,55 @@ module.exports = {
     'no-useless-return': 'error',
     'no-void': 'error',
     'no-with': 'error',
-    'new-cap': 'off',
     'nonblock-statement-body-position': 'error',
     'object-curly-spacing': ['error', 'never'],
     'quotes': ['error', 'single'],
     'require-await': 'error',
     'semi': ['error', 'never'],
     'sort-keys': 'off',
-    'space-before-blocks': ['error', {'functions': 'always', 'keywords': 'never', 'classes': 'always'}],
-    'space-before-function-paren': ['error', {'anonymous': 'never', 'named': 'never', 'asyncArrow': 'always'}],
+    'space-before-blocks': ['error', {
+      'functions': 'always', 'keywords': 'never', 'classes': 'always'}],
+    'space-before-function-paren': ['error', {
+      'anonymous': 'never', 'named': 'never', 'asyncArrow': 'always'}],
     'vars-on-top': 'error',
 
-    /**************************************
-     * import
-     **************************************/
-
-    // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
-  }
+    /*************************************
+     * type script options
+     *************************************/
+    // off
+    '@typescript-eslint/explicit-member-accessibility': 'off',
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/member-delimiter-style': 'off',
+    '@typescript-eslint/member-ordering': 'off',
+    '@typescript-eslint/no-empty-interface': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-type-alias': 'off',
+    '@typescript-eslint/no-use-before-define ': 'off',
+    // on
+    '@typescript-eslint/adjacent-overload-signatures': 'error',
+    '@typescript-eslint/class-name-casing': 'error',
+    '@typescript-eslint/member-naming': ['error', {'private': '^_'}],
+    '@typescript-eslint/no-angle-bracket-type-assertion': 'error',
+    '@typescript-eslint/no-array-constructor': 'error',
+    '@typescript-eslint/no-namespace': 'error',
+    '@typescript-eslint/no-parameter-properties': 'error',
+    '@typescript-eslint/no-triple-slash-reference': 'error',
+    // it has an error
+    '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/type-annotation-spacing': [
+      'error', {
+        'before': false,
+        'after': false,
+        'overrides': {
+          'arrow': {
+            'before': true,
+            'after': true,
+          },
+          'colon': {
+            'before': false,
+            'after': true,
+          },
+        },
+      }],
+  },
 }

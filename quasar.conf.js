@@ -17,6 +17,7 @@ module.exports = function(context) {
       'i18n',
       'axios',
       'middleware',
+      'class-component',
     ],
 
     css: [

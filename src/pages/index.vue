@@ -1,9 +1,6 @@
 <route-meta>
-  {
-  "middleware": "authenticated"
-  }
+  {"middleware": "authenticated"}
 </route-meta>
-
 
 <template>
   <q-page class="flex flex-center">

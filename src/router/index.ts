@@ -18,16 +18,12 @@ Vue.use(VueRouter)
  */
 
 export default function(context: any) {
-  const {app, store} = context
   const routerLayout = createRouterLayout((layout) => {
     return import(`${process.env.WEBPACK_SRC_ALIAS}/${process.env.VUE_LAYOUTS_PATH}/${layout}.vue`)
   })
 
-  middleware<ExContext, State>(context, {
-    always: ['default'],
-  })
 
-  return new VueRouter({
+  return  new VueRouter({
     scrollBehavior: () => ({x: 0, y: 0}),
     routes: [
       {

@@ -59,7 +59,7 @@ const createPack =
   }
 
 const getter = <A, S, V extends Vue = Vue>
-(resources: __WebpackModuleApi.RequireContext): MiddlewarePackList<A, S, V> => {
+  (resources: __WebpackModuleApi.RequireContext): MiddlewarePackList<A, S, V> => {
   const afterEachList: Array<MiddlewarePack<A, S, V>> = []
   const beforeEachList: Array<MiddlewarePack<A, S, V>> = []
   const beforeResolveList: Array<MiddlewarePack<A, S, V>> = []
@@ -150,7 +150,7 @@ export default <
     return console.warn('[middleware] no router')
   }
   const middlewareList: MiddlewarePackList<A, S, V> = getter<A, S, V>(require.context(
-    `${process.env.SRC_ALIAS}/${process.env.MIDDLEWARE_PATH}/`,
+    `${process.env.WEBPACK_SRC_ALIAS}/${process.env.VUE_MIDDLEWARE_PATH}/`,
     false,
     /\.ts$/,
   ))
