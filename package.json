@@ -8,9 +8,11 @@
   "private": true,
   "scripts": {
     "dev": "quasar dev",
-    "dev:pwa": "quasar dev --mode pwa",
+    "dev:pwa": "quasar dev -m pwa",
     "build": "quasar build",
     "build:pwa": "quasar build -m pwa",
+    "inspect": "quasar inspect",
+    "clean": "quasar clean",
     "lint": "eslint --ext .js,.vue src",
     "lint:fix": "eslint --fix --ext .js,.vue src",
     "styleguide": "vue-styleguidist server --config build/styleguide.config.js",

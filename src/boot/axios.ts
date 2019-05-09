@@ -1,5 +1,6 @@
 import axios from 'axios'
+import {Context} from 'quasar'
 
-export default ({Vue}: any) => {
+export default ({Vue}: Context) => {
   Vue.prototype.$axios = axios
 }

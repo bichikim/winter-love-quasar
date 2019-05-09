@@ -7,7 +7,7 @@
 
 <script lang="ts">
   import {
-    Component, Prop, Vue,
+    Component, Vue,
   } from 'vue-property-decorator'
 
   @Component

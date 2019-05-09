@@ -15,7 +15,6 @@ declare module 'vue/types/options' {
   // noinspection TsLint
   interface ComponentOptions<V extends Vue> {
     preFetch?: (options: any) => void | Promise<void>
-    middleware?: string
     layout?: string
     firebase?: any
   }

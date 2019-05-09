@@ -1,8 +1,8 @@
 import Component from 'vue-class-component'
-import middleware from '@/lib/middleware'
+import {Context} from 'quasar'
 
 export default () => {
   Component.registerHooks([
-    'middleware',
+    'layout',
   ])
 }
