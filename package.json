@@ -17,7 +17,7 @@
     "lint:fix": "eslint --fix --ext .js,.vue src",
     "styleguide": "vue-styleguidist server --config build/styleguide.config.js",
     "styleguide:build": "vue-styleguidist build --config build/styleguide.config.js",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "mocha test/**/*.spec.ts"
   },
   "dependencies": {
     "@quasar/extras": "^1.1.2",
