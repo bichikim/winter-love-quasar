@@ -50,6 +50,8 @@ module.exports = function(context) {
         'QItem',
         'QItemSection',
         'QItemLabel',
+        'QScrollArea',
+        'QExpansionItem',
       ],
 
       directives: [
