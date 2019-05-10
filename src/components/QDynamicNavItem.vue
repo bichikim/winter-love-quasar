@@ -21,11 +21,11 @@
 <script lang="ts">
 import {Component, Mixins} from 'vue-property-decorator'
 import NavDynamicMixin from './NavDynamic.mixin'
+
+/**
+ * Render nested Nav Items
+ */
 @Component
 export default class QDynamicNavItem extends Mixins(NavDynamicMixin) {
 }
 </script>
-
-<style scoped lang="stylus">
-
-</style>

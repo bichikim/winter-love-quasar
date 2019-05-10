@@ -15,6 +15,9 @@ import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {NavItem, NavTo} from './types/navigation'
 import QDynamicNavItem from './QDynamicNavItem.vue'
 
+/**
+ * Aside navigation
+ */
 @Component({
   components: {
     QDynamicNavItem,
@@ -45,14 +48,21 @@ export default class Navigation extends Vue {
    */
   @Prop({default: false}) value: boolean
 
-  /**
-   *
-   */
   handleInput(value: boolean) {
+    /**
+     * When it changed value
+     * @event input
+     * @type {boolean}
+     */
     this.$emit('input', value)
   }
 
   handleTo(to: NavTo) {
+    /**
+     * When it needs to go to somewhere
+     * @event to
+     * @type {NavTo}
+     */
     this.$emit('to', to)
   }
 }

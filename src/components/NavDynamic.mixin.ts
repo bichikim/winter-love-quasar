@@ -1,6 +1,9 @@
 import {Component, Prop, Vue} from 'vue-property-decorator'
 import {NavItem, NavTo} from './types/navigation'
 
+/**
+ * Render nested Nav Items Mixin
+ */
 @Component
 export default class NavDynamicMixin extends Vue {
   @Prop() item: NavItem
@@ -35,6 +38,11 @@ export default class NavDynamicMixin extends Vue {
         path: [this.path, path].join('/'),
       }
     }
+    /**
+     * When it needs to go to somewhere
+     * @event to
+     * @type {NavTo}
+     */
     this.$emit('to', myTo)
   }
 
@@ -46,6 +54,11 @@ export default class NavDynamicMixin extends Vue {
         path: to,
       }
     }
+    /**
+     * When it needs to go to somewhere
+     * @event to
+     * @type {NavTo}
+     */
     this.$emit('to', myTo)
   }
 }
