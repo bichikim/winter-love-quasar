@@ -8,16 +8,16 @@
     q-scroll-area.fit.q-pa-sm
       q-list
         template(v-for="(item) in items")
-          q-dynamic-item(:item="item" @to="handleTo")
+          q-dynamic-nav-item(:item="item" @to="handleTo")
 </template>
 <script lang="ts">
 import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
 import {NavItem, NavTo} from './types/navigation'
-import QDynamicItem from './QDynamicItem.vue'
+import QDynamicNavItem from './QDynamicNavItem.vue'
 
 @Component({
   components: {
-    QDynamicItem,
+    QDynamicNavItem,
   },
 })
 export default class Navigation extends Vue {
