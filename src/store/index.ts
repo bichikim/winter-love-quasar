@@ -40,7 +40,7 @@ const getModules = (app: ModuleContext) => {
  * If not building with SSR mode, you can
  * directly export the Store instantiation
  */
-export default function(context) {
+export default (context) => {
   return new Vuex.Store({
     modules: getModules({...context}),
     // enable strict mode (adds overhead!)

@@ -11,7 +11,7 @@
           q-dynamic-nav-item(:item="item" @to="handleTo")
 </template>
 <script lang="ts">
-import {Component, Vue, Prop, Watch} from 'vue-property-decorator'
+import {Component, Vue, Prop} from 'vue-property-decorator'
 import {NavItem, NavTo} from './types/navigation'
 import QDynamicNavItem from './QDynamicNavItem.vue'
 
