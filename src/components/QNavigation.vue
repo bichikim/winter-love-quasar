@@ -5,10 +5,13 @@
     @input="handleInput"
     v-bind="{bordered, elevated}"
     )
-    q-scroll-area.fit.q-pa-sm
-      q-list
-        template(v-for="(item) in items")
-          q-dynamic-nav-item(:item="item" @to="handleTo")
+    .frame
+      .user-frame.q-header--bordered
+        slot
+      q-scroll-area.nav-frame.q-pa-sm
+        q-list
+          template(v-for="(item) in items")
+            q-dynamic-nav-item(:item="item" @to="handleTo")
 </template>
 <script lang="ts">
 import {Component, Vue, Prop} from 'vue-property-decorator'
@@ -68,3 +71,18 @@ export default class Navigation extends Vue {
 }
 
 </script>
+<style scoped lang="stylus">
+  .frame
+    display flex
+    flex-direction column
+    width 100%
+    height 100%
+    .user-frame
+      flex-grow 0
+      flex-shrink 0
+      flex-basis 150px
+    .nav-frame
+      flex-grow 1
+      flex-shrink 1
+      flex-basis auto
+</style>

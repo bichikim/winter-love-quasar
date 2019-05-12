@@ -8,6 +8,11 @@
           | Winter Love Project
         div() {{$q.version}}
     q-navigation(:items="items" @input="handleNav" v-model="open")
+      .q-pa-md.fit
+        q-avatar(size="56px")
+          q-img(src="https://www.w3schools.com/howto/img_avatar.png")
+        .text-h5 {{name | unKnown}}
+        .subtitle {{link | unKnown}}
     q-page-container
       router-view
 
@@ -19,15 +24,27 @@
   import {NavItem} from '@/components/types/navigation'
   import QNavigation from '@/components/QNavigation.vue'
   const aside = namespace('aside')
+  const auth = namespace('auth')
 
   @Component({
     components: {
       QNavigation,
     },
+    filters: {
+      unKnown(value: string) {
+        if(value){
+          return value
+        }
+        return 'unknown'
+      },
+    },
   })
   export default class Index extends Vue {
     @Prop({default: 'lHh Lpr fff'}) view: string
     @aside.State items: NavItem
+    @auth.State name?: string
+    @auth.State link?: string
+
     open: boolean = true
     version: string = 'version'
 
@@ -38,6 +55,4 @@
 </script>
 
 <style scoped lang="stylus">
-  .app
-    display flex
 </style>

@@ -15,7 +15,18 @@ const env: NodeJS.ProcessEnv = {
 }
 
 interface Context {
-
+  dev: boolean
+  prod: boolean
+  mode: {spa: boolean}
+  modeName: 'spa' | string
+  target: {}
+  targetName?: string
+  emulator?: string
+  arch: {}
+  archName?: string
+  bundler: {}
+  bundlerName?: string
+  debug: boolean
 }
 
 interface QuasarConfig {
@@ -23,10 +34,11 @@ interface QuasarConfig {
   css?: string[]
   extras?: string[]
   framework?: {
+    all?: boolean
     components?: Array< string
       | 'QLayout'| 'QHeader'| 'QDrawer'| 'QPageContainer'| 'QPage'| 'QToolbar'| 'QToolbarTitle'
       | 'QBtn'| 'QIcon'| 'QList'| 'QItem'| 'QItemSection'| 'QItemLabel'| 'QScrollArea'
-      | 'QExpansionItem'
+      | 'QExpansionItem'| 'QImg'| 'QAvatar'
       >
     directives?: string[]
     plugins?: string[]
@@ -116,7 +128,7 @@ export default function(context: Context): QuasarConfig {
     ],
 
     framework: {
-      // all: true, // --- includes everything; for dev only!
+      all: context.dev, // --- includes everything; for dev only!
 
       components: [
         'QLayout',
@@ -134,6 +146,8 @@ export default function(context: Context): QuasarConfig {
         'QItemLabel',
         'QScrollArea',
         'QExpansionItem',
+        'QImg',
+        'QAvatar',
       ],
 
       directives: [
