@@ -23,6 +23,7 @@
   import {NavItem} from '@/components/types/navigation'
   import {Component, Prop, Vue} from 'vue-property-decorator'
   import {namespace} from 'vuex-class'
+
   const aside = namespace('aside')
   const auth = namespace('auth')
 
