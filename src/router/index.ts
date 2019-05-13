@@ -1,10 +1,7 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
 import routes from 'vue-auto-routing'
-import {Store} from 'vuex'
+import VueRouter from 'vue-router'
 import {createRouterLayout} from 'vue-router-layout'
-import middleware, {Context} from '@/lib/middleware'
-import {State} from '@/store/types'
 
 interface ExContext {
   // empty
@@ -17,11 +14,10 @@ Vue.use(VueRouter)
  * directly export the Router instantiation
  */
 
-export default function(context: any) {
+export default (context: any) => {
   const routerLayout = createRouterLayout((layout) => {
     return import(`${process.env.WEBPACK_SRC_ALIAS}/${process.env.VUE_LAYOUTS_PATH}/${layout}.vue`)
   })
-
 
   return  new VueRouter({
     scrollBehavior: () => ({x: 0, y: 0}),

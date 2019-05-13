@@ -1,9 +1,9 @@
-import TsconfigPathsWebpackPlugin from 'tsconfig-paths-webpack-plugin'
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import VueAutoRoutingPlugin from 'vue-auto-routing/lib/webpack-plugin'
-import {resolve} from 'path'
-import {Configuration} from 'webpack'
 import dotenv from 'dotenv'
+import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
+import {resolve} from 'path'
+import TsconfigPathsWebpackPlugin from 'tsconfig-paths-webpack-plugin'
+import VueAutoRoutingPlugin from 'vue-auto-routing/lib/webpack-plugin'
+import {Configuration} from 'webpack'
 const env: NodeJS.ProcessEnv = {
   VUE_PAGES_PATH: 'pages',
   VUE_MIDDLEWARE_PATH: 'middleware',
@@ -36,33 +36,34 @@ interface QuasarConfig {
   framework?: {
     all?: boolean
     components?: Array< string
-      | 'QLayout'| 'QHeader'| 'QDrawer'| 'QPageContainer'| 'QPage'| 'QToolbar'| 'QToolbarTitle'
-      | 'QBtn'| 'QIcon'| 'QList'| 'QItem'| 'QItemSection'| 'QItemLabel'| 'QScrollArea'
-      | 'QExpansionItem'| 'QImg'| 'QAvatar'
+      | 'QLayout' | 'QHeader' | 'QDrawer' | 'QPageContainer' | 'QPage' | 'QToolbar'
+      | 'QToolbarTitle' | 'QBtn' | 'QIcon' | 'QList' | 'QItem' | 'QItemSection' | 'QItemLabel'
+      | 'QScrollArea'
+      | 'QExpansionItem' | 'QImg' | 'QAvatar'
       >
     directives?: string[]
     plugins?: string[]
-    iconSet?: string | 'ionicons-v4' | 'material-icons'
+    iconSet?: string | 'ionicons-v4' | 'material-icons',
   }
   supportIE?: boolean
   sourceFiles?: {
-    indexHtmlTemplate?: string
+    indexHtmlTemplate?: string,
   }
   build?: {
     env?: {
-      [key: string]: string
+      [key: string]: string,
     },
     scopeHoisting?: boolean
-    vueRouterMode?: 'history'| 'hash' | 'abstract'
+    vueRouterMode?: 'history' | 'hash' | 'abstract'
     gzip?: boolean
-    extendWebpack?: (config: Configuration) => void
+    extendWebpack?: (config: Configuration) => void,
   }
   devServer?: {
-    open?: boolean
+    open?: boolean,
   }
   animations?: any[]
   ssr?: {
-    pwa?: boolean
+    pwa?: boolean,
   }
   pwa?: {
     manifest?: {
@@ -73,13 +74,13 @@ interface QuasarConfig {
       icons?: Array<{
         src: string
         sizes: string
-        type: string
-      }>
-    }
+        type: string,
+      }>,
+    },
   }
 
   cordova?: {
-    id?: string
+    id?: string,
   }
   electron?: {
     bundler?: 'builder' | 'packager'
@@ -92,18 +93,18 @@ interface QuasarConfig {
       appCategoryType?: string
       osxSign?: string
       // protocol: 'myapp://path',
-      protocol?: string
+      protocol?: string,
     }
     /**
      *  https://www.electron.build/configuration/configuration
      */
     builder?: {
-      appId?: string
-    }
+      appId?: string,
+    },
   }
 }
 
-export default function(context: Context): QuasarConfig {
+export default (context: Context): QuasarConfig => {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -121,7 +122,7 @@ export default function(context: Context): QuasarConfig {
     extras: [
       'roboto-font',
       'material-icons', // optional, you are not bound to it
-      'ionicons-v4',// optional, you are not bound to it
+      'ionicons-v4', // optional, you are not bound to it
       // 'mdi-v3',
       // 'fontawesome-v5',
       // 'eva-icons'
@@ -250,7 +251,7 @@ export default function(context: Context): QuasarConfig {
           new VueAutoRoutingPlugin({
             pages: resolve('src', env.VUE_PAGES_PATH),
             importPrefix: `${env.WEBPACK_SRC_ALIAS}/${env.VUE_PAGES_PATH}/`,
-          })
+          }),
         )
       },
     },

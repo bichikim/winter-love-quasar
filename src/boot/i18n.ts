@@ -1,6 +1,6 @@
-import VueI18n from 'vue-i18n'
-import messages from 'src/i18n'
 import {Context} from 'quasar'
+import messages from 'src/i18n'
+import VueI18n from 'vue-i18n'
 
 export default ({app, Vue}: Context) => {
   Vue.use(VueI18n)
