@@ -13,8 +13,8 @@
 
 <script lang="ts">
   import {Component, Mixins} from 'vue-property-decorator'
-  import QDynamicNavItem from './QDynamicNavItem.vue'
   import NavDynamicMixin from './NavDynamic.mixin'
+  import QDynamicNavItem from './QDynamicNavItem.vue'
 
   @Component({
     components: {

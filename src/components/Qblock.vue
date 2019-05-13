@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-import {Vue, Component, Prop} from 'vue-property-decorator'
 import interact from 'interactjs'
+import {Component, Prop, Vue} from 'vue-property-decorator'
 import {Point} from './types/drag'
 const DRAG_START = 'drag-start'
 const DRAG_MOVE = 'drag-move'
