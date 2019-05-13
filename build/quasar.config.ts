@@ -10,6 +10,7 @@ const env: NodeJS.ProcessEnv = {
   VUE_LAYOUT_PATH: 'layouts',
   WEBPACK_SRC_ALIAS: '@',
   WEBPACK_TSCONFIG: 'tsconfig.json',
+  WEBPACK_TSLINT: 'tslint.json',
   VUE_ROUTER_MODE: 'history',
   ...dotenv.config() as any,
 }
@@ -229,6 +230,7 @@ export default (context: Context): QuasarConfig => {
         })
         config.plugins.push(new ForkTsCheckerWebpackPlugin({
           tsconfig: env.WEBPACK_TSCONFIG,
+          tslint: resolve(env.WEBPACK_TSLINT),
           vue: true,
         }))
         // pug

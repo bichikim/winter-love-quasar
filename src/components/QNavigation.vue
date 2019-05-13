@@ -69,8 +69,8 @@ export default class Navigation extends Vue {
     this.$emit('to', to)
   }
 }
-
 </script>
+
 <style scoped lang="stylus">
   .frame
     display flex

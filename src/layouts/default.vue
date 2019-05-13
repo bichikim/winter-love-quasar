@@ -19,10 +19,10 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue, Prop} from 'vue-property-decorator'
-  import {namespace} from 'vuex-class'
-  import {NavItem} from '@/components/types/navigation'
   import QNavigation from '@/components/QNavigation.vue'
+  import {NavItem} from '@/components/types/navigation'
+  import {Component, Prop, Vue} from 'vue-property-decorator'
+  import {namespace} from 'vuex-class'
   const aside = namespace('aside')
   const auth = namespace('auth')
 

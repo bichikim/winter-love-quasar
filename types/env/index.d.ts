@@ -9,5 +9,6 @@ declare namespace NodeJS {
 
     readonly WEBPACK_SRC_ALIAS: string
     readonly WEBPACK_TSCONFIG: string
+    readonly WEBPACK_TSLINT: string
   }
 }

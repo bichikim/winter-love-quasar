@@ -1,7 +1,6 @@
-import {Module} from 'vuex'
-import {NavItem} from '@/components/types/navigation'
 import {State} from '@/store'
 import Vue, {ComponentOptions} from 'vue'
+import {Module} from 'vuex'
 
 export interface AuthState {
   name?: string
