@@ -1,10 +1,11 @@
-import Firebase from 'firebase/app'
+import Firebase, {app} from 'firebase/app'
+import 'firebase/auth'
 import 'firebase/firestore'
 import {Context} from 'quasar'
 
 let _firebase
 
-export const firebase = () => {
+export const firebase = (): app.App  => {
   if(!_firebase){
     _firebase = Firebase.initializeApp({
       apiKey: process.env.FIREBASE_API_KEY,
@@ -17,10 +18,6 @@ export const firebase = () => {
     })
   }
   return _firebase
-}
-
-export const firestore = () => {
-  return _firebase.firestore()
 }
 
 export default ({app}: Context) => {

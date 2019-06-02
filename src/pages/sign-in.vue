@@ -1,0 +1,34 @@
+<template lang="pug">
+  .main
+    q-sign-in(@sign-in="handleSignIn")
+</template>
+
+<script lang="ts">
+  import QSignIn from '@/components/QSignIn/index.vue'
+  import {
+    Component, Prop, Vue,
+  } from 'vue-property-decorator'
+  import {namespace} from 'vuex-class'
+
+  const auth = namespace('auth')
+
+  @Component({
+    components: {
+      QSignIn,
+    },
+  })
+  export default class SignInPage extends Vue {
+    @auth.Action signIn: (payload) => Promise<void>
+
+    handleSignIn(payload) {
+      this.signIn(payload).catch((error) => {
+        console.log(error)
+      })
+    }
+  }
+</script>
+
+<style scoped lang="stylus">
+  .main
+    display flex
+</style>

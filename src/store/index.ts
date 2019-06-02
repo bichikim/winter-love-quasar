@@ -1,4 +1,4 @@
-import {firebase, firestore} from '@/boot/firebase'
+import {firebase} from '@/boot/firebase'
 import {dropRight, last} from 'lodash'
 import {StoreContext} from 'quasar'
 import Vue from 'vue'
@@ -40,7 +40,7 @@ const getModules = (ctx: StoreContext) => {
  */
 export default (context) => {
   return new Vuex.Store({
-    modules: getModules({...context, firestore, firebase: firebase()}),
+    modules: getModules({...context, firebase}),
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: true,

@@ -8,6 +8,7 @@ declare module 'quasar' {
   import {Store} from 'vuex'
   import {AxiosInstance} from 'axios'
   import {Configuration} from 'webpack'
+  import {app} from 'firebase'
   export * from 'quasar/dist/types'
 
   export interface AnimateContext {
@@ -24,7 +25,7 @@ declare module 'quasar' {
   export interface StoreContext<V extends Vue = Vue> {
     Vue: VueConstructor<V>
     axios: () => AxiosInstance
-    localForage: LocalForage
+    firebase: () => app.App
   }
 
   export interface Context<V extends Vue = Vue> extends StoreContext<V>{
