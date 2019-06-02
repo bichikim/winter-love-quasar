@@ -1,4 +1,6 @@
+import {firebase, firestore} from '@/boot/firebase'
 import {dropRight, last} from 'lodash'
+import {StoreContext} from 'quasar'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {AsideState} from './modules/aside'
@@ -10,11 +12,7 @@ export interface State {
 
 Vue.use(Vuex)
 
-export interface ModuleContext {
-
-}
-
-const getModules = (app: ModuleContext) => {
+const getModules = (ctx: StoreContext) => {
   const context = require.context('./modules', false, /\.ts$/)
   const modules = {}
   context.keys().forEach((path: string) => {
@@ -27,7 +25,7 @@ const getModules = (app: ModuleContext) => {
       const _module = context(path)
       const myModule = _module.default || _module
       if(typeof myModule === 'function'){
-        modules[filename] = myModule(app)
+        modules[filename] = myModule(ctx)
         return
       }
       modules[filename] = myModule
@@ -42,7 +40,7 @@ const getModules = (app: ModuleContext) => {
  */
 export default (context) => {
   return new Vuex.Store({
-    modules: getModules({...context}),
+    modules: getModules({...context, firestore, firebase: firebase()}),
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: true,

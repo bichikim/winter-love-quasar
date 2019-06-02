@@ -1,10 +1,16 @@
+/* tslint:disable:ordered-imports */
 declare module 'quasar' {
-  import Vue, {VueConstructor, ComponentOptions} from 'vue'
+  import {AxiosInstance} from 'axios'
+  import {LocalForage} from 'localforage'
+  import Vue, {VueConstructor, ComponentOptions, PluginFunction, PluginObject} from 'vue'
   import VueI18n from 'vue-i18n'
   import VueRouter from 'vue-router'
   import {Store} from 'vuex'
+  import {AxiosInstance} from 'axios'
+  import {Configuration} from 'webpack'
+  export * from 'quasar/dist/types'
 
-  interface AnimateContext {
+  export interface AnimateContext {
     name: string
     duration: number
     to: number
@@ -15,21 +21,135 @@ declare module 'quasar' {
     easing: any
   }
 
-  export interface Context<V extends Vue = Vue> {
+  export interface StoreContext<V extends Vue = Vue> {
     Vue: VueConstructor<V>
+    axios: () => AxiosInstance
+    localForage: LocalForage
+  }
+
+  export interface Context<V extends Vue = Vue> extends StoreContext<V>{
     app: ComponentOptions<V>
     router: VueRouter
     ssrContext: null | any
     store: Store
   }
 
-  export const Platform: Platform
-  export interface Platform {
-    parseSSR(ssr: any): any
+  export interface QuasarConfigContext {
+    dev: boolean
+    prod: boolean
+    mode: {spa: boolean}
+    modeName: 'spa' | string
+    target: {}
+    targetName?: string
+    emulator?: string
+    arch: {}
+    archName?: string
+    bundler: {}
+    bundlerName?: string
+    debug: boolean
   }
-  export const animate: {
-    start: (context: AnimateContext) => void
-    stop: (id: string) => void
+
+  export interface QuasarConfig {
+    boot?: string[]
+    css?: string[]
+    extras?: string[]
+    framework?: {
+      all?: boolean
+      components?: Array< string
+        | 'QLayout' | 'QHeader' | 'QDrawer' | 'QPageContainer' | 'QPage' | 'QToolbar'
+        | 'QToolbarTitle' | 'QBtn' | 'QIcon' | 'QList' | 'QItem' | 'QItemSection'
+        | 'QItemLabel' | 'QScrollArea' | 'QExpansionItem' | 'QImg' | 'QAvatar'
+        >
+      directives?: string[]
+      plugins?: string[]
+      iconSet?: string | 'ionicons-v4' | 'material-icons',
+    }
+    supportIE?: boolean
+    sourceFiles?: {
+      rootComponent?: string,
+      router?: string,
+      store?: string,
+      indexHtmlTemplate?: string,
+      registerServiceWorker?: string,
+      serviceWorker?: string,
+      electronMainDev?: string,
+      electronMainProd?: string,
+    }
+    build?: {
+      productName?: string
+      env?: {
+        [key: string]: string,
+      },
+      scopeHoisting?: boolean
+      vueRouterMode?: 'history' | 'hash' | 'abstract'
+      gzip?: boolean
+      extendWebpack?: (config: Configuration) => void,
+    }
+    devServer?: {
+      open?: boolean,
+    }
+    animations?: any[]
+    ssr?: {
+      pwa?: boolean,
+    }
+    pwa?: {
+      manifest?: {
+        display?: 'standalone' | string
+        orientation?: 'portrait' | string
+        'background_color'?: string
+        'theme_color'?: string
+        icons?: Array<{
+          src: string
+          sizes: string
+          type: string,
+        }>,
+      },
+    }
+
+    cordova?: {
+      id?: string,
+    }
+    electron?: {
+      bundler?: 'builder' | 'packager'
+      extendWebpack?: (config: Configuration) => void
+      /**
+       * @link https://github.com/electron-userland/
+       * electron-packager/blob/master/docs/api.md#options
+       */
+      packager?: {
+        appBundleId?: string
+        appCategoryType?: string
+        osxSign?: string
+        // protocol: 'myapp://path',
+        protocol?: string,
+      }
+      /**
+       *  https://www.electron.build/configuration/configuration
+       */
+      builder?: {
+        appId?: string,
+      },
+    }
   }
-  export function openURL(url: string, reject: () => void)
+
+  export interface Lang {
+
+  }
+
+  export type IconSet = (lang: any) => any
+
+  export type GetLocale = () => any
+
+  interface Quasar extends PluginObject<any>{
+    version: string
+    install: PluginFunction<any>
+    lang: Lang
+    getLocale: GetLocale
+    iconSet: IconSet
+    ssrUpdate: (ctx: any) => any
+  }
+
+  const quasarObject: Quasar
+
+  export default quasarObject
 }

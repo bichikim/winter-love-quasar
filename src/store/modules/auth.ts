@@ -1,5 +1,6 @@
 import {State} from '@/store'
-import Vue, {ComponentOptions} from 'vue'
+import {StoreContext} from 'quasar'
+import Vue from 'vue'
 import {Module} from 'vuex'
 
 export interface AuthState {
@@ -9,7 +10,7 @@ export interface AuthState {
 }
 
 export default <V extends Vue>(
-  app: ComponentOptions<V>,
+  contex: StoreContext<V>,
 ): Module<AuthState, State> => {
   return  {
     namespaced: true,

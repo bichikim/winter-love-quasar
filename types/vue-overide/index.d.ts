@@ -1,4 +1,5 @@
 /* tslint:disable:callable-types */
+import firebase from 'firebase/app'
 import Vue from 'vue'
 
 declare module 'vue/types/vue' {
@@ -16,6 +17,6 @@ declare module 'vue/types/options' {
   interface ComponentOptions<V extends Vue> {
     preFetch?: (options: any) => void | Promise<void>
     layout?: string
-    firebase?: any
+    firebase?: firebase.app.App
   }
 }

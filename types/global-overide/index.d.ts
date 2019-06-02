@@ -1,2 +1,1 @@
-declare global {
-}
+declare const expect: Chai.ExpectStatic

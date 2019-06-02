@@ -1,111 +1,9 @@
-import dotenv from 'dotenv'
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import {resolve} from 'path'
-import TsconfigPathsWebpackPlugin from 'tsconfig-paths-webpack-plugin'
-import VueAutoRoutingPlugin from 'vue-auto-routing/lib/webpack-plugin'
-import {Configuration} from 'webpack'
-const env: NodeJS.ProcessEnv = {
-  VUE_PAGES_PATH: 'pages',
-  VUE_MIDDLEWARE_PATH: 'middleware',
-  VUE_LAYOUT_PATH: 'layouts',
-  WEBPACK_SRC_ALIAS: '@',
-  WEBPACK_TSCONFIG: 'tsconfig.json',
-  WEBPACK_TSLINT: 'tslint.json',
-  VUE_ROUTER_MODE: 'history',
-  ...dotenv.config() as any,
-}
+import {QuasarConfig, QuasarConfigContext} from 'quasar'
+import AddBaseWebpack, {envJsonStringify} from './add-base-webpack'
+import _env from './env'
+const env = _env()
 
-interface Context {
-  dev: boolean
-  prod: boolean
-  mode: {spa: boolean}
-  modeName: 'spa' | string
-  target: {}
-  targetName?: string
-  emulator?: string
-  arch: {}
-  archName?: string
-  bundler: {}
-  bundlerName?: string
-  debug: boolean
-}
-
-interface QuasarConfig {
-  boot?: string[]
-  css?: string[]
-  extras?: string[]
-  framework?: {
-    all?: boolean
-    components?: Array< string
-      | 'QLayout' | 'QHeader' | 'QDrawer' | 'QPageContainer' | 'QPage' | 'QToolbar'
-      | 'QToolbarTitle' | 'QBtn' | 'QIcon' | 'QList' | 'QItem' | 'QItemSection' | 'QItemLabel'
-      | 'QScrollArea'
-      | 'QExpansionItem' | 'QImg' | 'QAvatar'
-      >
-    directives?: string[]
-    plugins?: string[]
-    iconSet?: string | 'ionicons-v4' | 'material-icons',
-  }
-  supportIE?: boolean
-  sourceFiles?: {
-    indexHtmlTemplate?: string,
-  }
-  build?: {
-    env?: {
-      [key: string]: string,
-    },
-    scopeHoisting?: boolean
-    vueRouterMode?: 'history' | 'hash' | 'abstract'
-    gzip?: boolean
-    extendWebpack?: (config: Configuration) => void,
-  }
-  devServer?: {
-    open?: boolean,
-  }
-  animations?: any[]
-  ssr?: {
-    pwa?: boolean,
-  }
-  pwa?: {
-    manifest?: {
-      display?: 'standalone' | string
-      orientation?: 'portrait' | string
-      'background_color'?: string
-      'theme_color'?: string
-      icons?: Array<{
-        src: string
-        sizes: string
-        type: string,
-      }>,
-    },
-  }
-
-  cordova?: {
-    id?: string,
-  }
-  electron?: {
-    bundler?: 'builder' | 'packager'
-    extendWebpack?: (config: Configuration) => void
-    /**
-     * @link https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-     */
-    packager?: {
-      appBundleId?: string
-      appCategoryType?: string
-      osxSign?: string
-      // protocol: 'myapp://path',
-      protocol?: string,
-    }
-    /**
-     *  https://www.electron.build/configuration/configuration
-     */
-    builder?: {
-      appId?: string,
-    },
-  }
-}
-
-export default (context: Context): QuasarConfig => {
+export default (context: QuasarConfigContext): QuasarConfig => {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -114,6 +12,8 @@ export default (context: Context): QuasarConfig => {
       'axios',
       'middleware',
       'class-component',
+      'vue-meta',
+      'firebase',
     ],
 
     css: [
@@ -169,15 +69,11 @@ export default (context: Context): QuasarConfig => {
 
     sourceFiles: {
       indexHtmlTemplate: 'src/index.pug',
+      router: 'src/router.ts',
     },
 
     build: {
-      env: {
-        VUE_LAYOUTS_PATH: JSON.stringify(env.VUE_LAYOUT_PATH),
-        VUE_PAGES_PATH: JSON.stringify(env.VUE_PAGES_PATH),
-        WEBPACK_SRC_ALIAS: JSON.stringify(env.WEBPACK_SRC_ALIAS),
-        VUE_MIDDLEWARE_PATH: JSON.stringify(env.VUE_MIDDLEWARE_PATH),
-      },
+      env: envJsonStringify(env),
       scopeHoisting: true,
       vueRouterMode: env.VUE_ROUTER_MODE,
       // vueCompiler: true,
@@ -185,76 +81,16 @@ export default (context: Context): QuasarConfig => {
       // analyze: true,
       // extractCSS: false,
       extendWebpack(config) {
-        if(!config.module){
-          config.module = {rules: []}
-        }
-        if(!config.resolve){
-          config.resolve = {}
-        }
-        if(!config.resolve.alias){
-          config.resolve.alias = {}
-        }
-        if(!config.plugins){
-          config.plugins = []
-        }
-        // eslint
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /node_modules/,
+        AddBaseWebpack(config, {
+          tsconfigPath: env.WEBPACK_TSCONFIG,
+          aliasSrc: env.WEBPACK_SRC_ALIAS,
+          eslint: true,
+          transpileOnly: true,
+          tslintPath: env.WEBPACK_TSLINT,
+          pagePath: env.VUE_PAGES_PATH,
+          stylus: false,
+          vue: false,
         })
-        // typescript
-        config.resolve.plugins = [new TsconfigPathsWebpackPlugin({
-          configFile: env.WEBPACK_TSCONFIG,
-        })]
-        if(!config.resolve.extensions){config.resolve.extensions = []}
-        config.resolve.alias[env.WEBPACK_SRC_ALIAS] = resolve('src')
-        config.resolve.extensions.push('.ts', '.tsx')
-        config.module.rules.push( {
-          test: /\.tsx?$/,
-          exclude: [/node_modules/],
-          use: [
-            {
-              loader: 'babel-loader',
-            },
-            {
-              loader: 'ts-loader',
-              options: {
-                appendTsSuffixTo: [/\.vue$/],
-                transpileOnly: true,
-                configFile: env.WEBPACK_TSCONFIG,
-              },
-            },
-          ],
-        })
-        config.plugins.push(new ForkTsCheckerWebpackPlugin({
-          tsconfig: env.WEBPACK_TSCONFIG,
-          tslint: resolve(env.WEBPACK_TSLINT),
-          vue: true,
-        }))
-        // pug
-        config.module.rules.push({
-          test: /\.pug$/,
-          oneOf: [
-            // this applies to `<template lang="pug">` in Vue components
-            {
-              resourceQuery: /^\?vue/,
-              use: ['pug-plain-loader'],
-            },
-            // this applies to pug imports inside JavaScript
-            {
-              use: ['pug-loader'],
-            },
-          ],
-        })
-        // vue auto routing
-        config.plugins.push(
-          new VueAutoRoutingPlugin({
-            pages: resolve('src', env.VUE_PAGES_PATH),
-            importPrefix: `${env.WEBPACK_SRC_ALIAS}/${env.VUE_PAGES_PATH}/`,
-          }),
-        )
       },
     },
 
