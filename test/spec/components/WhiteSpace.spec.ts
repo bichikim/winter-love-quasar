@@ -1,8 +1,6 @@
 import {createLocalVue, mount} from '@vue/test-utils'
-import jsdom from 'mocha-jsdom'
 import WhiteSpace from '../../../src/components/WhiteSpace.vue'
 describe('WhiteSpace.vue', () => {
-  jsdom()
   it('should add <dr> with a content of props ', () => {
     const localVue = createLocalVue()
     const content = 'foo\n bar\n'
