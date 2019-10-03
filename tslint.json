@@ -3,7 +3,7 @@
     "tslint:recommended"
   ],
   "jsRules": true,
-  "defaultSeverity": "warning",
+  "defaultSeverity": "error",
   "rules": {
     "class-name": true,
     "curly": true,
@@ -15,7 +15,6 @@
     "no-bitwise": true,
     "no-console": [true,
       "debug",
-      "info",
       "time",
       "timeEnd",
       "trace"
@@ -33,12 +32,13 @@
       "multiline": "always",
       "singleline": "never"
     }],
+    "no-consecutive-blank-lines": false,
     "no-trailing-whitespace": true,
     "no-use-before-declare": false,
     "quotemark": [true, "single"],
     "type-literal-delimiter": false,
     "radix": true,
-    "only-arrow-functions": [true, "allow-named-functions"],
+    "only-arrow-functions": [false],
     "no-empty-interface": false,
     "interface-name": false,
     "no-string-throw": true,
@@ -76,7 +76,7 @@
     "max-classes-per-file": [false, 1],
     "object-literal-sort-keys": false,
     "space-before-function-paren": [true, {
-      "anonymous": "never",
+      "anonymous": "always",
       "named": "never",
       "asyncArrow": "always",
       "constructor": "never",

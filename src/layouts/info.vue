@@ -6,9 +6,7 @@
 </template>
 
 <script lang="ts">
-  import {
-    Component, Vue,
-  } from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
 
   @Component
   export default class InfoLayout extends Vue {
@@ -16,7 +14,7 @@
   }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
   .main
     display flex
 </style>

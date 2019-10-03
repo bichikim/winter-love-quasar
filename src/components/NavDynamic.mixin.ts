@@ -20,10 +20,10 @@ export default class NavDynamicMixin extends Vue {
 
   get path() {
     const {to, title} = this.item
-    if(!to){
+    if(!to) {
       return title
     }
-    if(typeof to === 'string'){
+    if(typeof to === 'string') {
       return to
     }
     return to.path ? to.path : title
@@ -32,7 +32,7 @@ export default class NavDynamicMixin extends Vue {
   handleTo(to: NavTo) {
     const {path} = to
     let myTo = to
-    if(path && /^\//.test(path)){
+    if(path && /^\//.test(path)) {
       myTo = {
         ...myTo,
         path: [this.path, path].join('/'),
@@ -49,7 +49,7 @@ export default class NavDynamicMixin extends Vue {
   handleClick() {
     const {to} = this.item
     let myTo: any = to
-    if(typeof to === 'string'){
+    if(typeof to === 'string') {
       myTo = {
         path: to,
       }

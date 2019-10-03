@@ -1,9 +1,33 @@
-import {QuasarConfig, QuasarConfigContext} from 'quasar'
-import AddBaseWebpack, {envJsonStringify} from './add-base-webpack'
+import {QuasarConfig} from 'quasar'
+import AddBaseWebpack, {CopyFilesPatterns, envJsonStringify} from './add-base-webpack'
 import _env from './env'
+
+/**
+ * Get environment variables from process.env.ENV_FILE_PATH
+ */
 const env = _env()
 
-export default (context: QuasarConfigContext): QuasarConfig => {
+/**
+ * Generate env object to set quasar config > env
+ */
+const quasarEnv: any = envJsonStringify(env)
+
+/**
+ * Info to copy a netlify redirecting file
+ */
+const netlifyRedirects: CopyFilesPatterns = {
+  from: 'redirects',
+  to: './_redirects',
+  flatten: true,
+  toType: 'file',
+}
+
+/**
+ * Quasar config
+ */
+export default (
+  // context: QuasarConfigContext
+): QuasarConfig => {
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -11,15 +35,15 @@ export default (context: QuasarConfigContext): QuasarConfig => {
       'i18n',
       'axios',
       'middleware',
-      'class-component',
-      'vue-meta',
       'firebase',
     ],
 
+    // main css (importing globally)
     css: [
       'app.styl',
     ],
 
+    // extras
     extras: [
       'roboto-font',
       'material-icons', // optional, you are not bound to it
@@ -30,36 +54,37 @@ export default (context: QuasarConfigContext): QuasarConfig => {
     ],
 
     framework: {
-      all: context.dev, // --- includes everything; for dev only!
+      all: true,
 
-      components: [
-        'QLayout',
-        'QHeader',
-        'QDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel',
-        'QScrollArea',
-        'QExpansionItem',
-        'QImg',
-        'QAvatar',
-      ],
-
+      // Quasar directives
       directives: [
+        'ClosePopup',
         'Ripple',
+        'Scroll',
+        'ScrollFire',
+        'TouchHold',
+        'TouchPan',
+        'TouchRepeat',
+        'TouchSwipe',
       ],
 
       // Quasar plugins
       plugins: [
+        'AddressbarColor',
+        'AppFullscreen',
+        'Loading',
+        'LoadingBar',
+        'Meta',
         'Notify',
       ],
+
+      config: {
+
+        // Quasar loading bar place on a page top head
+        loadingBar: {
+          color: 'grey',
+        },
+      },
 
       iconSet: 'ionicons-v4',
       // lang: 'de' // Quasar language
@@ -69,24 +94,28 @@ export default (context: QuasarConfigContext): QuasarConfig => {
 
     sourceFiles: {
       indexHtmlTemplate: 'src/index.pug',
-      router: 'src/router.ts',
+      router: 'src/router/index.ts',
     },
 
     build: {
-      env: envJsonStringify(env),
+      productName: env.PRODUCT_NAME,
+      env: quasarEnv,
       scopeHoisting: true,
       vueRouterMode: env.VUE_ROUTER_MODE,
       // vueCompiler: true,
       gzip: true,
-      // analyze: true,
+      analyze: process.env.ANALYZE === 'true',
       // extractCSS: false,
       extendWebpack(config) {
         AddBaseWebpack(config, {
           tsconfigPath: env.WEBPACK_TSCONFIG,
-          aliasSrc: env.WEBPACK_SRC_ALIAS,
+          srcAlias: env.WEBPACK_SRC_ALIAS,
           eslint: true,
-          transpileOnly: true,
-          tslintPath: env.WEBPACK_TSLINT,
+          eslintCache: process.env.NODE_ENV !== 'production',
+          transpileOnly: process.env.NODE_ENV !== 'production',
+          tslintPath: process.env.NODE_ENV !== 'production' ? undefined : env.WEBPACK_TSLINT,
+          copyFiles: process.env.NETLIFY === 'true' ? [netlifyRedirects] : undefined,
+          middlewarePath: env.VUE_MIDDLEWARE_PATH,
           pagePath: env.VUE_PAGES_PATH,
           stylus: false,
           vue: false,
@@ -100,8 +129,8 @@ export default (context: QuasarConfigContext): QuasarConfig => {
       open: true, // opens browser window automatically
     },
 
-    // animations: 'all' --- includes all animations
-    animations: [],
+    animations: 'all', // --- includes all animations
+    // animations: [],
 
     ssr: {
       pwa: false,
@@ -155,10 +184,10 @@ export default (context: QuasarConfigContext): QuasarConfig => {
     electron: {
       // bundler: 'builder', // or 'packager'
 
-      extendWebpack(cfg) {
+      // extendWebpack(cfg) {
         // do something with Electron main process Webpack cfg
         // chainWebpack also available besides this extendWebpack
-      },
+      // },
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options

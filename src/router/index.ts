@@ -1,7 +1,6 @@
 import Vue from 'vue'
-import routes from 'vue-auto-routing'
 import VueRouter from 'vue-router'
-import {createRouterLayout} from 'vue-router-layout'
+
 
 interface ExContext {
   // empty
@@ -15,17 +14,19 @@ Vue.use(VueRouter)
  */
 
 export default (context: any) => {
-  const routerLayout = createRouterLayout((layout) => {
-    return import(`${process.env.WEBPACK_SRC_ALIAS}/${process.env.VUE_LAYOUTS_PATH}/${layout}.vue`)
-  })
 
-  return  new VueRouter({
+  return new VueRouter({
     scrollBehavior: () => ({x: 0, y: 0}),
     routes: [
       {
         path: '/',
-        component: routerLayout,
-        children: routes,
+        component: () => (import('layouts/default.vue')),
+        children: [
+          {
+            path: '/',
+            component: () => (import('pages/index.vue')),
+          },
+        ],
       },
     ],
 

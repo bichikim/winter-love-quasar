@@ -1,6 +1,5 @@
 import {firebase} from '@/boot/firebase'
 import {dropRight, last} from 'lodash'
-import {StoreContext} from 'quasar'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {AsideState} from './modules/aside'
@@ -12,19 +11,19 @@ export interface State {
 
 Vue.use(Vuex)
 
-const getModules = (ctx: StoreContext) => {
+const getModules = (ctx: any) => {
   const context = require.context('./modules', false, /\.ts$/)
   const modules = {}
   context.keys().forEach((path: string) => {
-    if(!/\/index\.ts$/.test(path)){
+    if(!/\/index\.ts$/.test(path)) {
       let filename = last(path.split('/'))
-      if(!filename){
+      if(!filename) {
         return
       }
       filename = dropRight(filename.split('.'), 1).join('.')
       const _module = context(path)
       const myModule = _module.default || _module
-      if(typeof myModule === 'function'){
+      if(typeof myModule === 'function') {
         modules[filename] = myModule(ctx)
         return
       }

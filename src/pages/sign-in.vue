@@ -5,9 +5,7 @@
 
 <script lang="ts">
   import QSignIn from '@/components/QSignIn/index.vue'
-  import {
-    Component, Prop, Vue,
-  } from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
   import {namespace} from 'vuex-class'
 
   const auth = namespace('auth')
@@ -28,7 +26,7 @@
   }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
   .main
     display flex
 </style>

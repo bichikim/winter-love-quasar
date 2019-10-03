@@ -2,13 +2,9 @@
   {"middleware": "authenticated"}
 </route-meta>
 
-<template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
-    >
-  </q-page>
+<template lang="pug">
+  q-page.felx.flex-center
+    data-down-sharing
 </template>
 
 <style>
@@ -16,8 +12,13 @@
 
 <script lang="ts">
 import {Component, Vue} from 'vue-property-decorator'
+import DataDownSharing from '@/components/DataDownSharing/Index.vue'
 
-@Component
+@Component({
+  components: {
+    DataDownSharing,
+  },
+})
 export default class Index extends Vue {
   mounted() {
     //

@@ -1,6 +1,5 @@
 import {NavItem} from '@/components/types/navigation'
 import {State} from '@/store'
-import {StoreContext} from 'quasar'
 import Vue from 'vue'
 import {Module} from 'vuex'
 
@@ -9,7 +8,7 @@ export interface AsideState {
 }
 
 export default <V extends Vue>(
-  contex: StoreContext<V>,
+  contex: any,
 ): Module<AsideState, State> => {
   return {
     namespaced: true,

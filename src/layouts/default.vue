@@ -33,7 +33,7 @@
     },
     filters: {
       unKnown(value: string) {
-        if(value){
+        if(value) {
           return value
         }
         return 'unknown'
@@ -55,5 +55,5 @@
   }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
 </style>

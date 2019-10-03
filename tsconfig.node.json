@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "plugins": [],
+    "module": "commonjs",
+    "target": "es2015"
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
+}

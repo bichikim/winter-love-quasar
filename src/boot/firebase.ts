@@ -5,8 +5,8 @@ import {Context} from 'quasar'
 
 let _firebase
 
-export const firebase = (): app.App  => {
-  if(!_firebase){
+export const firebase = (): app.App => {
+  if(!_firebase) {
     _firebase = Firebase.initializeApp({
       apiKey: process.env.FIREBASE_API_KEY,
       authDomain: process.env.FIREBASE_AUTH_DOMAIN,

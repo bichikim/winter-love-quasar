@@ -1,79 +1,57 @@
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const {resolve} = require('path')
+require('./ts-register')
+const {default: addBaseWebpack} = require('./add-base-webpack.ts')
+const webpackConfig = {
+  mode: 'development',
+  // devtool: 'inline-source-map',
+}
+const env = require('./env.ts').default()
+const path = require('path')
+
+/**
+ * Generate webpack config
+ */
+addBaseWebpack(webpackConfig, {
+  additionalAlias: true,
+  eslint: true,
+  fileLoader: true,
+  middlewarePath: '../test/mock/middleware',
+  srcAlias: env.WEBPACK_SRC_ALIAS,
+  stylus: true,
+  transpileOnly: true,
+  tsconfigPath: env.WEBPACK_TSCONFIG,
+  tslintPath: env.WEBPACK_TSLINT,
+  vue: true,
+})
+
+const root = process.cwd()
+
+/**
+ * Vue Styleguidist config
+ * @link https://github.com/vue-styleguidist/vue-styleguidist
+ */
 module.exports = {
-  dangerouslyUpdateWebpackConfig(webpackConfig) {
-    if(!webpackConfig.resolve.plugins){
-      webpackConfig.resolve.plugins = []
-    }
-    webpackConfig.resolve.alias['~'] = resolve('src')
-    webpackConfig.resolve.alias['@'] = resolve('src')
-    return webpackConfig
-  },
-  components: [
-    resolve('src/components/**/*.vue'),
-  ],
-  styleguideDir: resolve('./.styleguide'),
+  webpackConfig,
+  components: path.join(root, '/src/components/**/*.vue'),
   require: [
-    resolve('./build/styleguide-require.js'),
+    path.join(root, 'quasar.require.ts'),
   ],
-  webpackConfig: {
-    resolve: {
-      extensions: [
-        '.js', '.jsx', '.mjs', '.json',
-        '.ts', '.tsx', '.vue', '.stylus', 'styl'],
-    },
-    module: {
-      rules: [
+  template: {
+    head: {
+      links: [
         {
-          test: /\.vue$/,
-          loader: 'vue-loader',
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
         },
         {
-          test: /\.jsx?$/,
-          loader: 'babel-loader',
-          exclude: /node_modules/,
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css',
         },
         {
-          test: /\.styl(us)?$/,
-          use: [
-            'vue-style-loader',
-            'css-loader',
-            {
-              loader: 'stylus-loader',
-              options: {
-                // import: [resolve('src/assets/styles/variables.styl')],
-              },
-            },
-          ],
-        },
-        {
-          test: /\.tsx?$/,
-          exclude: [/node_modules/],
-          use: [
-            {
-              loader: 'babel-loader',
-              options: {
-                presets: ['@quasar/babel-preset-app'],
-              },
-            },
-            {
-              loader: 'ts-loader',
-              options: {
-                appendTsSuffixTo: [/\.vue$/],
-                configFile: 'tsconfig.json',
-              },
-            },
-          ],
-        },
-        {
-          test: /\.pug$/,
-          loader: 'pug-plain-loader',
+          rel: 'stylesheet',
+          href: 'https://cdn.jsdelivr.net/npm/quasar@^1.0.3/dist/quasar.min.css',
+          type: 'text/css',
         },
       ],
     },
-    plugins: [
-      // make sure to include the plugin!
-      new VueLoaderPlugin(),
-    ],
   },
 }

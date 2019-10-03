@@ -1,5 +1,4 @@
 import {State} from '@/store'
-import {StoreContext} from 'quasar'
 import Vue from 'vue'
 import {Module} from 'vuex'
 
@@ -21,7 +20,7 @@ export interface AuthState {
 }
 
 export default <V extends Vue>(
-  contex: StoreContext<V>,
+  contex: any,
 ): Module<AuthState, State> => {
   const {firebase} = contex
   return  {

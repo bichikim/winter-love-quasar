@@ -1,54 +1,51 @@
-/* tslint:disable:ordered-imports */
+import {QSsrContext} from 'quasar'
+
 declare module 'quasar' {
-  import {AxiosInstance} from 'axios'
-  import {LocalForage} from 'localforage'
-  import Vue, {VueConstructor, ComponentOptions, PluginFunction, PluginObject} from 'vue'
-  import VueI18n from 'vue-i18n'
+  import {QuasarPluginOptions, QSsrContext} from 'quasar/dist/types'
+  import 'quasar/dist/types/vue'
+  import Vue, {ComponentOptions, PluginObject, VueConstructor} from 'vue'
   import VueRouter from 'vue-router'
   import {Store} from 'vuex'
-  import {AxiosInstance} from 'axios'
   import {Configuration} from 'webpack'
-  import {app} from 'firebase'
-  export * from 'quasar/dist/types'
 
-  export interface AnimateContext {
-    name: string
-    duration: number
-    to: number
-    from: number
-    apply: (newProgress: number, progress: number) => any
-    done: (progress: number) => any
-    cancel: any
-    easing: any
-  }
+  export * from 'quasar/dist/types/index'
+  export * from 'quasar/dist/types/utils'
 
-  export interface StoreContext<V extends Vue = Vue> {
-    Vue: VueConstructor<V>
-    axios: () => AxiosInstance
-    firebase: () => app.App
-  }
+  // export interface AnimateContext {
+  //   name: string
+  //   duration: number
+  //   to: number
+  //   from: number
+  //   apply: (newProgress: number, progress: number) => any
+  //   done: (progress: number) => any
+  //   cancel: any
+  //   easing: any
+  // }
 
-  export interface Context<V extends Vue = Vue> extends StoreContext<V>{
+  export type BootFunction = (context: Context) => any
+
+  export interface Context<V extends Vue = Vue, S = any> {
+    Vue: VueConstructor<V>,
     app: ComponentOptions<V>
     router: VueRouter
-    ssrContext: null | any
-    store: Store
+    ssrContext: null | QSsrContext
+    store: Store<S>
   }
 
-  export interface QuasarConfigContext {
-    dev: boolean
-    prod: boolean
-    mode: {spa: boolean}
-    modeName: 'spa' | string
-    target: {}
-    targetName?: string
-    emulator?: string
-    arch: {}
-    archName?: string
-    bundler: {}
-    bundlerName?: string
-    debug: boolean
-  }
+  // export interface QuasarConfigContext {
+  //   dev: boolean
+  //   prod: boolean
+  //   mode: { spa: boolean }
+  //   modeName: 'spa' | string
+  //   target: {}
+  //   targetName?: string
+  //   emulator?: string
+  //   arch: {}
+  //   archName?: string
+  //   bundler: {}
+  //   bundlerName?: string
+  //   debug: boolean
+  // }
 
   export interface QuasarConfig {
     boot?: string[]
@@ -56,14 +53,16 @@ declare module 'quasar' {
     extras?: string[]
     framework?: {
       all?: boolean
-      components?: Array< string
-        | 'QLayout' | 'QHeader' | 'QDrawer' | 'QPageContainer' | 'QPage' | 'QToolbar'
-        | 'QToolbarTitle' | 'QBtn' | 'QIcon' | 'QList' | 'QItem' | 'QItemSection'
-        | 'QItemLabel' | 'QScrollArea' | 'QExpansionItem' | 'QImg' | 'QAvatar'
-        >
+      components?: Array<keyof QuasarPluginOptions.components>
       directives?: string[]
       plugins?: string[]
-      iconSet?: string | 'ionicons-v4' | 'material-icons',
+      iconSet?: string | 'ionicons-v4' | 'material-icons'
+      config: {
+        loadingBar: {
+          color: string,
+        },
+        [key: string]: any
+      }
     }
     supportIE?: boolean
     sourceFiles?: {
@@ -81,6 +80,7 @@ declare module 'quasar' {
       env?: {
         [key: string]: string,
       },
+      analyze?: boolean | object
       scopeHoisting?: boolean
       vueRouterMode?: 'history' | 'hash' | 'abstract'
       gzip?: boolean
@@ -89,7 +89,7 @@ declare module 'quasar' {
     devServer?: {
       open?: boolean,
     }
-    animations?: any[]
+    animations?: any[] | 'all'
     ssr?: {
       pwa?: boolean,
     }
@@ -133,17 +133,16 @@ declare module 'quasar' {
     }
   }
 
-  export interface Lang {
-
-  }
-
   export type IconSet = (lang: any) => any
 
   export type GetLocale = () => any
 
-  interface Quasar extends PluginObject<any>{
+  export interface Lang {
+
+  }
+
+  interface Quasar<T = any> extends PluginObject<T>, QuasarPluginOptions {
     version: string
-    install: PluginFunction<any>
     lang: Lang
     getLocale: GetLocale
     iconSet: IconSet
@@ -153,4 +152,17 @@ declare module 'quasar' {
   const quasarObject: Quasar
 
   export default quasarObject
+}
+
+/**
+ * Fix vue $q
+ */
+export interface QVueGlobals {
+  theme: 'mat' | 'ios'
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    __qClosePopup: (event?: Event) => void
+  }
 }

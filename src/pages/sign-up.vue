@@ -5,10 +5,7 @@
 
 <script lang="ts">
   import QSignUp from '@/components/QSignUp/index.vue'
-  import {SignUpPayload} from '@/store/modules/auth'
-  import {
-    Component, Prop, Vue,
-  } from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
   import {namespace} from 'vuex-class'
 
   const auth = namespace('auth')
@@ -31,7 +28,7 @@
   }
 </script>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
   .main
     display flex
 </style>
