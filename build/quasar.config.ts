@@ -177,10 +177,6 @@ export default (
       },
     },
 
-    cordova: {
-      // id: 'org.cordova.quasar.app'
-    },
-
     electron: {
       // bundler: 'builder', // or 'packager'
 

@@ -18,19 +18,19 @@ export default <V extends Vue>(
     state: {
       items: [
         {
-          title: 'Reservations',
+          title: 'reservations',
           icon: 'ion-bookmarks',
           to: '/main',
           items: [
             {
-              title: 'All',
+              title: 'all',
               icon: 'ion-infinite',
               to: '/main/all',
             },
           ],
         },
         {
-          title: 'Smootie',
+          title: 'smootie',
           icon: 'ion-snow',
         },
       ],

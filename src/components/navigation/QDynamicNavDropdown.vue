@@ -7,13 +7,13 @@
   )
     q-list
       template(v-for="(nextItem, index) in item.items")
-        q-dynamic-nav-item(:item="nextItem" :key="index" @to="handleNavTo" @act="handleNavAction")
+        q-dynamic-nav-item(:item="nextItem" :key="index" @to="handleTo")
   q-btn(v-else flat v-bind="{icon, label: title}")
 </template>
 
 <script lang="ts">
   import {Component, Mixins} from 'vue-property-decorator'
-  import NavDynamicMixin from './NavDynamic.mixin'
+  import DynamicItemMixin from './DynamicItemMixin'
   import QDynamicNavItem from './QDynamicNavItem.vue'
 
   @Component({
@@ -21,6 +21,6 @@
       QDynamicNavItem,
     },
   })
-  export default class QDynamicDropdown extends Mixins(NavDynamicMixin) {
+  export default class QDynamicDropdown extends Mixins(DynamicItemMixin) {
   }
 </script>

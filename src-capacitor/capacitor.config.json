@@ -1,0 +1,7 @@
+{
+  "appId": "com.winterlove.quasar.app",
+  "appName": "Winter Love",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www"
+}

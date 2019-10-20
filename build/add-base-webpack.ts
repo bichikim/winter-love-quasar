@@ -3,7 +3,6 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import {chain, forEach} from 'lodash'
 import {resolve} from 'path'
 import TsconfigPathsWebpackPlugin from 'tsconfig-paths-webpack-plugin'
-import VueAutoRoutingPlugin from 'vue-auto-routing/lib/webpack-plugin'
 import VueLoaderPlugin from 'vue-loader/lib/plugin'
 import {Configuration, DefinePlugin, Module, Plugin, Resolve} from 'webpack'
 
@@ -163,45 +162,45 @@ export default (_config: Configuration, options: Options) => {
   }
 
   config.module.rules.push(...
-  [
-    {
-      test: /\.jsx?$/,
-      loader: 'babel-loader',
-      exclude: [/node_modules/],
-    },
-    {
-      test: /\.tsx?$/,
-      exclude: [/node_modules/],
-      use: [
-        {
-          loader: 'babel-loader',
-        },
-        {
-          loader: 'ts-loader',
-          options: {
-            appendTsSuffixTo: [/\.vue$/],
-            transpileOnly,
-            configFile: tsconfigPath,
+    [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: [/node_modules/],
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: 'babel-loader',
           },
-        },
-      ],
-    },
-    {
-      test: /\.pug$/,
-      exclude: [/node_modules/],
-      oneOf: [
-        // this applies to `<template lang="pug">` in Vue components
-        {
-          resourceQuery: /^\?vue/,
-          use: ['pug-plain-loader'],
-        },
-        // this applies to pug imports inside JavaScript
-        {
-          use: ['pug-loader'],
-        },
-      ],
-    },
-  ],
+          {
+            loader: 'ts-loader',
+            options: {
+              appendTsSuffixTo: [/\.vue$/],
+              transpileOnly,
+              configFile: tsconfigPath,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.pug$/,
+        exclude: [/node_modules/],
+        oneOf: [
+          // this applies to `<template lang="pug">` in Vue components
+          {
+            resourceQuery: /^\?vue/,
+            use: ['pug-plain-loader'],
+          },
+          // this applies to pug imports inside JavaScript
+          {
+            use: ['pug-loader'],
+          },
+        ],
+      },
+    ],
   )
 
   // Set vue loader
@@ -262,16 +261,6 @@ export default (_config: Configuration, options: Options) => {
           },
         ],
       },
-    )
-  }
-
-  // Set auto routing pages
-  if(pagePath) {
-    config.plugins.push(
-      new VueAutoRoutingPlugin({
-        pages: resolve(sourcePath, pagePath),
-        importPrefix: `${srcAlias}/${pagePath}/`,
-      }),
     )
   }
 

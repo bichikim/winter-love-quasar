@@ -1,2 +1,8 @@
+declare var Cypress: any
+declare var cy: any
 declare const expect: Chai.ExpectStatic
-declare let jsdom: () => void
+
+interface Window {
+  expect: Chai.ExpectStatic
+  ResizeObserver?: any
+}

@@ -7,7 +7,7 @@
         q-toolbar-title
           | Winter Love Project
         div() {{$q.version}}
-    q-navigation(:items="items" @input="handleNav" v-model="open")
+    q-navigation(:items="items" @input="handleNav" v-model="open" t-namespace="navigation")
       .q-pa-md.fit
         q-avatar(size="56px")
           q-img(src="https://www.w3schools.com/howto/img_avatar.png")
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-  import QNavigation from '@/components/QNavigation.vue'
+  import QNavigation from '@/components/navigation/QNavigation.vue'
   import {NavItem} from '@/components/types/navigation'
   import {Component, Prop, Vue} from 'vue-property-decorator'
   import {namespace} from 'vuex-class'
