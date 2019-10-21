@@ -1,7 +1,7 @@
 import {QSsrContext} from 'quasar'
 
 declare module 'quasar' {
-  import {QuasarPluginOptions, QSsrContext} from 'quasar/dist/types'
+  import {QSsrContext, QuasarPluginOptions} from 'quasar/dist/types'
   import 'quasar/dist/types/vue'
   import Vue, {ComponentOptions, PluginObject, VueConstructor} from 'vue'
   import VueRouter from 'vue-router'
@@ -61,8 +61,8 @@ declare module 'quasar' {
         loadingBar: {
           color: string,
         },
-        [key: string]: any
-      }
+        [key: string]: any,
+      },
     }
     supportIE?: boolean
     sourceFiles?: {
@@ -88,6 +88,7 @@ declare module 'quasar' {
     }
     devServer?: {
       open?: boolean,
+      https?: boolean | {key: any, cert: any, ca: any},
     }
     animations?: any[] | 'all'
     ssr?: {
