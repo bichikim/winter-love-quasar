@@ -4,7 +4,7 @@ const webpackConfig = {
   mode: 'development',
   // devtool: 'inline-source-map',
 }
-const env = require('./env.ts').default()
+const env = require('./env/index.ts').default()
 const path = require('path')
 
 /**
