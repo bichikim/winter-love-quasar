@@ -1,8 +1,6 @@
 /* eslint-disable no-void */
 require('./build/ts-register')
-const env = require('./build/env/index.ts').default()
-const {default: addBaseWebpack, envJsonStringify} = require('./build/add-base-webpack.ts')
-const quasarEnv = envJsonStringify(env)
+const {default: addBaseWebpack} = require('./build/add-base-webpack.ts')
 const netlifyRedirects = {
   from: 'redirects',
   to: './_redirects',
@@ -80,28 +78,14 @@ module.exports = () => ({
   },
 
   build: {
-    productName: env.PRODUCT_NAME,
-    env: quasarEnv,
+    productName: 'winter-love',
     scopeHoisting: true,
-    vueRouterMode: env.VUE_ROUTER_MODE,
-    // vueCompiler: true,
+    vueRouterMode: 'history',
     gzip: true,
-    analyze: process.env.ANALYZE === 'true',
+    analyze: false,
     // extractCSS: false,
     extendWebpack(config) {
-      addBaseWebpack(config, {
-        tsconfigPath: env.WEBPACK_TSCONFIG,
-        srcAlias: env.WEBPACK_SRC_ALIAS,
-        eslint: true,
-        eslintCache: process.env.NODE_ENV !== 'production',
-        transpileOnly: process.env.NODE_ENV !== 'production',
-        tslintPath: process.env.NODE_ENV !== 'production' ? void 0: env.WEBPACK_TSLINT,
-        copyFiles: process.env.NETLIFY === 'true' ? [netlifyRedirects] : void 0,
-        middlewarePath: env.VUE_MIDDLEWARE_PATH,
-        pagePath: env.VUE_PAGES_PATH,
-        stylus: false,
-        vue: false,
-      })
+      addBaseWebpack(config, {})
     },
   },
 

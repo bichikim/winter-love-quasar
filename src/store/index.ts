@@ -11,26 +11,30 @@ export interface State {
 
 Vue.use(Vuex)
 
-const getModules = (ctx: any) => {
+export const getModules = (ctx: any) => {
   const context = require.context('./modules', false, /\.ts$/)
-  const modules = {}
-  context.keys().forEach((path: string) => {
-    if(!/\/index\.ts$/.test(path)) {
-      let filename = last(path.split('/'))
-      if(!filename) {
-        return
-      }
-      filename = dropRight(filename.split('.'), 1).join('.')
-      const _module = context(path)
-      const myModule = _module.default || _module
-      if(typeof myModule === 'function') {
-        modules[filename] = myModule(ctx)
-        return
-      }
-      modules[filename] = myModule
-    }
+  context.keys().forEach((v) => {
+    console.log(v)
   })
-  return modules
+  // return context.keys().reduce((modules, path: string) => {
+  //   let filename = path
+  //   if(/index\.ts$/.test(filename)) {
+  //     filename = filename.replace(/index\.ts$/, '')
+  //   }
+  //   filename = filename.replace()
+  //   if(!filename) {
+  //     return modules
+  //   }
+  //   filename = dropRight(filename.split('.'), 1).join('.')
+  //   const _module = context(path)
+  //   const myModule = _module.default || _module
+  //   if(typeof myModule === 'function') {
+  //     modules[filename] = myModule(ctx)
+  //     return modules
+  //   }
+  //   modules[filename] = myModule
+  //   return modules
+  // }, [])
 }
 
 /*
