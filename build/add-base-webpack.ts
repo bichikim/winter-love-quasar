@@ -1,7 +1,10 @@
+import CopyPlugin from 'copy-webpack-plugin'
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
 import {chain, forEach} from 'lodash'
 import {resolve} from 'path'
 import TsconfigPathsWebpackPlugin from 'tsconfig-paths-webpack-plugin'
+// import VueAutoRoutingPlugin from 'vue-auto-routing/lib/webpack-plugin'
+import VueLoaderPlugin from 'vue-loader/lib/plugin'
 import {Configuration, DefinePlugin, Module, Plugin, Resolve} from 'webpack'
 
 /**
@@ -78,11 +81,20 @@ export interface Options {
   tsconfigPath: string
   tslintPath?: string
   transpileOnly: boolean
+  pagePath?: string
   sourcePath?: string
   middlewarePath?: string
+  middlewareAlias?: string
   srcAlias?: string
+  rootAlias?: string
+  stylus?: boolean
+  eslint?: boolean
+  fileLoader?: boolean
+  eslintCache?: boolean
   additionalAlias?: boolean
+  copyFiles?: CopyFilesPatterns[]
   env?: any
+  vue: boolean
 }
 
 /**
@@ -107,13 +119,22 @@ export const envJsonStringify = <E>(env: { [key: string]: any }, addPrefix: bool
  */
 export default (_config: Configuration, options: Options) => {
   const {
-    tsconfigPath = 'tsconfig.json',
-    transpileOnly = true,
+    tsconfigPath,
+    pagePath,
+    transpileOnly,
+    stylus,
     sourcePath = 'src',
     middlewarePath = 'middleware',
+    tslintPath,
     srcAlias = '@',
+    // rootAlias = '@@',
+    eslint,
+    eslintCache = false,
+    copyFiles,
+    fileLoader = false,
     additionalAlias = false,
     env,
+    vue,
   } = options
   makeSureConfig(_config)
   const config: RequiredConfiguration = _config as RequiredConfiguration
@@ -143,6 +164,11 @@ export default (_config: Configuration, options: Options) => {
 
   config.module.rules.push(...
     [
+      {
+        test: /\.jsx?$/,
+        loader: 'babel-loader',
+        exclude: [/node_modules/],
+      },
       {
         test: /\.tsx?$/,
         exclude: [/node_modules/],
@@ -178,11 +204,103 @@ export default (_config: Configuration, options: Options) => {
     ],
   )
 
+  // Set vue loader
+  if(vue) {
+    config.module.rules.push({
+      test: /\.vue$/,
+      loader: 'vue-loader',
+      // exclude: [/node_modules/],
+    })
+    config.plugins.push(...[
+      new VueLoaderPlugin(),
+    ])
+  }
+
+  if(fileLoader) {
+    config.module.rules.push(...[
+      {
+        test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
+    ])
+  }
+
+  // Set stylus loader
+  if(stylus) {
+    config.module.rules.push(
+      {
+        test: /\.styl(us)?$/,
+        exclude: [/node_modules/],
+        use: [
+          'vue-style-loader',
+          'css-loader',
+          {
+            loader: 'stylus-loader',
+            options: {
+              import: [resolve(sourcePath, 'css/quasar.variables.styl')],
+            },
+          },
+        ],
+      },
+    )
+  }
+
+  // Set auto routing pages
+  // if(pagePath) {
+  //   config.plugins.push(
+  //     new VueAutoRoutingPlugin({
+  //       pages: resolve(sourcePath, pagePath),
+  //       importPrefix: `${srcAlias}/${pagePath}/`,
+  //     }),
+  //   )
+  // }
+
+  if(copyFiles) {
+    config.plugins.push(
+      new CopyPlugin(copyFiles),
+    )
+  }
+
   // Set transpileOnly
   if(transpileOnly) {
     config.plugins.push(new ForkTsCheckerWebpackPlugin({
       tsconfig: tsconfigPath,
+      tslint: tslintPath && resolve(tslintPath),
       vue: true,
     }))
   }
+
+  // add eslint checking
+  if(eslint) {
+    config.module.rules.push({
+      enforce: 'pre',
+      test: /\.(js|vue)$/,
+      loader: 'eslint-loader',
+      exclude: [/node_modules/],
+      options: {
+        cache: eslintCache,
+      },
+    })
+  }
+
 }

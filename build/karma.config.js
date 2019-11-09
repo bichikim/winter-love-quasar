@@ -7,32 +7,52 @@
  */
 process.env.NODE_ENV='test'
 require('./ts-register')
-const quasarConfig = require('../quasar.conf.js')
-const quasarWebpack = require('@quasar/app/lib/webpack')
+const {default: addBaseWebpack, envJsonStringify} = require('./add-base-webpack.ts')
+const path = require('path')
+const env = require('./env.ts').default()
 const {join} = require('path')
 
+/**
+ * Additional webpack config for testing
+ */
+const webpack = {
+  mode: 'development',
+  devtool: 'inline-source-map',
+}
 
-module.exports = async function (config) {
-  const webpack = await quasarWebpack({
-    ctx: {
-      dev: true,
-      mode: {
-        spa: true,
-      },
-    },
-    build: {},
-    __html: {},
-    ...quasarConfig(),
-  })
+/**
+ * Generate webpack config
+ */
+addBaseWebpack(webpack, {
+  tsconfigPath: env.WEBPACK_TSCONFIG,
+  srcAlias: env.WEBPACK_SRC_ALIAS,
+  eslint: true,
+  transpileOnly: true,
+  middlewarePath: '../test/mock/middleware',
+  stylus: true,
+  fileLoader: true,
+  tslintPath: env.WEBPACK_TSLINT,
+  additionalAlias: true,
+  vue: true,
+  env: envJsonStringify({
+    env,
+    'API': 'local',
+    'TEST': 'true',
+  }, true),
+})
 
+module.exports = function (config) {
   config.set({
     basePath: '../',
+    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
     frameworks: ['mocha', 'chai'],
-    reporters: ['spec','coverage-istanbul'],
+    reporters: ['mocha', 'coverage-istanbul'],
     files: [
       // to add polyfills before running tests
       'build/karma.polyfill.ts',
-      'test/spec/**/*.spec.ts',
+      'test/karma/**/*.spec.ts',
+      // add all files in assets
+      'src/assets/**/*',
     ],
     exclude: [
       './**/*.spec.skip.js',
@@ -51,9 +71,8 @@ module.exports = async function (config) {
     },
     coverageIstanbulReporter: {
       reports: ['html', 'lcovonly', 'text-summary'],
-      dir: join(process.cwd(), '.coverage'),
+      dir: path.join(process.cwd(), '.coverage'),
       fixWebpackSourcePaths: true,
-      skipFilesWithNoCoverage: true,
     },
     // fix url path
     proxies: {
