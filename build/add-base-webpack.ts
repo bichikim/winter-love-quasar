@@ -78,14 +78,12 @@ export interface CopyFilesOptions {
  * Add base webpack options
  */
 export interface Options {
-  tsconfigPath: string
-  tslintPath?: string
+  tsconfigPath?: string
   transpileOnly: boolean
   pagePath?: string
   sourcePath?: string
   middlewarePath?: string
   middlewareAlias?: string
-  srcAlias?: string
   rootAlias?: string
   stylus?: boolean
   eslint?: boolean
@@ -119,15 +117,11 @@ export const envJsonStringify = <E>(env: { [key: string]: any }, addPrefix: bool
  */
 export default (_config: Configuration, options: Options) => {
   const {
-    tsconfigPath,
-    pagePath,
-    transpileOnly,
+    tsconfigPath = 'tsconfig.json',
+    transpileOnly = true,
     stylus,
     sourcePath = 'src',
     middlewarePath = 'middleware',
-    tslintPath,
-    srcAlias = '@',
-    // rootAlias = '@@',
     eslint,
     eslintCache = false,
     copyFiles,
@@ -145,7 +139,7 @@ export default (_config: Configuration, options: Options) => {
     config.resolve.alias.assets = resolve(sourcePath, 'assets')
     config.resolve.alias.src = resolve(sourcePath)
   }
-  config.resolve.alias[srcAlias] = resolve(sourcePath)
+  config.resolve.alias['@'] = resolve(sourcePath)
   // tslint:disable-next-line: no-string-literal
   config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js'
   config.resolve.extensions.push(...[
@@ -285,7 +279,6 @@ export default (_config: Configuration, options: Options) => {
   if(transpileOnly) {
     config.plugins.push(new ForkTsCheckerWebpackPlugin({
       tsconfig: tsconfigPath,
-      tslint: tslintPath && resolve(tslintPath),
       vue: true,
     }))
   }

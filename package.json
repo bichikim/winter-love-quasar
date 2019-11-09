@@ -18,7 +18,7 @@
     "lint:fix": "eslint --fix --ext .js,.vue src && tslint --fix src/**/*.ts",
     "styleguide": "vue-styleguidist server --config build/styleguide.config.js",
     "styleguide:build": "vue-styleguidist build --config build/styleguide.config.js",
-    "karma": "karma start build/karma.config.js --browsers=Chrome",
+    "karma": "karma start build/karma.config.js --browsers=ChromeHeadlessWithoutSecurity",
     "mocha": "mochapack \"test/**/*.spec.ts\"",
     "mocha:w": "mochapack \"test/**/*.spec.ts\""
   },
@@ -65,6 +65,7 @@
     "karma": "^4.0.1",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^3.1.0",
+    "babel-plugin-istanbul": "^5.1.4",
     "karma-coverage-istanbul-reporter": "^2.1.0",
     "karma-firefox-launcher": "^1.1.0",
     "karma-mocha-reporter": "^2.2.5",

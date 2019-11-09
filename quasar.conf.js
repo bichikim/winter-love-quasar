@@ -14,7 +14,6 @@ module.exports = () => ({
   boot: [
     'i18n',
     'axios',
-    'middleware',
     'firebase',
   ],
 

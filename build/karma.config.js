@@ -8,8 +8,6 @@
 process.env.NODE_ENV='test'
 require('./ts-register')
 const {default: addBaseWebpack, envJsonStringify} = require('./add-base-webpack.ts')
-const path = require('path')
-const env = require('./env.ts').default()
 const {join} = require('path')
 
 /**
@@ -24,18 +22,14 @@ const webpack = {
  * Generate webpack config
  */
 addBaseWebpack(webpack, {
-  tsconfigPath: env.WEBPACK_TSCONFIG,
-  srcAlias: env.WEBPACK_SRC_ALIAS,
   eslint: true,
   transpileOnly: true,
   middlewarePath: '../test/mock/middleware',
   stylus: true,
   fileLoader: true,
-  tslintPath: env.WEBPACK_TSLINT,
   additionalAlias: true,
   vue: true,
   env: envJsonStringify({
-    env,
     'API': 'local',
     'TEST': 'true',
   }, true),
@@ -71,7 +65,7 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       reports: ['html', 'lcovonly', 'text-summary'],
-      dir: path.join(process.cwd(), '.coverage'),
+      dir: join(process.cwd(), '.coverage'),
       fixWebpackSourcePaths: true,
     },
     // fix url path
