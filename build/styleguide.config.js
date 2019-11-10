@@ -4,7 +4,7 @@ const webpackConfig = {
   mode: 'development',
   // devtool: 'inline-source-map',
 }
-const env = require('./env.ts').default()
+
 const path = require('path')
 
 /**
@@ -15,11 +15,8 @@ addBaseWebpack(webpackConfig, {
   eslint: true,
   fileLoader: true,
   middlewarePath: '../test/mock/middleware',
-  srcAlias: env.WEBPACK_SRC_ALIAS,
   stylus: true,
   transpileOnly: true,
-  tsconfigPath: env.WEBPACK_TSCONFIG,
-  tslintPath: env.WEBPACK_TSLINT,
   vue: true,
 })
 

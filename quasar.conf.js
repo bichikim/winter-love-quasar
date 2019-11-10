@@ -1,12 +1,6 @@
 /* eslint-disable no-void */
 require('./build/ts-register')
 const {default: addBaseWebpack} = require('./build/add-base-webpack.ts')
-const netlifyRedirects = {
-  from: 'redirects',
-  to: './_redirects',
-  flatten: true,
-  toType: 'file',
-}
 
 module.exports = () => ({
   // app boot file (/src/boot)
