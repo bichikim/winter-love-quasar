@@ -6,8 +6,8 @@
   "author": "Bichi Kim <bichi@live.co.kr>",
   "private": true,
   "scripts": {
-    "dev": "env-cmd -e development quasar dev",
-    "dev:cd": "env-cmd -e development quasar dev -m capacitor -T android",
+    "dev": "quasar dev",
+    "dev:cd": "quasar dev -m capacitor -T android",
     "dev:pwa": "quasar dev -m pwa",
     "build": "quasar build",
     "build:cp": "quasar build -m capacitor -T android",
