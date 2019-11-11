@@ -1,13 +1,12 @@
 /* eslint-disable no-void */
-require('./build/ts-register')
-const {default: addBaseWebpack} = require('./build/add-base-webpack.ts')
+require('./config/ts-register')
+const {default: addBaseWebpack} = require('./config/add-base-webpack.ts')
 
 module.exports = () => ({
   // app boot file (/src/boot)
   // --> boot files are part of "main.js"
   boot: [
     'i18n',
-    'axios',
     'firebase',
   ],
 

@@ -14,7 +14,6 @@ addBaseWebpack(webpackConfig, {
   additionalAlias: true,
   eslint: true,
   fileLoader: true,
-  middlewarePath: '../test/mock/middleware',
   stylus: true,
   transpileOnly: true,
   vue: true,
@@ -31,7 +30,10 @@ module.exports = {
   components: path.join(root, '/src/components/**/*.vue'),
   require: [
     path.join(root, 'quasar.require.ts'),
+    path.join(root, 'config/styleguide.require.ts'),
   ],
+  ignore: ['**/*.ex.vue'],
+  defaultExample: './defaultExample.md',
   template: {
     head: {
       links: [

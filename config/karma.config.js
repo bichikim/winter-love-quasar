@@ -5,7 +5,6 @@
  * (mocha, chai, karma-coverage)
  * @author BichiKim <bichi@live.co.kr, bichi@neillab.com>
  */
-process.env.NODE_ENV='test'
 require('./ts-register')
 const {default: addBaseWebpack, envJsonStringify} = require('./add-base-webpack.ts')
 const {join} = require('path')
@@ -24,7 +23,6 @@ const webpack = {
 addBaseWebpack(webpack, {
   eslint: true,
   transpileOnly: true,
-  middlewarePath: '../test/mock/middleware',
   stylus: true,
   fileLoader: true,
   additionalAlias: true,
@@ -43,7 +41,7 @@ module.exports = function (config) {
     reporters: ['mocha', 'coverage-istanbul'],
     files: [
       // to add polyfills before running tests
-      'build/karma.polyfill.ts',
+      'config/karma.polyfill.ts',
       'test/karma/**/*.spec.ts',
       // add all files in assets
       'src/assets/**/*',
@@ -53,8 +51,8 @@ module.exports = function (config) {
       './**/*.spec.skip.ts',
     ],
     preprocessors: {
-      'build/**/*.js': ['webpack'],
-      'build/**/*.ts': ['webpack'],
+      'config/**/*.js': ['webpack'],
+      'config/**/*.ts': ['webpack'],
       'test/karma/**/*.spec.js': ['webpack', 'sourcemap'],
       'test/karma/**/*.spec.ts': ['webpack', 'sourcemap'],
     },
