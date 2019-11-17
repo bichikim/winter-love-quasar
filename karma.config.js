@@ -3,45 +3,22 @@
  * This test must have packages below
  * karma, karma-chai, karma-sourcemap-loader, karma-spec-reporter, karma-webpack
  * (mocha, chai, karma-coverage)
- * @author BichiKim <bichi@live.co.kr, bichi@neillab.com>
+ * @author BichiKim <bichi@live.co.kr>
  */
 require('./ts-register')
-const {default: addBaseWebpack, envJsonStringify} = require('./add-base-webpack.ts')
 const {join} = require('path')
-
-/**
- * Additional webpack config for testing
- */
-const webpack = {
-  mode: 'development',
-  devtool: 'inline-source-map',
-}
-
-/**
- * Generate webpack config
- */
-addBaseWebpack(webpack, {
-  eslint: true,
-  transpileOnly: true,
-  stylus: true,
-  fileLoader: true,
-  additionalAlias: true,
-  vue: true,
-  env: envJsonStringify({
-    'API': 'local',
-    'TEST': 'true',
-  }, true),
-})
-
+const {chainConfig} = require('./webpack.config.ts')
+const webpack = chainConfig().toConfig()
+process.env.NODE_ENV = 'test'
 module.exports = function (config) {
   config.set({
-    basePath: '../',
+    basePath: './',
     browsers: ['ChromeHeadless', 'FirefoxHeadless'],
     frameworks: ['mocha', 'chai'],
     reporters: ['mocha', 'coverage-istanbul'],
     files: [
       // to add polyfills before running tests
-      'config/karma.polyfill.ts',
+      'test/karma.polyfill.ts',
       'test/karma/**/*.spec.ts',
       // add all files in assets
       'src/assets/**/*',
@@ -51,8 +28,7 @@ module.exports = function (config) {
       './**/*.spec.skip.ts',
     ],
     preprocessors: {
-      'config/**/*.js': ['webpack'],
-      'config/**/*.ts': ['webpack'],
+      'test/**/*.ts': ['webpack'],
       'test/karma/**/*.spec.js': ['webpack', 'sourcemap'],
       'test/karma/**/*.spec.ts': ['webpack', 'sourcemap'],
     },
@@ -63,7 +39,7 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       reports: ['html', 'lcovonly', 'text-summary'],
-      dir: join(process.cwd(), '.coverage'),
+      dir: join(__dirname, '.coverage'),
       fixWebpackSourcePaths: true,
     },
     // fix url path

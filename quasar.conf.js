@@ -1,8 +1,8 @@
-/* eslint-disable no-void */
-require('./config/ts-register')
-const {default: addBaseWebpack} = require('./config/add-base-webpack.ts')
+require('./ts-register')
+const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.config.ts')
+const {pick} = require('lodash')
 
-module.exports = () => ({
+module.exports = (ctx) => ({
   // app boot file (/src/boot)
   // --> boot files are part of "main.js"
   boot: [
@@ -74,10 +74,13 @@ module.exports = () => ({
     scopeHoisting: true,
     vueRouterMode: 'history',
     gzip: true,
+    env: envReader(pick(process.env, 'API_URL')),
     analyze: false,
     // extractCSS: false,
-    extendWebpack(config) {
-      addBaseWebpack(config, {})
+    chainWebpack(chain) {
+      aliasConfig(chain)
+      tsConfig(chain, ctx)
+      pugConfig(chain)
     },
   },
 

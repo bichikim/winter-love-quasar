@@ -22,9 +22,9 @@ declare module 'quasar' {
   //   easing: any
   // }
 
-  export type BootFunction = (context: Context) => any
+  export type BootFunction = (context: BootContext) => any
 
-  export interface Context<V extends Vue = Vue, S = any> {
+  export interface BootContext<V extends Vue = Vue, S = any> {
     Vue: VueConstructor<V>,
     app: ComponentOptions<V>
     router: VueRouter

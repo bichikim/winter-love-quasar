@@ -1,23 +1,7 @@
 require('./ts-register')
-const {default: addBaseWebpack} = require('./add-base-webpack.ts')
-const webpackConfig = {
-  mode: 'development',
-  // devtool: 'inline-source-map',
-}
-
-const path = require('path')
-
-/**
- * Generate webpack config
- */
-addBaseWebpack(webpackConfig, {
-  additionalAlias: true,
-  eslint: true,
-  fileLoader: true,
-  stylus: true,
-  transpileOnly: true,
-  vue: true,
-})
+const {join} = require('path')
+const {chainConfig} = require('./webpack.config.ts')
+const webpackConfig = chainConfig().toConfig()
 
 const root = process.cwd()
 
@@ -27,13 +11,13 @@ const root = process.cwd()
  */
 module.exports = {
   webpackConfig,
-  components: path.join(root, '/src/components/**/*.vue'),
+  components: join(root, '/src/components/**/*.vue'),
+  styleguideDir: '../.docs/styleguide',
+  pagePerSection: true,
+  renderRootJsx: join(root, '/test/styleguide.root.ts'),
   require: [
-    path.join(root, 'quasar.require.ts'),
-    path.join(root, 'config/styleguide.require.ts'),
+    join(root, 'test/quasar.require.ts'),
   ],
-  ignore: ['**/*.ex.vue'],
-  defaultExample: './defaultExample.md',
   template: {
     head: {
       links: [
