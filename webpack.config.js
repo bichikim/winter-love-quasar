@@ -1,10 +1,10 @@
-import createChain from '@quasar/app/lib/webpack/create-chain'
-import spa from '@quasar/app/lib/webpack/spa'
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin'
-import {resolve} from 'path'
-import VueLoaderPlugin from 'vue-loader/lib/plugin'
-import Config from 'webpack-chain'
-import quasarConfig from './quasar.conf'
+const createChain = require('@quasar/app/lib/webpack/create-chain')
+const spa = require('@quasar/app/lib/webpack/spa')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const {resolve} = require('path')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const Config = require('webpack-chain')
+const quasarConfig = require('./quasar.conf')
 
 const defaultQuasarConfig = {
   ctx: {dev: true, mode: {spa: true}},
@@ -55,7 +55,7 @@ const defaultQuasarConfig = {
   },
 }
 
-export function tsConfig(config: Config, ctx?: any): Config {
+function tsConfig(config, ctx) {
   const {dev = true} = ctx || {}
   config.resolve.extensions.add('.ts').add('.tsx')
   config.module.rule('ts')
@@ -65,7 +65,7 @@ export function tsConfig(config: Config, ctx?: any): Config {
     appendTsSuffixTo: [/\.vue$/],
     transpileOnly: dev,
     configFile: 'tsconfig.json',
-  })
+  }).end()
   if(dev) {
     config.plugin('ts-checker')
     .use(ForkTsCheckerWebpackPlugin, [{vue: true, eslint: true}])
@@ -73,7 +73,7 @@ export function tsConfig(config: Config, ctx?: any): Config {
   return config
 }
 
-export function pugConfig(config: Config): Config {
+function pugConfig(config) {
   config.module.rule('pug')
   .test(/\.pug$/)
   .oneOf('vue-loader')
@@ -92,7 +92,7 @@ export function pugConfig(config: Config): Config {
   return config
 }
 
-export function jsConfig(config: Config): Config {
+function jsConfig(config) {
   config.resolve.extensions.add('.js').add('.jsx')
   config.module.rule('js')
   .test(/\.jsx?$/)
@@ -104,7 +104,7 @@ export function jsConfig(config: Config): Config {
   return config
 }
 
-export function aliasConfig(config: Config): Config {
+function aliasConfig(config) {
   config.resolve.alias.set('@', resolve('src'))
   config.resolve.alias.set('@@', resolve(''))
   config.resolve.alias.set('layouts', resolve('src', 'layouts'))
@@ -114,7 +114,7 @@ export function aliasConfig(config: Config): Config {
   return config
 }
 
-export function vueConfig(config: Config): Config {
+function vueConfig(config) {
   config.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')
 
   config.resolve.extensions.add('.vue')
@@ -126,7 +126,7 @@ export function vueConfig(config: Config): Config {
   return config
 }
 
-export function stylusConfig(config: Config): Config {
+function stylusConfig(config) {
   config.resolve.extensions.add('.styl').add('stylus')
   config.module.rule('stylus')
   .test(/\.styl(us)?$/)
@@ -143,7 +143,7 @@ export function stylusConfig(config: Config): Config {
   return config
 }
 
-export function imgConfig(config: Config): Config {
+function imgConfig(config) {
   config.module.rule('img-file')
   .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
   .use('file')
@@ -151,13 +151,13 @@ export function imgConfig(config: Config): Config {
   return config
 }
 
-export function chainConfig(quasar: boolean = false): Config {
+function chainConfig(quasar = false) {
 
 
   if(quasar) {
 
     const config = {...defaultQuasarConfig, ...quasarConfig()}
-    const quasarConfigChain: Config = createChain(config, 'SPA')
+    const quasarConfigChain = createChain(config, 'SPA')
 
     spa(quasarConfigChain, config)
     return quasarConfigChain
@@ -174,10 +174,10 @@ export function chainConfig(quasar: boolean = false): Config {
   return configChain
 }
 
-export function envReader(env: { [key: string]: any }, addPrefix: boolean = false) {
-  const stringifyEnv: any = {}
+function envReader(env, addPrefix = false) {
+  const stringifyEnv = {}
   const prefix = addPrefix ? 'process.env.' : ''
-  Object.keys(env).forEach((key: string) => {
+  Object.keys(env).forEach((key) => {
     const value = env[key]
     const name = key.toUpperCase()
     stringifyEnv[`${prefix}${name}`] = JSON.stringify(value)
@@ -186,4 +186,15 @@ export function envReader(env: { [key: string]: any }, addPrefix: boolean = fals
 }
 
 
-export default (quasar: boolean = false) => (chainConfig(quasar).toString())
+module.exports = {
+  config: (quasar = false) => (chainConfig(quasar).toString()),
+  tsConfig,
+  pugConfig,
+  envReader,
+  jsConfig,
+  aliasConfig,
+  vueConfig,
+  stylusConfig,
+  imgConfig,
+  chainConfig,
+}

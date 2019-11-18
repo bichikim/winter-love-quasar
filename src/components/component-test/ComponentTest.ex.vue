@@ -1,24 +1,21 @@
 <template>
-  <div>
-  </div>
+  <div />
 </template>
 <script>
   export default {
     name: '',
+    components: {},
     props: {},
     data() {
       return {}
     },
+    computed: {},
     created() {
       //
     },
     mounted() {
       //
     },
-    computed: {},
     methods: {},
-    components: {},
   }
 </script>
-<style lang="scss">
-</style>

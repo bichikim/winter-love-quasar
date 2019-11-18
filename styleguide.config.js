@@ -1,6 +1,5 @@
-require('./ts-register')
 const {join} = require('path')
-const {chainConfig} = require('./webpack.config.ts')
+const {chainConfig} = require('./webpack.config.js')
 const webpackConfig = chainConfig().toConfig()
 
 const root = process.cwd()

@@ -5,9 +5,8 @@
  * (mocha, chai, karma-coverage)
  * @author BichiKim <bichi@live.co.kr>
  */
-require('./ts-register')
 const {join} = require('path')
-const {chainConfig} = require('./webpack.config.ts')
+const {chainConfig} = require('./webpack.config')
 const webpack = chainConfig().toConfig()
 process.env.NODE_ENV = 'test'
 module.exports = function (config) {

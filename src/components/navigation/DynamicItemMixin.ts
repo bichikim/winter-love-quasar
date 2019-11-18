@@ -1,5 +1,5 @@
 import {kebabCase, trimStart} from 'lodash'
-import Translation from 'src/mixins/Translation'
+import Translation from '@/mixins/Translation'
 import {Component, Prop} from 'vue-property-decorator'
 import {NavItem, NavTo} from './types'
 

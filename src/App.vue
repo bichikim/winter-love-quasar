@@ -4,11 +4,15 @@
 </template>
 
 <script lang="ts">
-import {Component, Vue} from 'vue-property-decorator'
+  import {save} from '@/root'
+  import {Component, Vue} from 'vue-property-decorator'
 
-@Component
-export default class App extends Vue {
-}
+  @Component
+  export default class App extends Vue {
+    created() {
+      save(this.$root)
+    }
+  }
 </script>
 
 <style>

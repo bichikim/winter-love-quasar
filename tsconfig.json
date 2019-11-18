@@ -1,9 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "plugins": [
-      { "name": "typescript-tslint-plugin" }
-    ],
     "jsx": "preserve",
     "skipLibCheck": true,
     // language environment
@@ -46,8 +43,7 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
-    "**/*.vue",
-    "types/**/*.d.ts"
+    "**/*.vue"
   ],
   "exclude": [
     "lib/**/*",

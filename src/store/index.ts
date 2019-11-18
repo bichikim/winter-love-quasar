@@ -1,5 +1,3 @@
-import {firebase} from '@/boot/firebase'
-import {dropRight, last} from 'lodash'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {AsideState} from './modules/aside'

@@ -1,5 +1,4 @@
-require('./ts-register')
-const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.config.ts')
+const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.config.js')
 const {pick} = require('lodash')
 
 module.exports = (ctx) => ({

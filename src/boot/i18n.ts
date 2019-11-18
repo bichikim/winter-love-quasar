@@ -1,8 +1,12 @@
-import {Context} from 'quasar'
-import messages from 'src/i18n'
+import {BootFunction} from 'quasar'
+import messages from '@/i18n'
 import VueI18n from 'vue-i18n'
 
-export default ({app, Vue}: Context) => {
+const i18n: BootFunction = ({app, Vue}) => {
+  if(app.i18n) {
+    return
+  }
+
   Vue.use(VueI18n)
 
   // Set i18n instance on app
@@ -12,3 +16,5 @@ export default ({app, Vue}: Context) => {
     messages,
   })
 }
+
+export default i18n
