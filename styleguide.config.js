@@ -15,7 +15,7 @@ module.exports = {
   pagePerSection: true,
   renderRootJsx: join(root, '/test/styleguide.root.ts'),
   require: [
-    join(root, 'test/quasar.require.ts'),
+    join(root, 'test/styleguide.require.ts'),
   ],
   template: {
     head: {
