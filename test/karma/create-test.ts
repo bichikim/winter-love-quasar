@@ -1,17 +1,19 @@
 import {
   createLocalVue,
+  mount,
   MountOptions,
   shallowMount,
-  mount,
   ShallowMountOptions,
+  ThisTypedMountOptions,
+  ThisTypedShallowMountOptions,
   VueClass,
-  Wrapper, ThisTypedMountOptions, ThisTypedShallowMountOptions,
+  Wrapper,
 } from '@vue/test-utils'
-import createQuasar from '../create-quasar'
-import VueRouter, {RouterOptions} from 'vue-router'
-import {QuasarPluginOptions, BootFileFunction, BootFileParams} from 'quasar'
+import {BootFileFunction, BootFileParams, QuasarPluginOptions} from 'quasar'
 import Vue, {ComponentOptions, FunctionalComponentOptions} from 'vue'
+import VueRouter, {RouterOptions} from 'vue-router'
 import Vuex, {Store, StoreOptions} from 'vuex'
+import createQuasar from '../create-quasar'
 
 interface App<S = any> {
   store: Store<S>
@@ -30,8 +32,8 @@ export type ComplexComponent = ComponentOptions<Vue> | VueClass<Vue> | Functiona
 export interface Options {
   store?: (root: () => Vue) => StoreOptions<any>
   quasar?: QuasarPluginOptions
-  shallowMount?:  [ComplexComponent ,ThisTypedShallowMountOptions<Vue> | ShallowMountOptions<Vue>]
-  mount?: [ComplexComponent ,ThisTypedMountOptions<Vue> | MountOptions<Vue>]
+  shallowMount?: [ComplexComponent, ThisTypedShallowMountOptions<Vue> | ShallowMountOptions<Vue>]
+  mount?: [ComplexComponent, ThisTypedMountOptions<Vue> | MountOptions<Vue>]
   boots?: BootFileFunction[]
   router?: RouterOptions
 }
@@ -58,7 +60,7 @@ const createTest = async (options: Options = {}): Promise<ReturnObject> => {
   }
 
   if(options.router) {
-    router = new VueRouter( {
+    router = new VueRouter({
       ...options.router,
       mode: 'abstract',
     })
