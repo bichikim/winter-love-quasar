@@ -1,7 +1,7 @@
-import {BootFunction} from 'quasar'
+import {BootFileFunction} from 'quasar'
 import VueMeta from 'vue-meta'
 
-const vueMeta: BootFunction = ({Vue}) => {
+const vueMeta: BootFileFunction = ({Vue}) => {
   Vue.use(VueMeta)
 }
 

@@ -40,7 +40,7 @@ export default <V extends Vue>(
       async signUp({commit}, payload: SignUpPayload) {
         const {email, password} = payload
         const result = await firebase().auth().createUserWithEmailAndPassword(email, password)
-        if(!result || !result.user){
+        if(!result || !result.user) {
           return
         }
         const {user} = result
@@ -57,14 +57,14 @@ export default <V extends Vue>(
       async signIn({commit}, payload: SignInPayload) {
         const {email, password} = payload
         const result = await firebase().auth().signInWithEmailAndPassword(email, password)
-        if(!result || !result.user){
+        if(!result || !result.user) {
           return
         }
         const user = await
           firebase()
           .firestore()
           .collection('users').doc(result.user.uid).get()
-        if(!user){
+        if(!user) {
           return
         }
 

@@ -2,7 +2,7 @@ import firebase from '@/boot/firebase'
 import i18n from '@/boot/i18n'
 import routerFunction from '@/router'
 import storeFunction from '@/store'
-import {BootContext} from 'quasar'
+import {BootFileParams} from 'quasar'
 import Vue from 'vue'
 
 process.env.VUE_ROUTER_MODE = 'abstract'
@@ -15,7 +15,7 @@ export default (vue: typeof Vue = Vue) => {
     store,
     router,
   }
-  const context: BootContext = {
+  const context: BootFileParams = {
     Vue: vue,
     app,
     ssrContext: null,

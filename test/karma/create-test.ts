@@ -1,5 +1,16 @@
-import {createLocalVue, shallowMount, ShallowMountOptions, Wrapper} from '@vue/test-utils'
-import Vue from 'vue'
+import {
+  createLocalVue,
+  MountOptions,
+  shallowMount,
+  mount,
+  ShallowMountOptions,
+  VueClass,
+  Wrapper, ThisTypedMountOptions, ThisTypedShallowMountOptions,
+} from '@vue/test-utils'
+import createQuasar from '../create-quasar'
+import VueRouter, {RouterOptions} from 'vue-router'
+import {QuasarPluginOptions, BootFileFunction, BootFileParams} from 'quasar'
+import Vue, {ComponentOptions, FunctionalComponentOptions} from 'vue'
 import Vuex, {Store, StoreOptions} from 'vuex'
 
 interface App<S = any> {
@@ -11,18 +22,25 @@ interface ReturnObject {
   localVue: typeof Vue,
   wrapper: Wrapper<Vue>
   store: Store<any>,
+
 }
+
+export type ComplexComponent = ComponentOptions<Vue> | VueClass<Vue> | FunctionalComponentOptions
 
 export interface Options {
   store?: (root: () => Vue) => StoreOptions<any>
-  component?: any
-  shallow?: ShallowMountOptions<any>
+  quasar?: QuasarPluginOptions
+  shallowMount?:  [ComplexComponent ,ThisTypedShallowMountOptions<Vue> | ShallowMountOptions<Vue>]
+  mount?: [ComplexComponent ,ThisTypedMountOptions<Vue> | MountOptions<Vue>]
+  boots?: BootFileFunction[]
+  router?: RouterOptions
 }
 
-const createTest = (options: Options = {}): ReturnObject => {
+const createTest = async (options: Options = {}): Promise<ReturnObject> => {
   let $root: Vue
-  let store, wrapper
+  let store, wrapper, router
   const localVue = createLocalVue()
+  createQuasar(localVue, options.quasar)
 
   const root = (): Vue => {
     if($root) {
@@ -39,15 +57,39 @@ const createTest = (options: Options = {}): ReturnObject => {
     store = new Store({})
   }
 
-  const mountOptions = options.shallow || {}
-  if(options.component) {
-    wrapper = shallowMount(options.component, {
-      ...mountOptions,
+  if(options.router) {
+    router = new VueRouter( {
+      ...options.router,
+      mode: 'abstract',
+    })
+  } else {
+    router = new VueRouter({
+      mode: 'abstract',
+    })
+  }
+
+
+  if(options.shallowMount) {
+    const [component, _options] = options.shallowMount
+    wrapper = shallowMount(component as any, {
+      ..._options,
       created(this: Vue) {
         $root = this.$root
       },
       localVue,
-
+      router,
+      store,
+    })
+  } else if(options.mount) {
+    const [component, _options] = options.mount
+    wrapper = mount(component as any, {
+      ..._options,
+      created(this: Vue) {
+        $root = this.$root
+      },
+      localVue,
+      router,
+      store,
     })
   } else {
     wrapper = shallowMount({
@@ -59,18 +101,29 @@ const createTest = (options: Options = {}): ReturnObject => {
         return h('div')
       },
     }, {
-      ...mountOptions,
       localVue,
+      router,
+      store,
     })
   }
 
-
-  const app: App = {
+  const bootFileParams: BootFileParams = {
+    Vue: localVue,
+    app: wrapper.vm,
     store,
+    router,
+  }
+
+  if(options.boots) {
+    const promises: Array<Promise<any>> = []
+    options.boots.forEach((boot) => {
+      promises.push(boot(bootFileParams))
+    })
+    await Promise.all(promises)
   }
 
   return {
-    app,
+    app: wrapper.vm,
     localVue,
     wrapper,
     store,

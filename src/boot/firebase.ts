@@ -1,7 +1,7 @@
 import Firebase, {app} from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import {BootFunction} from 'quasar'
+import {BootFileFunction} from 'quasar'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -9,7 +9,7 @@ declare module 'vue/types/vue' {
   }
 }
 
-const firebase: BootFunction = ({Vue}) => {
+const firebase: BootFileFunction = ({Vue}) => {
   if(Vue.$firebase) {
     return
   }

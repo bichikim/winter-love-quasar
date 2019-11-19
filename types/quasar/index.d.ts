@@ -1,51 +1,10 @@
-import {QSsrContext} from 'quasar'
-
-declare module 'quasar' {
-  import {QSsrContext, QuasarPluginOptions} from 'quasar/dist/types'
+declare module 'quasar/dist/types/index' {
+  import {BootFileParams, QuasarPluginOptions} from 'quasar'
   import 'quasar/dist/types/vue'
-  import Vue, {ComponentOptions, PluginObject, VueConstructor} from 'vue'
-  import VueRouter from 'vue-router'
-  import {Store} from 'vuex'
+  import {PluginObject} from 'vue'
   import {Configuration} from 'webpack'
 
-  export * from 'quasar/dist/types/index'
-  export * from 'quasar/dist/types/utils'
-
-  // export interface AnimateContext {
-  //   name: string
-  //   duration: number
-  //   to: number
-  //   from: number
-  //   apply: (newProgress: number, progress: number) => any
-  //   done: (progress: number) => any
-  //   cancel: any
-  //   easing: any
-  // }
-
-  export type BootFunction = (context: BootContext) => any
-
-  export interface BootContext<V extends Vue = Vue, S = any> {
-    Vue: VueConstructor<V>,
-    app: ComponentOptions<V>
-    router: VueRouter
-    ssrContext: null | QSsrContext
-    store: Store<S>
-  }
-
-  // export interface QuasarConfigContext {
-  //   dev: boolean
-  //   prod: boolean
-  //   mode: { spa: boolean }
-  //   modeName: 'spa' | string
-  //   target: {}
-  //   targetName?: string
-  //   emulator?: string
-  //   arch: {}
-  //   archName?: string
-  //   bundler: {}
-  //   bundlerName?: string
-  //   debug: boolean
-  // }
+  export type BootFileFunction = (context: BootFileParams) => Promise<any> | any
 
   export interface QuasarConfig {
     boot?: string[]
@@ -54,6 +13,7 @@ declare module 'quasar' {
     framework?: {
       all?: boolean
       components?: Array<keyof QuasarPluginOptions.components>
+        | typeof QuasarPluginOptions.prototype.components
       directives?: string[]
       plugins?: string[]
       iconSet?: string | 'ionicons-v4' | 'material-icons'
@@ -88,7 +48,7 @@ declare module 'quasar' {
     }
     devServer?: {
       open?: boolean,
-      https?: boolean | {key: any, cert: any, ca: any},
+      https?: boolean | { key: any, cert: any, ca: any },
     }
     animations?: any[] | 'all'
     ssr?: {

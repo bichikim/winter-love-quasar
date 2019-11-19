@@ -1,11 +1,12 @@
 import App from '@/App.vue'
-import createTest from 'test/karma/create-test'
+import createTest from './create-test'
 
 describe('App', function test() {
-  it('should render', function test() {
-    const {wrapper} = createTest({
-      component: App,
+  it('should render', async function test() {
+    const {wrapper} = await createTest({
+      shallowMount: [App, {}],
     })
     expect(wrapper.find('#q-app').exists()).to.equal(true)
+    expect('1').to.equal('1')
   })
 })

@@ -1,8 +1,8 @@
-import {BootFunction} from 'quasar'
+import {BootFileFunction} from 'quasar'
 import messages from '@/i18n'
 import VueI18n from 'vue-i18n'
 
-const i18n: BootFunction = ({app, Vue}) => {
+const i18n: BootFileFunction = ({app, Vue}) => {
   if(app.i18n) {
     return
   }
