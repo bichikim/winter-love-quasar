@@ -34,13 +34,6 @@ _Vue.use(Quasar as any, {
 function createQuasar(Vue: typeof _Vue, options: Partial<QuasarPluginOptions> = {}) {
   Vue.use(Quasar as any, {
     all: true,
-    config: {
-      boot: [
-        (context) => {
-          console.log('boo?', context)
-        },
-      ],
-    },
     plugins: [
       AddressbarColor,
       AppFullscreen,
