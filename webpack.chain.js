@@ -1,59 +1,6 @@
-const createChain = require('@quasar/app/lib/webpack/create-chain')
-const spa = require('@quasar/app/lib/webpack/spa')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const {resolve} = require('path')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const Config = require('webpack-chain')
-const quasarConfig = require('./quasar.conf')
-
-const defaultQuasarConfig = {
-  ctx: {dev: true, mode: {spa: true}},
-  css: [], boot: [],
-  vendor: {add: [], remove: []},
-  build: {
-    sourceMap: 'eval',
-    transpileDependencies: [],
-    stylusLoaderOptions: {},
-    sassLoaderOptions: {},
-    scssLoaderOptions: {},
-    lessLoaderOptions: {},
-    env: {},
-    uglifyOptions: {
-      compress: {},
-      mangle: {},
-    },
-  },
-  devServer: {},
-  animations: [],
-  extras: [],
-  sourceFiles: {
-    indexHtmlTemplate: 'src/index.template.html',
-  },
-  ssr: {
-    componentCache: {},
-  },
-  pwa: {
-    workboxOptions: {},
-    manifest: {
-      icons: [],
-    },
-    metaVariables: {},
-  },
-  electron: {
-    packager: {},
-    builder: {},
-  },
-  cordova: {},
-  capacitor: {},
-  bin: {},
-  htmlVariables: {},
-  framework: {
-    all: true,
-  },
-  __html: {
-    variables: {},
-  },
-}
 
 function tsConfig(config, ctx) {
   const {dev = true} = ctx || {}
@@ -114,7 +61,7 @@ function aliasConfig(config) {
   return config
 }
 
-function vueConfig(config) {
+function vueConfig(config, plugin = true) {
   config.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')
 
   config.resolve.extensions.add('.vue')
@@ -122,7 +69,10 @@ function vueConfig(config) {
   .test(/\.vue$/)
   .use('vue')
   .loader('vue-loader')
-  config.plugin('vue').use(VueLoaderPlugin)
+  if(plugin) {
+    config.plugin('vue').use(VueLoaderPlugin)
+  }
+
   return config
 }
 
@@ -151,29 +101,6 @@ function imgConfig(config) {
   return config
 }
 
-function chainConfig(quasar = false) {
-
-
-  if(quasar) {
-
-    const config = {...defaultQuasarConfig, ...quasarConfig()}
-    const quasarConfigChain = createChain(config, 'SPA')
-
-    spa(quasarConfigChain, config)
-    return quasarConfigChain
-  }
-  const configChain = new Config()
-
-  tsConfig(configChain, {dev: true})
-  pugConfig(configChain)
-  jsConfig(configChain)
-  vueConfig(configChain)
-  stylusConfig(configChain)
-  aliasConfig(configChain)
-
-  return configChain
-}
-
 function envReader(env, addPrefix = false) {
   const stringifyEnv = {}
   const prefix = addPrefix ? 'process.env.' : ''
@@ -185,16 +112,7 @@ function envReader(env, addPrefix = false) {
   return stringifyEnv
 }
 
-
+// noinspection WebpackConfigHighlighting
 module.exports = {
-  config: (quasar = false) => (chainConfig(quasar).toString()),
-  tsConfig,
-  pugConfig,
-  envReader,
-  jsConfig,
-  aliasConfig,
-  vueConfig,
-  stylusConfig,
-  imgConfig,
-  chainConfig,
+  tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, envReader, aliasConfig,
 }

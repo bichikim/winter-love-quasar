@@ -41,9 +41,9 @@
     "noImplicitAny": false
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.vue",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
     "types/**/*.d.ts"
   ],
   "exclude": [

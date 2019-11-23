@@ -1,4 +1,4 @@
-const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.config.js')
+const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.chain.js')
 const {pick} = require('lodash')
 
 module.exports = (ctx) => ({

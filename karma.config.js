@@ -6,8 +6,8 @@
  * @author BichiKim <bichi@live.co.kr>
  */
 const {join} = require('path')
-const {chainConfig} = require('./webpack.config')
-const webpack = chainConfig().toConfig()
+const quasarChainConfig = require('./webpack.quasar')
+const webpack = quasarChainConfig().toConfig()
 process.env.NODE_ENV = 'test'
 module.exports = function (config) {
   config.set({
