@@ -1,7 +1,21 @@
 const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.chain.js')
 const {pick} = require('lodash')
+const dotenv = require('dotenv')
 
-module.exports = (ctx) => ({
+
+module.exports = (ctx) => {
+  const {mode} = ctx
+  const _path = ['.env']
+
+  if(mode) {
+    _path.push(mode)
+  }
+
+  Object.assign(process.env, dotenv.config({
+    path: _path.join('-'),
+  }))
+
+  return  {
   // app boot file (/src/boot)
   // --> boot files are part of "main.js"
   boot: [
@@ -73,7 +87,7 @@ module.exports = (ctx) => ({
     scopeHoisting: true,
     vueRouterMode: 'history',
     gzip: true,
-    env: envReader(pick(process.env, 'API_URL')),
+    env: envReader(pick(process.env, 'API_URL', 'FIREBASE_PROJECT_ID')),
     analyze: false,
     // extractCSS: false,
     chainWebpack(chain) {
@@ -164,4 +178,5 @@ module.exports = (ctx) => ({
       // appId: 'quasar-app'
     },
   },
-})
+}}
+

@@ -8,8 +8,21 @@
 const {join} = require('path')
 const quasarChainConfig = require('./webpack.quasar')
 const webpack = quasarChainConfig().toConfig()
+const firebase = require('@firebase/testing')
+const fs = require('fs')
+
+firebase.initializeTestApp({
+  projectId: 'winter-love',
+  auth: {uid: 'test', email: 'test@test.com'},
+})
+
+firebase.loadDatabaseRules({
+  databaseName: 'winter-love',
+  rules: fs.readFileSync('./firestore.rules'),
+})
+
 process.env.NODE_ENV = 'test'
-module.exports = function (config) {
+module.exports = function config(config) {
   config.set({
     basePath: './',
     browsers: ['ChromeHeadless', 'FirefoxHeadless'],
@@ -63,7 +76,7 @@ module.exports = function (config) {
       },
       FirefoxHeadless: {
         base: 'Firefox',
-        flags: [ '-headless' ],
+        flags: ['-headless'],
       },
       ChromeHeadlessWithoutSecurity: {
         base: 'ChromeHeadless',
@@ -71,7 +84,7 @@ module.exports = function (config) {
       },
     },
     mime: {
-      'text/x-typescript': ['ts' ,'tsx'],
+      'text/x-typescript': ['ts', 'tsx'],
     },
   })
 }

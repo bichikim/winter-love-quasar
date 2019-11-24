@@ -3,7 +3,6 @@ const quasarConfig = require('./quasar.conf')
 const spa = require('@quasar/app/lib/webpack/spa')
 const {jsConfig} = require('./webpack.chain')
 
-
 const defaultQuasarConfig = {
   ctx: {dev: true, mode: {spa: true}},
   css: [], boot: [],
@@ -53,8 +52,11 @@ const defaultQuasarConfig = {
   },
 }
 
-module.exports = function quasarChainConfig() {
-  const _quasarConfig = quasarConfig()
+module.exports = function quasarChainConfig(mode = 'test') {
+
+  const _quasarConfig = quasarConfig({
+    mode,
+  })
   const config = {...defaultQuasarConfig, ..._quasarConfig}
   const quasarConfigChain = createChain(config, 'SPA')
   const {chainWebpack} = _quasarConfig.build
@@ -67,7 +69,6 @@ module.exports = function quasarChainConfig() {
   quasarConfigChain.optimization.clear()
   quasarConfigChain.module.rules.delete('babel')
   jsConfig(quasarConfigChain)
-
 
   return quasarConfigChain
 }
