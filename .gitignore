@@ -1,5 +1,6 @@
 /.quasar
 /.coverage
+/.firebase
 
 .DS_Store
 .thumbs.db
