@@ -1,15 +1,18 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, {Module} from 'vuex'
 import {crateModuleStructure} from './utils'
 import {AsideState} from './modules/aside'
 import {defaultsDeep} from 'lodash'
 
-export interface State {
+export interface RootState {
   aside: AsideState,
 }
-// import example from './module-example'
 
-Vue.use(Vuex)
+export interface State {
+
+}
+
+export type FunctionModule<S, R> = (context: typeof Vue.prototype) => Module<S, R>
 
 export const getModules = (context: any) => {
   const moduleFunction = require.context('./modules', true, /\.ts$/)
@@ -25,9 +28,10 @@ export const getModules = (context: any) => {
  * If not building with SSR mode, you can
  * directly export the Store instantiation
  */
-export default (context) => {
+export default ({Vue}) => {
+  Vue.use(Vuex)
   return new Vuex.Store({
-    modules: getModules(context),
+    modules: getModules(Vue.prototype),
     // for dev mode only
     strict: true,
   })

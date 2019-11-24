@@ -1,6 +1,6 @@
 <template lang="pug">
   .main
-    q-sign-in(@sign-in="handleSignIn")
+    q-sign-in(@sign-in="onSignIn")
 </template>
 
 <script lang="ts">
@@ -18,7 +18,7 @@
   export default class SignInPage extends Vue {
     @auth.Action signIn: (payload) => Promise<void>
 
-    handleSignIn(payload) {
+    onSignIn(payload) {
       this.signIn(payload).catch((error) => {
         console.log(error)
       })

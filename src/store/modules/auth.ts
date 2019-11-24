@@ -1,6 +1,5 @@
-import {State} from '@/store'
-import Vue from 'vue'
-import {Module} from 'vuex'
+import {FunctionModule, RootState} from '@/store'
+
 
 export interface SignUpPayload {
   email: string
@@ -19,11 +18,8 @@ export interface AuthState {
   name: string | null
 }
 
-export default <V extends Vue>(
-  contex: any,
-): Module<AuthState, State> => {
-  const {firebase} = contex
-  return  {
+const module: FunctionModule<AuthState, RootState> = ({$firebase}) => {
+  return {
     namespaced: true,
     state: {
       uid: null,
@@ -39,12 +35,12 @@ export default <V extends Vue>(
     actions: {
       async signUp({commit}, payload: SignUpPayload) {
         const {email, password} = payload
-        const result = await firebase().auth().createUserWithEmailAndPassword(email, password)
+        const result = await $firebase().auth().createUserWithEmailAndPassword(email, password)
         if(!result || !result.user) {
           return
         }
         const {user} = result
-        await firebase().firestore().collection('users').doc(user.uid).set({
+        await $firebase().firestore().collection('users').doc(user.uid).set({
           name: user.displayName,
         })
         commit('saveUser', {
@@ -56,12 +52,12 @@ export default <V extends Vue>(
       },
       async signIn({commit}, payload: SignInPayload) {
         const {email, password} = payload
-        const result = await firebase().auth().signInWithEmailAndPassword(email, password)
+        const result = await $firebase().auth().signInWithEmailAndPassword(email, password)
         if(!result || !result.user) {
           return
         }
         const user = await
-          firebase()
+          $firebase()
           .firestore()
           .collection('users').doc(result.user.uid).get()
         if(!user) {
@@ -76,8 +72,8 @@ export default <V extends Vue>(
           uid: result.user.uid,
         })
       },
-      async signOut(context) {
-        const result = await firebase().auth().signOut()
+      async signOut() {
+        const result = await $firebase().auth().signOut()
         console.log(result)
       },
     },
@@ -91,3 +87,5 @@ export default <V extends Vue>(
     },
   }
 }
+
+export default module

@@ -1,20 +1,14 @@
 import {NavItem} from '@/components/types/navigation'
-import {State} from '@/store'
-import Vue from 'vue'
-import {Module} from 'vuex'
+import {FunctionModule, RootState} from '@/store'
 
 export interface AsideState {
   items: NavItem[]
 }
 
-export default <V extends Vue>(
-  contex: any,
-): Module<AsideState, State> => {
+const module: FunctionModule<AsideState, RootState> = () => {
   return {
     namespaced: true,
-    mutations: {
-
-    },
+    mutations: {},
     state: {
       items: [
         {
@@ -37,3 +31,5 @@ export default <V extends Vue>(
     },
   }
 }
+
+export default module
