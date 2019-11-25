@@ -1,34 +1,25 @@
-import {firebase} from '@/boot/firebase'
-import {dropRight, last} from 'lodash'
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, {Module} from 'vuex'
+import {crateModuleStructure} from './utils'
 import {AsideState} from './modules/aside'
+import {defaultsDeep} from 'lodash'
 
-export interface State {
+export interface RootState {
   aside: AsideState,
 }
-// import example from './module-example'
 
-Vue.use(Vuex)
+export interface State {
 
-const getModules = (ctx: any) => {
-  const context = require.context('./modules', false, /\.ts$/)
+}
+
+export type FunctionModule<S, R> = (context: typeof Vue.prototype) => Module<S, R>
+
+export const getModules = (context: any) => {
+  const moduleFunction = require.context('./modules', true, /\.ts$/)
   const modules = {}
-  context.keys().forEach((path: string) => {
-    if(!/\/index\.ts$/.test(path)) {
-      let filename = last(path.split('/'))
-      if(!filename) {
-        return
-      }
-      filename = dropRight(filename.split('.'), 1).join('.')
-      const _module = context(path)
-      const myModule = _module.default || _module
-      if(typeof myModule === 'function') {
-        modules[filename] = myModule(ctx)
-        return
-      }
-      modules[filename] = myModule
-    }
+  moduleFunction.keys().forEach((path) => {
+    const module = moduleFunction(path)
+    defaultsDeep(modules, crateModuleStructure(path, module.default || module, context))
   })
   return modules
 }
@@ -37,10 +28,10 @@ const getModules = (ctx: any) => {
  * If not building with SSR mode, you can
  * directly export the Store instantiation
  */
-export default (context) => {
+export default ({Vue}) => {
+  Vue.use(Vuex)
   return new Vuex.Store({
-    modules: getModules({...context, firebase}),
-    // enable strict mode (adds overhead!)
+    modules: getModules(Vue.prototype),
     // for dev mode only
     strict: true,
   })

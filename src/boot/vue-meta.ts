@@ -1,6 +1,8 @@
-import {Context} from 'quasar'
+import {BootFileFunction} from 'quasar'
 import VueMeta from 'vue-meta'
 
-export default ({Vue}: Context) => {
+const vueMeta: BootFileFunction = ({Vue}) => {
   Vue.use(VueMeta)
 }
+
+export default vueMeta
