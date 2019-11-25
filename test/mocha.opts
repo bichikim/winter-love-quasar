@@ -1,3 +1,2 @@
---require tsconfig-paths/register
 --require test/mocha.js
 --file test/mocha-global.ts
