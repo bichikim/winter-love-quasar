@@ -1,6 +1,4 @@
 import FirebaseEmulator from '../firebase-emulator'
-import 'firebase'
-
 import {initializeTestApp, loadFirestoreRules} from '@firebase/testing'
 import firebaseConfig from '../../firebase.json'
 import {join} from 'path'
