@@ -20,7 +20,8 @@
     "karma:watch": "karma start karma.config.js --watch --browsers=ChromeHeadlessWithoutSecurity",
     "mocha": "mochapack \"test/**/*.spec.ts\"",
     "mocha:watch": "mochapack \"test/**/*.spec.ts\"",
-    "deploy": "firebase deploy"
+    "deploy": "firebase deploy",
+    "firebase:emulator": "firebase serve --only firestore,database"
   },
   "dependencies": {
     "@quasar/extras": "^1.3.3",
