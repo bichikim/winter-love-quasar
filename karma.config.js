@@ -10,19 +10,33 @@ const quasarChainConfig = require('./webpack.quasar')
 const webpack = quasarChainConfig().toConfig()
 const firebase = require('@firebase/testing')
 const fs = require('fs')
+const deasync = require('deasync')
 
-firebase.initializeTestApp({
-  projectId: 'winter-love',
-  auth: {uid: 'test', email: 'test@test.com'},
+// start firebase mock [@firebase/testing]
+const mockFireBase = deasync(function (callback) {
+  firebase.initializeTestApp({
+    projectId: 'winter-love',
+    auth: {uid: 'test', email: 'test@test.com'},
+  })
+
+  firebase.loadDatabaseRules({
+    databaseName: 'winter-love',
+    rules: fs.readFileSync('./firestore.rules'),
+  }).then(function (result) {
+    // eslint-disable-next-line no-undefined
+    callback(undefined, result)
+  }).catch(function (error) {
+    callback(error)
+  })
 })
 
-firebase.loadDatabaseRules({
-  databaseName: 'winter-love',
-  rules: fs.readFileSync('./firestore.rules'),
-})
-
+// set-up NODE_ENV as test
 process.env.NODE_ENV = 'test'
 module.exports = function config(config) {
+  if(process.env.KARMA_WITH_FIREBASE === 'true') {
+    mockFireBase()
+  }
+
   config.set({
     basePath: './',
     browsers: ['ChromeHeadless', 'FirefoxHeadless'],

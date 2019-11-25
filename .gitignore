@@ -6,6 +6,7 @@
 .thumbs.db
 node_modules
 /dist
+/reports
 /src-cordova/node_modules
 /src-cordova/platforms
 /src-cordova/plugins
