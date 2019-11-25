@@ -1,19 +1,10 @@
 const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.chain.js')
-const {pick} = require('lodash')
-const dotenv = require('dotenv')
-
+const envFunc = require('./env.js')
 
 module.exports = (ctx) => {
   const {mode} = ctx
-  const _path = ['.env']
 
-  if(mode) {
-    _path.push(mode)
-  }
-
-  Object.assign(process.env, dotenv.config({
-    path: _path.join('-'),
-  }))
+  const env = envFunc(mode)
 
   return  {
   // app boot file (/src/boot)
@@ -87,7 +78,7 @@ module.exports = (ctx) => {
     scopeHoisting: true,
     vueRouterMode: 'history',
     gzip: true,
-    env: envReader(pick(process.env, 'API_URL', 'FIREBASE_PROJECT_ID')),
+    env: envReader(env),
     analyze: false,
     // extractCSS: false,
     chainWebpack(chain) {

@@ -52,7 +52,7 @@ const defaultQuasarConfig = {
   },
 }
 
-module.exports = function quasarChainConfig(mode = 'test') {
+module.exports = function quasarChainConfig(mode) {
 
   const _quasarConfig = quasarConfig({
     mode,
