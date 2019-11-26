@@ -1,23 +1,32 @@
+rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isSignIn() {
+      return request.auth != null
+    }
+    
+
+    match /{everyThing=**}
+      allow read, create, delete, update: if request.auth.token.admin == true
+
   	match /users/{user}/name {
     	allow read;
     }
-    
+
     match /users/{user} {
       allow read, update, delete: if request.auth.uid == resource.id;
-      allow create: if request.auth.uid != null;
+      allow create: if isSignIn();
     }
-    
+
     match /reservations/{reservation} {
       allow read, update, delete: if request.auth.uid == resource.data.author_id;
-      allow create: if request.auth.uid != null;
+      allow create: if isSignIn();
     }
-    
+
     match /targets/{target} {
     	allow read;
       allow update, delete: if request.auth.uid == resource.data.author_id;
-      allow create: if read.auth.uid != null;
+      allow create: if isSignIn();
     }
   }
 }
