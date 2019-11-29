@@ -28,6 +28,10 @@ export default (context: any) => {
           },
         ],
       },
+      {
+        path: '*',
+        component: () => (import('pages/Error404.vue')),
+      },
     ],
 
     // Leave these as is and change from quasar.conf.js instead!

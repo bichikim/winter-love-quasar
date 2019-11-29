@@ -29,35 +29,36 @@ interface ReturnObject {
 
 export type ComplexComponent = ComponentOptions<Vue> | VueClass<Vue> | FunctionalComponentOptions
 
-export interface Options {
-  store?: (root: () => Vue) => StoreOptions<any>
+export interface AppOptions {
+  store?: (vue: typeof Vue) => StoreOptions<any>
   quasar?: QuasarPluginOptions
-  shallowMount?: [ComplexComponent, ThisTypedShallowMountOptions<Vue> | ShallowMountOptions<Vue>]
-  mount?: [ComplexComponent, ThisTypedMountOptions<Vue> | MountOptions<Vue>]
-  boots?: BootFileFunction[]
   router?: RouterOptions
 }
 
-const createTest = async (options: Options = {}): Promise<ReturnObject> => {
-  let $root: Vue
-  let store, wrapper, router
-  const localVue = createLocalVue()
-  createQuasar(localVue, options.quasar)
+export interface Options extends AppOptions {
+  shallowMount?: [ComplexComponent, ThisTypedShallowMountOptions<Vue> | ShallowMountOptions<Vue>]
+  mount?: [ComplexComponent, ThisTypedMountOptions<Vue> | MountOptions<Vue>]
+  boots?: BootFileFunction[]
+}
 
-  const root = (): Vue => {
-    if($root) {
-      return $root
-    }
-    throw new Error('[createStore] root is not ready')
-  }
+export const createBootParams = (
+  vue: typeof Vue,
+  options: AppOptions = {},
+  ssrContext = null,
+): BootFileParams => {
+  let store, router
 
-  localVue.use(Vuex)
+  createQuasar(vue, options.quasar)
+
+  vue.use(Vuex)
 
   if(options.store) {
-    store = new Store(options.store(root))
+    store = new Store(options.store(vue))
   } else {
     store = new Store({})
   }
+
+  vue.use(VueRouter)
 
   if(options.router) {
     router = new VueRouter({
@@ -70,14 +71,24 @@ const createTest = async (options: Options = {}): Promise<ReturnObject> => {
     })
   }
 
+  return {
+    Vue: vue,
+    app: {router, store} as any,
+    ssrContext,
+    router,
+    store,
+  }
+}
+
+const createTest = async (options: Options = {}): Promise<ReturnObject> => {
+  let wrapper
+  const localVue = createLocalVue()
+  const {router, store} = createBootParams(localVue, options)
 
   if(options.shallowMount) {
     const [component, _options] = options.shallowMount
     wrapper = shallowMount(component as any, {
       ..._options,
-      created(this: Vue) {
-        $root = this.$root
-      },
       localVue,
       router,
       store,
@@ -86,18 +97,12 @@ const createTest = async (options: Options = {}): Promise<ReturnObject> => {
     const [component, _options] = options.mount
     wrapper = mount(component as any, {
       ..._options,
-      created(this: Vue) {
-        $root = this.$root
-      },
       localVue,
       router,
       store,
     })
   } else {
     wrapper = shallowMount({
-      created(this: Vue) {
-        $root = this.$root
-      },
       name: 'fake',
       render(h) {
         return h('div')
