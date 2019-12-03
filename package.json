@@ -9,9 +9,9 @@
     "packages/*"
   ],
   "scripts": {
-    "spa": "yarn workspace quasar-app run quasar dev",
-    "capacitor": "yarn workspace quasar-app quasar dev -m capacitor -T android",
-    "pwa": "yarn workspace quasar-app quasar dev -m pwa",
+    "spa": "yarn workspace quasar-app run spa",
+    "capacitor": "yarn workspace quasar-app run capacitor",
+    "pwa": "yarn workspace quasar-app run pwa",
     "deploy": "firebase deploy",
     "test:firebase": "mocha \"test/firebase/**/*.spec.ts\"",
     "firebase:emulator": "firebase serve --only firestore,database"
