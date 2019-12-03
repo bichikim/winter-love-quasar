@@ -31,11 +31,11 @@ export const getAccessToken = functions.https.onRequest((request, response) => {
   const {token} = request.body
 
   if(!token) {
-    response.sendStatus(HttpStatus.OK).send('need token')
+    response.send('need token')
     return
   }
 
-  response.sendStatus(HttpStatus.OK).send({
+  response.send({
     token: admin.auth().setCustomUserClaims(user.uid, {test: true}),
   })
 
