@@ -1,12 +1,16 @@
 import Vue, {ComponentOptions} from 'vue'
 import {Route} from 'vue-router'
-import {Next} from 'vue-router/next'
+import {RawLocation} from 'vue-router/types/router'
 import {Store} from 'vuex'
 import {Context} from './types'
 
 export {Context}
 
+export type Next<V extends Vue = Vue> =
+  (to?: RawLocation | false | ((vm: V) => any) | undefined) => void
+
 export type RouterHook = (to: Route, from: Route, next?: Next) => any
+
 export type RouterAfterHook = (to: Route, from: Route) => any
 
 export interface AfterMiddlewareContext<A, S, V extends Vue = Vue> {

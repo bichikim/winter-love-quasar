@@ -1,6 +1,10 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const {resolve} = require('path')
+const path = require('path')
+
+function resolve(...args) {
+  return path.join(__dirname, ...args)
+}
 
 function tsConfig(config, ctx) {
   const {dev = true} = ctx || {}

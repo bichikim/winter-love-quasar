@@ -1,0 +1,25 @@
+/.quasar
+/.coverage
+/.firebase
+
+.DS_Store
+.thumbs.db
+node_modules
+/dist
+/reports
+/src-cordova/node_modules
+/src-cordova/platforms
+/src-cordova/plugins
+/src-cordova/www
+
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# logs
+/*.log*
