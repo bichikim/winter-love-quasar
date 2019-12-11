@@ -9,10 +9,12 @@
     "packages/*"
   ],
   "scripts": {
-    "spa": "yarn workspace quasar-app run spa",
-    "capacitor": "yarn workspace quasar-app run capacitor",
-    "pwa": "yarn workspace quasar-app run pwa",
+    "spa": "yarn workspace app run spa",
+    "spa:build": "yarn workspace app run build",
+    "capacitor": "yarn workspace app run capacitor",
+    "pwa": "yarn workspace app run pwa",
     "deploy": "firebase deploy",
+    "test:app": "yarn workspace app run test",
     "test:firebase": "mocha \"test/firebase/**/*.spec.ts\"",
     "firebase:emulator": "firebase serve --only firestore,database"
   },
@@ -28,8 +30,8 @@
     "@types/webpack-env": "^1.13.9",
     "@typescript-eslint/eslint-plugin": "^2.3.2",
     "@typescript-eslint/parser": "^2.3.2",
+    "chai": "^4.2.0",
     "cross-spawn": "^7.0.1",
-    "deasync": "^0.1.16",
     "dotenv": "^8.0.0",
     "eslint": "^6.5.1",
     "eslint-loader": "^3.0.0",
@@ -37,18 +39,15 @@
     "eslint-plugin-sort-class-members": "^1.5.0",
     "eslint-plugin-vue": "^6.0.1",
     "firebase-tools": "^7.8.1",
-    "pug-plain-loader": "^1.0.0",
+    "mocha": "^6.2.2",
+    "mochapack": "^1.1.8",
     "tree-kill": "^1.2.1",
     "ts-loader": "^6.0.2",
     "ts-node": "^8.5.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.5.1",
     "vue-loader": "^15.7.0",
-    "vue-styleguidist": "^4.0.3",
-    "vuepress": "^1.2.0",
-    "webpack": "^4.33.0",
-    "webpack-chain": "^6.0.0",
-    "webpack-node-externals": "^1.7.2"
+    "vuepress": "^1.2.0"
   },
   "engines": {
     "node": ">= 8.9.0",

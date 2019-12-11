@@ -1,7 +1,9 @@
-const {tsConfig, pugConfig, aliasConfig, envReader} = require('./webpack.chain.js')
-const envFunc = require('./env.js')
+const {tsConfig, pugConfig, aliasConfig, envReader} = require('./build/webpack.chain.js')
+const envFunc = require('./build/env.js')
+
 
 module.exports = (ctx) => {
+
   const {mode} = ctx
 
   const env = envFunc(mode)
@@ -12,7 +14,7 @@ module.exports = (ctx) => {
   boot: [
     'i18n',
     'firebase',
-    'vue-router-ex',
+    'jquery',
   ],
 
   // main css (importing globally)

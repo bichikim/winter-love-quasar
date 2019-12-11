@@ -1,3 +1,6 @@
+/**
+ * override quasar types
+ */
 declare module 'quasar/dist/types/index' {
   import {BootFileParams, QuasarPluginOptions} from 'quasar'
   import 'quasar/dist/types/vue'

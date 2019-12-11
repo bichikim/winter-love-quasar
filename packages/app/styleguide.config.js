@@ -1,5 +1,5 @@
 const {join} = require('path')
-const quasarChainConfig = require('./webpack.quasar')
+const quasarChainConfig = require('./build/webpack.quasar')
 const webpackConfig = quasarChainConfig().toConfig()
 
 const root = process.cwd()

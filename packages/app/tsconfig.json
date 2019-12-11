@@ -24,7 +24,9 @@
     "removeComments": false,
     "typeRoots": [
       "node_modules/@types",
-      "types"
+      "../../node_modules/@types",
+      "types",
+      "../../types"
     ],
     // decorators
     "experimentalDecorators": true,
@@ -40,10 +42,11 @@
     "noImplicitAny": false
   },
   "include": [
-    "packages/**/*.ts",
-    "packages/**/*.tsx",
-    "packages/**/*.vue",
-    "types/**/*.d.ts"
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.vue",
+    "types/**/*.d.ts",
+    "../../types/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"

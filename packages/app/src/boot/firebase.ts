@@ -13,7 +13,7 @@ const firebase: BootFileFunction = ({Vue, store}) => {
   if(Vue.prototype.$firebase) {
     return
   }
-  Vue.prototype.$firebase = Firebase.initializeApp({
+  Vue.prototype['$firebase'] = Firebase.initializeApp({
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.FIREBASE_DATABASE_URL,
