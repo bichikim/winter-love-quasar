@@ -13,8 +13,7 @@
       "@/*": ["src/*"],
       "~/*": ["src/*"],
       "@@/*": ["*"],
-      "~~/*": ["*"],
-      "types/*": ["src/types/*"]
+      "~~/*": ["*"]
     },
     "allowJs": true,
     // build environment
@@ -41,13 +40,12 @@
     "noImplicitAny": false
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
+    "packages/**/*.ts",
+    "packages/**/*.tsx",
+    "packages/**/*.vue",
     "types/**/*.d.ts"
   ],
   "exclude": [
-    "lib/**/*",
-    "project/**/*"
+    "node_modules"
   ]
 }

@@ -20,8 +20,8 @@ module.exports = function config(config) {
     reporters: ['mocha', 'coverage-istanbul'],
     files: [
       // to add polyfills before running tests
-      'test/karma.polyfill.ts',
-      'test/karma/**/*.spec.ts',
+      'tests/karma.polyfill.ts',
+      'tests/**/*.spec.ts',
       // add all files in assets
       'src/assets/**/*',
     ],
@@ -30,9 +30,9 @@ module.exports = function config(config) {
       './**/*.spec.skip.ts',
     ],
     preprocessors: {
-      'test/**/*.ts': ['webpack'],
-      'test/karma/**/*.spec.js': ['webpack', 'sourcemap'],
-      'test/karma/**/*.spec.ts': ['webpack', 'sourcemap'],
+      'tests/**/*.ts': ['webpack'],
+      'tests/**/*.spec.js': ['webpack', 'sourcemap'],
+      'tests/**/*.spec.ts': ['webpack', 'sourcemap'],
     },
     coverageReporter: {
       // This is for Webstrom coverage reporter
