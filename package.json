@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "spa": "yarn workspace app run spa",
+    "spa:build": "yarn workspace app run build",
     "capacitor": "yarn workspace app run capacitor",
     "pwa": "yarn workspace app run pwa",
     "deploy": "firebase deploy",
