@@ -3,7 +3,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const path = require('path')
 
 function resolve(...args) {
-  return path.join(__dirname, ...args)
+  return path.join(__dirname, '../', ...args)
 }
 
 function tsConfig(config, ctx) {
@@ -15,11 +15,13 @@ function tsConfig(config, ctx) {
   .use('ts').loader('ts-loader').options({
     appendTsSuffixTo: [/\.vue$/],
     transpileOnly: dev,
-    configFile: 'tsconfig.json',
   }).end()
   if(dev) {
     config.plugin('ts-checker')
-    .use(ForkTsCheckerWebpackPlugin, [{vue: true, eslint: true}])
+    .use(ForkTsCheckerWebpackPlugin, [{
+      vue: true,
+      eslint: true,
+    }])
   }
   return config
 }

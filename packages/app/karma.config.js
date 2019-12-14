@@ -6,7 +6,7 @@
  * @author BichiKim <bichi@live.co.kr>
  */
 const {join} = require('path')
-const quasarChainConfig = require('./webpack.quasar.js')
+const quasarChainConfig = require('./build/webpack.quasar.js')
 const webpack = quasarChainConfig('test').toConfig()
 
 // set-up NODE_ENV as test

@@ -1,5 +1,5 @@
 const createChain = require('@quasar/app/lib/webpack/create-chain')
-const quasarConfig = require('./quasar.conf')
+const quasarConfig = require('../quasar.conf')
 const spa = require('@quasar/app/lib/webpack/spa')
 const {jsConfig} = require('./webpack.chain')
 
