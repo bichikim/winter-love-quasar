@@ -14,7 +14,7 @@ module.exports = (ctx) => {
   boot: [
     'i18n',
     'firebase',
-    'vue-router-ex',
+    'jquery',
   ],
 
   // main css (importing globally)
