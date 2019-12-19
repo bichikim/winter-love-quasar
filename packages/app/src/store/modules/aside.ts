@@ -12,8 +12,8 @@ const module: FunctionModule<AsideState, RootState> = () => {
     state: {
       items: [
         {
-          title: 'reservations',
-          icon: 'ion-bookmarks',
+          title: 'Concentrate',
+          icon: 'ion-timer',
           to: '/main',
           items: [
             {

@@ -12,7 +12,11 @@ import {Component, Inject, Prop, Vue, Watch} from 'vue-property-decorator'
   inject: {
     '__namespace': {default: ''},
   },
-  provide(this: { __tranNamespace: any }) {
+  provide(this: any) {
+    // let namespace = ''
+    // if(!this.dataIgnoreParentNamespace) {
+    //   namespace = this.__tranNamespace
+    // }
     return {
       '__namespace': this.__tranNamespace,
     }
@@ -27,7 +31,9 @@ export default class Translation extends Vue {
   /**
    * Translation namespace
    */
-  @Prop() TNamespace: string
+  @Prop() dataNamespace: string
+
+  @Prop({default: false}) dataIgnoreScopeNamespace: boolean
 
   /**
    * Save translation namespace
@@ -35,7 +41,11 @@ export default class Translation extends Vue {
   private __dNameSpace: string = ''
 
   get __tranNamespace() {
-    return compact([this.__namespace, this.TNamespace]).join('.')
+
+    if(this.dataIgnoreScopeNamespace) {
+      return this.dataNamespace
+    }
+    return compact([this.__namespace, this.dataNamespace]).join('.')
   }
 
   /**
@@ -43,7 +53,7 @@ export default class Translation extends Vue {
    * @param value
    * @private
    */
-  @Watch('TNamespace', {immediate: true})
+  @Watch('dataNamespace', {immediate: true})
   watchNamespace(value) {
     this.__dNameSpace = value
   }

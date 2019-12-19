@@ -7,7 +7,7 @@
         q-toolbar-title
           | Winter Love Project
         div() {{$q.version}}
-    q-navigation(:items="items" @input="handleNav" v-model="open" t-namespace="navigation")
+    q-navigation(:items="items" @input="handleNav" v-model="open" data-namespace="navigation")
       .q-pa-md.fit
         q-avatar(size="56px")
           q-img(src="https://www.w3schools.com/howto/img_avatar.png")
