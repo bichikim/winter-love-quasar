@@ -1,17 +1,15 @@
+# build resules
 /.quasar
 /.coverage
 /.firebase
-
-.DS_Store
-.thumbs.db
-node_modules
 /dist
-/reports
+
+# Installed Libraries
+node_modules
 /src-cordova/node_modules
 /src-cordova/platforms
 /src-cordova/plugins
 /src-cordova/www
-
 
 # Editor directories and files
 .idea
@@ -23,3 +21,8 @@ node_modules
 
 # logs
 /*.log*
+
+# ETC.
+.DS_Store
+.thumbs.db
+/reports
