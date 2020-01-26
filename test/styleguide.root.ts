@@ -1,4 +1,4 @@
-import boot from './boot'
+import boot from './quasar/boot'
 import firebase from '@/boot/firebase'
 import i18n from '@/boot/i18n'
 

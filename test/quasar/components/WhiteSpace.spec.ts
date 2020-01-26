@@ -3,6 +3,7 @@ import WhiteSpace from '@/components/WhiteSpace.vue'
 describe('WhiteSpace.vue', () => {
   it('should add <dr> with a content of props ', () => {
     const localVue = createLocalVue()
+    localVue.config.productionTip = false
     const content = 'foo\n bar\n'
     const wrapper = mount(WhiteSpace, {
       localVue, propsData: {

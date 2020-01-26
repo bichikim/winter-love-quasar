@@ -20,11 +20,11 @@ interface App<S = any> {
   store: Store<S>
 }
 
-interface BootParams extends Omit<BootFileParams, 'app'> {
+export interface BootParams extends Omit<BootFileParams, 'app'> {
   app: Record<string, any>
 }
 
-interface ReturnObject {
+export interface ReturnObject {
   app: App,
   localVue: typeof Vue,
   wrapper: Wrapper<Vue>
@@ -93,7 +93,6 @@ export const createBootParams = (
   // optional  *************************
 
   if(options.i18n) {
-    console.log('load!')
     Vue.use(VueI18n)
     app.i18n = new VueI18n(options.i18n)
   }
@@ -113,6 +112,8 @@ const createTest = async (options: Options = {}): Promise<ReturnObject> => {
   const localVue = createLocalVue()
   const bootParams = createBootParams(localVue, options)
   const {router, store, app} = bootParams
+
+  localVue.config.productionTip = false
 
   if(options.shallowMount) {
     const [component, _options] = toBeParms(options.shallowMount)

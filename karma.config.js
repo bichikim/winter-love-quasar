@@ -5,12 +5,11 @@
  * (mocha, chai, karma-coverage)
  * @author BichiKim <bichi@live.co.kr>
  */
+process.env.NODE_ENV = 'test'
+process.env.TS_NODE_PROJECT = null
 const {join} = require('path')
 const quasarChainConfig = require('./build/webpack.quasar.js')
 const webpack = quasarChainConfig('test').toConfig()
-
-// set-up NODE_ENV as test
-process.env.NODE_ENV = 'test'
 module.exports = function config(config) {
 
   config.set({
@@ -20,8 +19,8 @@ module.exports = function config(config) {
     reporters: ['mocha', 'coverage-istanbul'],
     files: [
       // to add polyfills before running tests
-      'tests/karma.polyfill.ts',
-      'tests/**/*.spec.ts',
+      'test/quasar/karma.polyfill.ts',
+      'test/quasar/**/*.spec.ts',
       // add all files in assets
       'src/assets/**/*',
     ],
@@ -30,9 +29,9 @@ module.exports = function config(config) {
       './**/*.spec.skip.ts',
     ],
     preprocessors: {
-      'tests/**/*.ts': ['webpack'],
-      'tests/**/*.spec.js': ['webpack', 'sourcemap'],
-      'tests/**/*.spec.ts': ['webpack', 'sourcemap'],
+      '**/*.ts': ['webpack'],
+      'test/quasar/**/*.spec.js': ['webpack', 'sourcemap'],
+      'test/quasar/**/*.spec.ts': ['webpack', 'sourcemap'],
     },
     coverageReporter: {
       // This is for Webstrom coverage reporter

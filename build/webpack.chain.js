@@ -11,11 +11,12 @@ function tsConfig(config, ctx) {
   config.resolve.extensions.add('.ts').add('.tsx')
   config.module.rule('ts')
   .test(/\.tsx?$/)
-  .use('babel').loader('babel-loader').end()
-  .use('ts').loader('ts-loader').options({
-    appendTsSuffixTo: [/\.vue$/],
-    transpileOnly: dev,
-  }).end()
+  .use('babel').loader('babel-loader')
+        .end()
+  // .use('ts').loader('ts-loader').options({
+  //   appendTsSuffixTo: [/\.vue$/],
+  //   transpileOnly: dev,
+  // }).end()
   if(dev) {
     config.plugin('ts-checker')
     .use(ForkTsCheckerWebpackPlugin, [{
