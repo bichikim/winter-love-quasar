@@ -1,27 +1,46 @@
-import Vue from 'vue'
-import Vuex, {Module} from 'vuex'
-import {crateModuleStructure} from './utils'
-import {AsideState} from './modules/aside'
-import {defaultsDeep} from 'lodash'
+import {cloneDeep} from 'lodash'
+import Vuex, {StoreOptions} from 'vuex'
+import {ModuleState} from './types'
+import {getModules} from './utils'
+import context, {ContextRecode} from './context'
 
-export interface RootState {
-  aside: AsideState,
-}
+export * from './types'
+export * from './utils'
+
+export type LanguageCode = 'en-US' | 'ko-KR'
 
 export interface State {
-
+  language: LanguageCode
 }
 
-export type FunctionModule<S, R> = (context: typeof Vue.prototype) => Module<S, R>
+export interface RootState extends State, ModuleState {
+}
 
-export const getModules = (context: any) => {
-  const moduleFunction = require.context('./modules', true, /\.ts$/)
-  const modules = {}
-  moduleFunction.keys().forEach((path) => {
-    const module = moduleFunction(path)
-    defaultsDeep(modules, crateModuleStructure(path, module.default || module, context))
-  })
-  return modules
+export const defaultValue: State = {
+  language: 'en-US',
+}
+
+export const rootStore = (context: ContextRecode): StoreOptions<State> => {
+  const {i18n} = context
+  return {
+    /**
+     * @see https://vuex.vuejs.org/guide/strict.html
+     */
+    strict: true,
+    actions: {
+      changeLanguage({commit}, language: LanguageCode) {
+        commit('update', {language})
+        i18n().locale = language
+      },
+    },
+    state: cloneDeep<State>(defaultValue),
+    modules: getModules(context),
+    mutations: {
+      update(state, payment) {
+        Object.assign(state, payment)
+      },
+    },
+  }
 }
 
 /*
@@ -29,10 +48,12 @@ export const getModules = (context: any) => {
  * directly export the Store instantiation
  */
 export default ({Vue}) => {
+
+  // use Vuex
   Vue.use(Vuex)
-  return new Vuex.Store({
-    modules: getModules(Vue.prototype),
-    // for dev mode only
-    strict: true,
-  })
+
+  // create Store structure with context
+  const options = rootStore(context(Vue).get())
+
+  return new Vuex.Store(options)
 }

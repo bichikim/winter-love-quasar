@@ -13,31 +13,56 @@ register(process.env.SERVICE_WORKER_FILE, {
   // registrationOptions: { scope: './' },
 
   ready() {
-    console.log('App is being served from cache by a service worker.')
+    if(process.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log('App is being served from cache by a service worker.')
+    }
   },
 
   registered(registration) {
-    console.log('Service worker has been registered.')
+    if(process.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log('Service worker has been registered.')
+    }
+    document.dispatchEvent(new CustomEvent('updatefound', {detail: registration}))
   },
 
   cached(registration) {
-    console.log('Content has been cached for offline use.')
+    if(process.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log('Content has been cached for offline use.')
+    }
+    document.dispatchEvent(new CustomEvent('cached', {detail: registration}))
   },
 
-  // eslint-disable-next-line no-unused-vars
   updatefound(registration) {
-    console.log('New content is downloading.')
+    if(process.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log('New content is downloading.')
+    }
+    document.dispatchEvent(new CustomEvent('updatefound', {detail: registration}))
   },
 
   updated(registration) {
-    console.log('New content is available; please refresh.')
+    if(process.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log('New content is available; please refresh.')
+    }
+    document.dispatchEvent(new CustomEvent('updated', {detail: registration}))
   },
 
   offline() {
-    console.log('No internet connection found. App is running in offline mode.')
+    if(process.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.log('No internet connection found. App is running in offline mode.')
+    }
+    document.dispatchEvent(new CustomEvent('offline', {detail: null}))
   },
 
   error(err) {
-    console.error('Error during service worker registration:', err)
+    if(process.env.DEV) {
+      console.error('Error during service worker registration:', err)
+    }
+    document.dispatchEvent(new CustomEvent('error', {detail: err}))
   },
 })

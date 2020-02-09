@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.felx.flex-center
-    span hello
+    q-btn(icon="icon-smart-home")
 </template>
 
 <style>
@@ -11,5 +11,8 @@ import {Component, Vue} from 'vue-property-decorator'
 
 @Component
 export default class Index extends Vue {
+  meta: {
+
+  }
 }
 </script>

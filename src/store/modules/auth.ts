@@ -18,7 +18,7 @@ export interface AuthState {
   name: string | null
 }
 
-const module: FunctionModule<AuthState, RootState> = ({$firebase}) => {
+const module: FunctionModule<AuthState, RootState> = ({firebase}) => {
   return {
     namespaced: true,
     state: {
@@ -35,12 +35,12 @@ const module: FunctionModule<AuthState, RootState> = ({$firebase}) => {
     actions: {
       async signUp({commit}, payload: SignUpPayload) {
         const {email, password} = payload
-        const result = await $firebase().auth().createUserWithEmailAndPassword(email, password)
+        const result = await firebase().auth().createUserWithEmailAndPassword(email, password)
         if(!result || !result.user) {
           return
         }
         const {user} = result
-        await $firebase().firestore().collection('users').doc(user.uid).set({
+        await firebase().firestore().collection('users').doc(user.uid).set({
           name: user.displayName,
         })
         commit('saveUser', {
@@ -52,12 +52,12 @@ const module: FunctionModule<AuthState, RootState> = ({$firebase}) => {
       },
       async signIn({commit}, payload: SignInPayload) {
         const {email, password} = payload
-        const result = await $firebase().auth().signInWithEmailAndPassword(email, password)
+        const result = await firebase().auth().signInWithEmailAndPassword(email, password)
         if(!result || !result.user) {
           return
         }
         const user = await
-          $firebase()
+          firebase()
           .firestore()
           .collection('users').doc(result.user.uid).get()
         if(!user) {
@@ -73,7 +73,7 @@ const module: FunctionModule<AuthState, RootState> = ({$firebase}) => {
         })
       },
       async signOut() {
-        const result = await $firebase().auth().signOut()
+        const result = await firebase().auth().signOut()
         console.log(result)
       },
     },

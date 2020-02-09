@@ -1,3 +1,5 @@
+import {defaultsDeep} from 'lodash'
+
 type ObjectModule = {[key: string]: any}
 type ComplexModule = ObjectModule | ((...args: any[]) => ObjectModule)
 
@@ -25,4 +27,14 @@ export function crateModuleStructure(path: string, module: ComplexModule, ...arg
   _path = _path.replace(/^\.?\//, '')
   const depth = _path.split('/')
   return _createModuleTree(depth, typeof module === 'function' ? module(...args) : module)
+}
+
+export function getModules(context: any) {
+  const moduleFunction = require.context('./modules', true, /\.ts$/)
+  const modules = {}
+  moduleFunction.keys().forEach((path) => {
+    const module = moduleFunction(path)
+    defaultsDeep(modules, crateModuleStructure(path, module.default || module, context))
+  })
+  return modules
 }

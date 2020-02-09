@@ -11,17 +11,13 @@ function tsConfig(config, ctx) {
   config.resolve.extensions.add('.ts').add('.tsx')
   config.module.rule('ts')
   .test(/\.tsx?$/)
-  .use('babel').loader('babel-loader')
-        .end()
-  // .use('ts').loader('ts-loader').options({
-  //   appendTsSuffixTo: [/\.vue$/],
-  //   transpileOnly: dev,
-  // }).end()
+  .use('babel').loader('babel-loader').end()
   if(dev) {
     config.plugin('ts-checker')
     .use(ForkTsCheckerWebpackPlugin, [{
       vue: true,
       eslint: true,
+      tsconfig : 'tsconfig.bundle.json',
     }])
   }
   return config
@@ -100,6 +96,11 @@ function stylusConfig(config) {
   return config
 }
 
+/**
+ * Add file-loader for image files
+ * @param config
+ * @return {*}
+ */
 function imgConfig(config) {
   config.module.rule('img-file')
   .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
@@ -108,18 +109,31 @@ function imgConfig(config) {
   return config
 }
 
-function envReader(env, addPrefix = false) {
-  const stringifyEnv = {}
-  const prefix = addPrefix ? 'process.env.' : ''
-  Object.keys(env).forEach((key) => {
-    const value = env[key]
-    const name = key.toUpperCase()
-    stringifyEnv[`${prefix}${name}`] = JSON.stringify(value)
-  })
-  return stringifyEnv
+/**
+ * Add webfonts-loader
+ * @param config webpack chain config
+ * @param match config file name pattern
+ */
+function iconFont(config, match = /\.font\.js$/) {
+  config.module.rule('icon-font')
+        .test(match)
+        .use('style')
+        .loader('style-loader')
+        .end()
+        .use('css')
+        .loader('css-loader')
+        .end()
+        .use('webfonts')
+        .loader('webfonts-loader')
+        .options({
+          publicPath: '/',
+        })
+        .end()
+        .end()
 }
 
 // noinspection WebpackConfigHighlighting
 module.exports = {
-  tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, envReader, aliasConfig,
+  tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, aliasConfig,
+  iconFont,
 }

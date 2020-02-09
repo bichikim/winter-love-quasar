@@ -1,5 +1,4 @@
-import {BootFileFunction} from 'quasar'
-import $ from 'jquery'
+import {BootFileFunction} from '@/types'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -7,8 +6,12 @@ declare module 'vue/types/vue' {
   }
 }
 
-const jQuery: BootFileFunction = ({Vue}) => {
-  Vue.prototype.$jQuery = $
+const esModule = (value: any) => {
+  return value.default || value
+}
+
+const jQuery: BootFileFunction = async ({Vue}) => {
+  Vue.prototype.$jQuery = esModule(await import('jquery'))
 }
 
 export default jQuery

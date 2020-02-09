@@ -5,9 +5,40 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
+  import '@/icon.font'
 
+  /**
+   * Register component hook
+   * @link https://github.com/vuejs/vue-class-component#adding-custom-hooks
+   * @link https://quasar.dev/quasar-plugins/meta for meta
+   */
+  Component.registerHooks(['meta'])
+
+  /**
+   * Init app setting in runtime level
+   */
   @Component
   export default class App extends Vue {
+
+    /**
+     * Add Quasar icon mapping logic
+     */
+    iconMap() {
+      this.$q.iconMapFn = (iconName) => {
+        if(iconName.startsWith('icon-')) {
+          const name = iconName.substring(5)
+          return {
+            cls: `icon icon-${name}`,
+          }
+        }
+      }
+    }
+
+    // noinspection JSUnusedGlobalSymbols Vue life cycle
+    created() {
+      // Run adding Quasar icon mapping
+      this.iconMap()
+    }
   }
 </script>
 

@@ -1,5 +1,6 @@
-const {tsConfig, pugConfig, aliasConfig, envReader} = require('./build/webpack.chain.js')
+const {tsConfig, pugConfig, aliasConfig, iconFont} = require('./build/webpack.chain.js')
 const envFunc = require('./build/env.js')
+const envReader = require('./build/env-reader.js')
 
 
 module.exports = (ctx) => {
@@ -13,7 +14,15 @@ module.exports = (ctx) => {
   // --> boot files are part of "main.js"
   boot: [
     'i18n',
-    'firebase',
+    ['firebase', {
+      apiKey: process.env.FIREBASE_API_KEY,
+      authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.FIREBASE_DATABASE_URL,
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.FIREBASE_API_ID,
+    }],
     'jquery',
   ],
 
@@ -89,6 +98,7 @@ module.exports = (ctx) => {
       aliasConfig(chain)
       tsConfig(chain, ctx)
       pugConfig(chain)
+      iconFont(chain)
     },
   },
 

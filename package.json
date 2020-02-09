@@ -108,6 +108,7 @@
     "karma-mocha-snapshot": "^0.2.1",
     "karma-snapshot": "^0.6.0",
     "karma-sourcemap-loader": "^0.3.7",
+    "webfonts-loader": "^5.1.1",
     "karma-spec-reporter": "^0.0.32",
     "karma-webpack": "^4.0.0-rc.6",
     "pug": "^2.0.3",
