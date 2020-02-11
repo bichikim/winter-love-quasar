@@ -9,7 +9,8 @@ import {
   VueClass,
   Wrapper,
 } from '@vue/test-utils'
-import {BootFileFunction, BootFileParams, QuasarPluginOptions} from 'quasar'
+import {BootFileFunction} from '@/types'
+import {BootFileParams, QuasarPluginOptions} from 'quasar'
 import Vue, {ComponentOptions, FunctionalComponentOptions} from 'vue'
 import VueRouter, {RouterOptions} from 'vue-router'
 import Vuex, {Store, StoreOptions} from 'vuex'
@@ -47,7 +48,7 @@ export interface Options extends AppOptions {
   boots?: BootFileFunction[]
 }
 
-function toBeParms(mayArray: any | any[]) {
+function toBeParameters(mayArray: any | any[]) {
   if(Array.isArray(mayArray)) {
     return mayArray
   }
@@ -116,14 +117,14 @@ const createTest = async (options: Options = {}): Promise<ReturnObject> => {
   localVue.config.productionTip = false
 
   if(options.shallowMount) {
-    const [component, _options] = toBeParms(options.shallowMount)
+    const [component, _options] = toBeParameters(options.shallowMount)
     wrapper = shallowMount(component as any, {
       ...app,
       ..._options,
       localVue,
     })
   } else if(options.mount) {
-    const [component, _options] = toBeParms(options.mount)
+    const [component, _options] = toBeParameters(options.mount)
     wrapper = mount(component as any, {
       ...app,
       ..._options,
