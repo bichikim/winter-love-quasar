@@ -1,5 +1,5 @@
 /**
- * Generates icon font from owr keep SVG
+ * Generates icon font from src/icon SVG
  * @link https://www.npmjs.com/package/webfonts-loader
  */
 module.exports = {
