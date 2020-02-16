@@ -80,7 +80,7 @@
     ],
     // "types": [],
     "forceConsistentCasingInFileNames": true,
-    /* Don't check libs typings */
+    /* Don't check libs typings */`
     "skipLibCheck": true,
     "noEmitHelpers": false,
 

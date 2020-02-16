@@ -19,8 +19,8 @@ module.exports = function config(config) {
     reporters: ['mocha', 'coverage-istanbul'],
     files: [
       // to add polyfills before running tests
-      'test/quasar/karma.polyfill.ts',
-      'test/quasar/**/*.spec.ts',
+      'test/src/karma.polyfill.ts',
+      'test/src/**/*.spec.ts',
       // add all files in assets
       'src/assets/**/*',
     ],
