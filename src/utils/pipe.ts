@@ -16,7 +16,12 @@ export function pipe<T1, T2, T3, T4, T5, T6, T7, T8>
   => T2, third: (a: T2) => T3, fourth: (a: T3) => T4, fifth: (a: T4) => T5, sixth: (a: T5)
   => T6, seventh: (a: T6) => T7, eighth: (a: T7) => T8): T8
 
-
+/**
+ * pipe
+ * @example pipe(() => ('a'), (next) => (next + 'b'), (next) => (next + 'c')) // " = abc"
+ * @param first
+ * @param args
+ */
 export default function pipe(first: Function, ...args: Function[]): any {
   return args && args.length ? args.reduce((result, next) => next(result), first()) : first()
 }

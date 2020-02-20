@@ -1,5 +1,5 @@
 <template lang="pug">
-  .main
+  q-page
     q-sign-in(@sign-in="onSignIn")
 </template>
 

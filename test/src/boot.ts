@@ -1,17 +1,24 @@
-import {BootFileFunction} from '@/types'
+import {BootFileFunction} from 'src/types'
 import {createBootParams, BootParams} from './create-test'
 import Vue from 'vue'
+import store from '@/store'
+import router from '@/router'
 
 process.env.VUE_ROUTER_MODE = 'abstract'
 
-export default (boots: BootFileFunction[], vue: typeof Vue = Vue) => {
+const boot = (boots: BootFileFunction[], vue: typeof Vue = Vue): Promise<any> => {
 
-  // todo WIP
-  const context: BootParams = createBootParams(vue)
-
-  boots.forEach((boot) => {
-    boot(context)
+  const context: BootParams = createBootParams(vue, {
+    store: (Vue) => (store({Vue})),
+    router: router({}),
   })
 
-  return context
+  const wait = boots.reduce((wait, boot) => {
+    wait.push(boot(context))
+    return wait
+  }, [] as any[])
+
+  return Promise.all(wait)
 }
+
+export default boot

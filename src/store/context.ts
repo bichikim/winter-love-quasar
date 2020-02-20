@@ -1,7 +1,7 @@
 import {VueConstructor} from 'vue'
 
 export interface ContextRecode extends Record<string, Function> {
-
+  // please override this to use
 }
 
 declare module 'vue/types/vue' {

@@ -13,7 +13,7 @@ module.exports = {
   components: join(root, '/src/components/**/*.vue'),
   styleguideDir: '../.docs/styleguide',
   pagePerSection: true,
-  renderRootJsx: join(root, '/test/styleguide.root.ts'),
+  renderRootJsx: join(root, 'test/styleguide.root.ts'),
   require: [
     join(root, 'test/styleguide.require.ts'),
   ],
@@ -22,16 +22,24 @@ module.exports = {
       links: [
         {
           rel: 'stylesheet',
+          type: 'text/css',
+          href: 'https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900' +
+            '|Material+Icons|Material+Icons+Round',
+        },
+        {
+          rel: 'stylesheet',
+          type: 'text/css',
           href: 'https://cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
         },
         {
           rel: 'stylesheet',
+          type: 'text/css',
           href: 'https://cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css',
         },
         {
           rel: 'stylesheet',
-          href: 'https://cdn.jsdelivr.net/npm/quasar@^1.0.3/dist/quasar.min.css',
           type: 'text/css',
+          href: 'https://cdn.jsdelivr.net/npm/quasar@^1.0.3/dist/quasar.min.css',
         },
       ],
     },

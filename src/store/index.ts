@@ -14,6 +14,7 @@ export interface State {
 }
 
 export interface RootState extends State, ModuleState {
+
 }
 
 export const defaultValue: State = {

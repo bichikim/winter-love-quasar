@@ -1,14 +1,21 @@
+/* eslint-disable require-atomic-updates */
 import Vue from 'vue'
-import boot from './src/boot'
-import i18n from '@/boot/i18n'
 
 Vue.config.devtools = true
 
 export default (previewComponent) => {
-  const {app} = boot([i18n], Vue)
 
   return {
-    ...app,
+    async created(this: any) {
+      // @ts-ignore
+      // if(!window.__boot) {
+      //   // @ts-ignore
+      //   window.__boot = await boot([i18n], Vue)
+      // }
+      // const {app} = window._boot
+      //
+      // Object.assign(this.$options, app, {store: undefined})
+    },
     render(h) {
       return h(previewComponent)
     },

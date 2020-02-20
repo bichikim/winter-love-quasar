@@ -1,4 +1,4 @@
-import {BootFileFunction} from '@/types'
+import * as Project from '@/types'
 
 declare module 'vue/types/vue' {
   interface Vue {
@@ -10,7 +10,7 @@ const esModule = (value: any) => {
   return value.default || value
 }
 
-const jQuery: BootFileFunction = async ({Vue}) => {
+const jQuery: Project.BootFileFunction = async ({Vue}) => {
   Vue.prototype.$jQuery = esModule(await import('jquery'))
 }
 

@@ -9,7 +9,7 @@ import {
   VueClass,
   Wrapper,
 } from '@vue/test-utils'
-import {BootFileFunction, BootFileParams} from '@/types'
+import {BootFileFunction, BootFileParams} from 'src/types'
 import {QuasarPluginOptions} from 'quasar'
 import Vue, {ComponentOptions, FunctionalComponentOptions} from 'vue'
 import VueRouter, {RouterOptions} from 'vue-router'

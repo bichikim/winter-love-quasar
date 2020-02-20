@@ -1,4 +1,4 @@
-import {FunctionModule, RootState} from '@/store'
+import {FunctionModule, RootState} from '@/store/types'
 
 
 export interface SignUpPayload {
@@ -18,6 +18,15 @@ export interface AuthState {
   name: string | null
 }
 
+/**
+ * register AuthState
+ */
+declare module '@/store/types' {
+  export interface ModuleState {
+    auth: AuthState
+  }
+}
+
 const module: FunctionModule<AuthState, RootState> = ({firebase}) => {
   return {
     namespaced: true,
@@ -28,7 +37,7 @@ const module: FunctionModule<AuthState, RootState> = ({firebase}) => {
       emailVerified: false,
     },
     getters: {
-      authenticated: (state) => {
+      authenticated(state) {
         return Boolean(state.uid)
       },
     },

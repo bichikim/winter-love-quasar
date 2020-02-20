@@ -1,4 +1,4 @@
-import {BootFileFunction} from '@/types'
+import * as Project from '@/types'
 import messages from './messages'
 import VueI18n from 'vue-i18n'
 import {defaultsDeep} from 'lodash'
@@ -13,7 +13,7 @@ interface Options {
   messages?: {[key: string]: any}
 }
 
-const i18n: BootFileFunction = ({app, Vue}, options: Options = {}) => {
+const i18n: Project.BootFileFunction = ({app, Vue}, options: Options = {}) => {
   if(app.i18n) {
     return
   }

@@ -1,4 +1,4 @@
-import {BootFileFunction} from '@/types'
+import * as Project from '@/types'
 import Firebase, {app} from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -19,7 +19,7 @@ declare module '@/store/context' {
   }
 }
 
-const firebase: BootFileFunction = ({Vue}, options: FirebaseInitOptions) => {
+const firebase: Project.BootFileFunction = ({Vue}, options: FirebaseInitOptions) => {
   if(Vue.storeContext.exist('firebase')) {
     return
   }
