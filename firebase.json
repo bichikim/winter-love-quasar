@@ -8,11 +8,11 @@
   },
   "functions": {
     "source": "packages/functions/",
-    "predeploy": "yarn workspace functions run --ignore-engines build "
+    "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
   },
   "hosting": {
-    "predeploy": "yarn spa:build",
-    "public": "packages/app/dist/spa",
+    "predeploy": "yarn build",
+    "public": "dist/spa",
     "ignore": [
       "firebase.json",
       "**/.*",

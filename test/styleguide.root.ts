@@ -1,12 +1,21 @@
-import boot from './quasar/boot'
-import firebase from '@/boot/firebase'
-import i18n from '@/boot/i18n'
+/* eslint-disable require-atomic-updates */
+import Vue from 'vue'
+
+Vue.config.devtools = true
 
 export default (previewComponent) => {
-  const {app} = boot([firebase, i18n])
 
   return {
-    ...app,
+    async created(this: any) {
+      // @ts-ignore
+      // if(!window.__boot) {
+      //   // @ts-ignore
+      //   window.__boot = await boot([i18n], Vue)
+      // }
+      // const {app} = window._boot
+      //
+      // Object.assign(this.$options, app, {store: undefined})
+    },
     render(h) {
       return h(previewComponent)
     },

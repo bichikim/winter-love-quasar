@@ -1,12 +1,29 @@
-import {BootFileParams} from 'quasar'
-import Vue, {ComponentOptions} from 'vue'
+import Vue, {ComponentOptions, VueConstructor} from 'vue'
+import VueRouter from 'vue-router'
+import {Store} from 'vuex'
 
 /**
- * Quasar boot function context
+ * Quasar ssr Context
+ */
+export interface QSsrContext {
+  req: {
+    headers: Record<string, string>;
+  };
+  res: {
+    setHeader(name: string, value: string): void;
+  };
+}
+
+/**
+ * Quasar boot function params
  * @link https://quasar.dev/quasar-cli/cli-documentation/boot-files#Anatomy-of-a-boot-file
  */
-export interface BootContext extends Omit<BootFileParams, 'app'>{
+export interface BootFileParams<TStore extends Store<any>  = Store<any>> {
   app: ComponentOptions<Vue>
+  Vue: VueConstructor<Vue>;
+  store: TStore;
+  router: VueRouter;
+  ssrContext?: QSsrContext | null;
 }
 
 /**
@@ -14,4 +31,4 @@ export interface BootContext extends Omit<BootFileParams, 'app'>{
  * boot Function in src/boot
  * @link https://quasar.dev/quasar-cli/cli-documentation/boot-files#Introduction
  */
-export type BootFileFunction = (context: BootContext, options?: any) => Promise<any> | any
+export type BootFileFunction = (context: BootFileParams, options?: any) => Promise<any> | any

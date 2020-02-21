@@ -5,6 +5,10 @@
 <script lang="ts">
   import {Component, Prop, Vue} from 'vue-property-decorator'
 
+  const replace = (text: string) => {
+    return text.replace(/(?:\r\n|\r|\n)/g, '<br />')
+  }
+
   /**
    * Render white space
    * @slot default Use this instead of a content prop
@@ -17,9 +21,7 @@
     @Prop() content: string
 
     get contentHtml() {
-      const replace = (text: string) => {
-        return text.replace(/(?:\r\n|\r|\n)/g, '<br />')
-      }
+
 
       if(this.content) {
         return replace(this.content)

@@ -5,7 +5,7 @@ const DEFAULT_ENV_NAME = '.env'
 /**
  * get env info by the mode name
  * @param mode NODE_ENV
- * @return {DotenvConfigOutput}
+ * @return object
  */
 module.exports = function env(mode) {
   // create env path >>>

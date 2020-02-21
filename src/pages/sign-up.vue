@@ -1,5 +1,5 @@
 <template lang="pug">
-  .main
+  q-page
     q-sign-up(@sign-up="handleSignUp")
 </template>
 

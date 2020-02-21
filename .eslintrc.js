@@ -213,13 +213,8 @@ module.exports = {
      * type script options
      *************************************/
     // off
-    // '@typescript-eslint/explicit-member-accessibility': 'off',
-    // '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/member-delimiter-style': 'off',
-    // '@typescript-eslint/member-ordering': 'off',
     '@typescript-eslint/no-empty-interface': 'off',
-    // '@typescript-eslint/no-explicit-any': 'off',
-    // '@typescript-eslint/no-type-alias': 'off',
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',

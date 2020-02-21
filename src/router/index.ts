@@ -13,7 +13,7 @@ Vue.use(VueRouter)
  * directly export the Router instantiation
  */
 
-export default (context: any) => {
+export default (/* context: any */) => {
 
   return new VueRouter({
     scrollBehavior: () => ({x: 0, y: 0}),
