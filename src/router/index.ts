@@ -1,40 +1,26 @@
-import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-
-interface ExContext {
-  // empty
-}
-
-Vue.use(VueRouter)
+import routes from './routes'
 
 /*
  * If not building with SSR mode, you can
- * directly export the Router instantiation
+ * directly export the Router instantiation;
+ *
+ * The function below can be async too; either use
+ * async/await or return a Promise which resolves
+ * with the Router instance.
  */
 
-export default (/* context: any */) => {
+export default function (ctx) {
+
+  const {Vue} = ctx
+
+  Vue.use(VueRouter)
 
   return new VueRouter({
     scrollBehavior: () => ({x: 0, y: 0}),
-    routes: [
-      {
-        path: '/',
-        component: () => (import('layouts/default.vue')),
-        children: [
-          {
-            path: '/',
-            component: () => (import('pages/index.vue')),
-          },
-        ],
-      },
-      {
-        path: '*',
-        component: () => (import('pages/Error404.vue')),
-      },
-    ],
+    routes,
 
-    // Leave these as is and change from quasar.conf.js instead!
+    // Leave these as they are and change in quasar.conf.js instead!
     // quasar.conf.js -> build -> vueRouterMode
     // quasar.conf.js -> build -> publicPath
     mode: process.env.VUE_ROUTER_MODE,

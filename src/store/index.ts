@@ -1,60 +1,34 @@
-import {cloneDeep} from 'lodash'
-import Vuex, {StoreOptions} from 'vuex'
-import {ModuleState} from './types'
-import {getModules} from './utils'
-import context, {ContextRecode} from './context'
+import * as Sinai from 'sinai'
+import aside from './aside'
+import auth from './auth'
 
-export * from './types'
-export * from './utils'
 
-export type LanguageCode = 'en-US' | 'ko-KR'
+const store = (ctx) => {
+  const {Vue} = ctx
 
-export interface State {
-  language: LanguageCode
-}
+  Vue.use(Sinai)
 
-export interface RootState extends State, ModuleState {
+  const root = Sinai.module()
+  root.child('aside', aside(ctx))
+  root.child('auth', auth(ctx))
 
-}
-
-export const defaultValue: State = {
-  language: 'en-US',
-}
-
-export const rootStore = (context: ContextRecode): StoreOptions<State> => {
-  const {i18n} = context
-  return {
-    /**
-     * @see https://vuex.vuejs.org/guide/strict.html
-     */
-    strict: true,
-    actions: {
-      changeLanguage({commit}, language: LanguageCode) {
-        commit('update', {language})
-        i18n().locale = language
-      },
-    },
-    state: cloneDeep<State>(defaultValue),
-    modules: getModules(context),
-    mutations: {
-      update(state, payment) {
-        Object.assign(state, payment)
-      },
-    },
+  class Fake {
+    get store() {
+      return store
+    }
   }
+
+  // @ts-ignore
+  declare module 'vue/types/vue' {
+    interface Vue {
+      // @ts-ignore
+      $store: typeof Fake.prototype.store
+    }
+  }
+
+  return Sinai.store(root, {
+    strict: process.env.DEV,
+  })
 }
 
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation
- */
-export default ({Vue}) => {
-
-  // use Vuex
-  Vue.use(Vuex)
-
-  // create Store structure with context
-  const options = rootStore(context(Vue).get())
-
-  return new Vuex.Store(options)
-}
+export default store

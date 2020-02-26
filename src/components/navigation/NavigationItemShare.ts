@@ -1,7 +1,10 @@
 import {Vue, Prop, Component} from 'vue-property-decorator'
-import {NavItem, ExecutionInfo} from '@/store/modules/aside'
+import {NavItem, ExecutionInfo} from './types'
 import {RawLocation} from 'vue-router'
 
+/**
+ * NavItem component implementation
+ */
 @Component
 export default class NavigationItemShare<R  extends Record<string, Function>>
   extends Vue implements NavItem {
@@ -12,4 +15,8 @@ export default class NavigationItemShare<R  extends Record<string, Function>>
   @Prop() push?: RawLocation
   @Prop() run?: ExecutionInfo<R>
   @Prop() items?: (NavItem<R>)[]
+
+  get myTitle() {
+    return this.$t(this.title)
+  }
 }

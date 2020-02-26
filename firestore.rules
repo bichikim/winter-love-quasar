@@ -4,10 +4,11 @@ service cloud.firestore {
     function isSignIn() {
       return request.auth != null
     }
-    
 
-    match /{everyThing=**}
+
+    match /{everyThing=**} {
       allow read, create, delete, update: if request.auth.token.admin == true
+    }
 
   	match /users/{user}/name {
     	allow read;

@@ -7,7 +7,7 @@ module.exports = {
    * Files path
    */
   'files': [
-    './icons/**/*.svg',
+    '../../icons/**/*.svg',
   ],
   /**
    * A generated font name

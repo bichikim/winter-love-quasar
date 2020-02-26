@@ -1,7 +1,7 @@
 <template lang="pug">
-  q-header
-    q-toolbar
-
+  .header-navigation
+    template(v-for="item in items" )
+      q-btn(:label="item.title" :key="item.title + item.icon")
 </template>
 
 <style scoped lang="stylus">

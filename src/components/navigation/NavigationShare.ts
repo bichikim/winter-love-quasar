@@ -1,4 +1,4 @@
-import {NavItem} from 'src/store/modules/aside'
+import {NavItem} from './types'
 import {
   Component, Prop, Vue,
 } from 'vue-property-decorator'

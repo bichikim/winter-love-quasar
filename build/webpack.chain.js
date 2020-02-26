@@ -10,47 +10,47 @@ function tsConfig(config, ctx) {
   const {dev = true} = ctx || {}
   config.resolve.extensions.add('.ts').add('.tsx')
   config.module.rule('ts')
-  .test(/\.tsx?$/)
-  .use('babel').loader('babel-loader').end()
+        .test(/\.tsx?$/)
+        .use('babel').loader('babel-loader').end()
   if(dev) {
     config.plugin('ts-checker')
-    .use(ForkTsCheckerWebpackPlugin, [{
-      vue: true,
-      eslint: true,
-      tsconfig : 'tsconfig.bundle.json',
-    }])
+          .use(ForkTsCheckerWebpackPlugin, [
+            {
+              vue: true,
+              eslint: true,
+              tsconfig: 'tsconfig.bundle.json',
+            }])
   }
   return config
 }
 
 function pugConfig(config) {
   config.module.rule('pug')
-  .test(/\.pug$/)
-  .oneOf('vue-loader')
-  .resourceQuery(/^\?vue/)
-  .use('pug-plain')
-  .loader('pug-plain-loader')
-  .end()
-  .end()
+        .test(/\.pug$/)
+        .oneOf('vue-loader')
+        .resourceQuery(/^\?vue/)
+        .use('pug-plain')
+        .loader('pug-plain-loader')
+        .end()
+        .end()
 
-
-  .oneOf('raw-pug')
-  .use('pug')
-  .loader('pug-loader')
-  .end()
-  .end()
+        .oneOf('raw-pug')
+        .use('pug')
+        .loader('pug-loader')
+        .end()
+        .end()
   return config
 }
 
 function jsConfig(config) {
   config.resolve.extensions.add('.js').add('.jsx')
   config.module.rule('js')
-  .test(/\.jsx?$/)
-  .exclude
-  .add(/node_modules/)
-  .end()
-  .use('babel')
-  .loader('babel-loader')
+        .test(/\.jsx?$/)
+        .exclude
+        .add(/node_modules/)
+        .end()
+        .use('babel')
+        .loader('babel-loader')
   return config
 }
 
@@ -69,9 +69,9 @@ function vueConfig(config, plugin = true) {
 
   config.resolve.extensions.add('.vue')
   config.module.rule('vue')
-  .test(/\.vue$/)
-  .use('vue')
-  .loader('vue-loader')
+        .test(/\.vue$/)
+        .use('vue')
+        .loader('vue-loader')
   if(plugin) {
     config.plugin('vue').use(VueLoaderPlugin)
   }
@@ -82,17 +82,17 @@ function vueConfig(config, plugin = true) {
 function stylusConfig(config) {
   config.resolve.extensions.add('.styl').add('stylus')
   config.module.rule('stylus')
-  .test(/\.styl(us)?$/)
-  .use('vue-style')
-  .loader('vue-style-loader')
-  .end()
-  .use('css-loader')
-  .loader('css-loader')
-  .end()
-  .use('stylus')
-  .loader('stylus-loader')
-  .end()
-  .end()
+        .test(/\.styl(us)?$/)
+        .use('vue-style')
+        .loader('vue-style-loader')
+        .end()
+        .use('css-loader')
+        .loader('css-loader')
+        .end()
+        .use('stylus')
+        .loader('stylus-loader')
+        .end()
+        .end()
   return config
 }
 
@@ -103,9 +103,9 @@ function stylusConfig(config) {
  */
 function imgConfig(config) {
   config.module.rule('img-file')
-  .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
-  .use('file')
-  .loader('file-loader')
+        .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+        .use('file')
+        .loader('file-loader')
   return config
 }
 
@@ -132,8 +132,22 @@ function iconFont(config, match = /\.font\.js$/) {
         .end()
 }
 
+/**
+ * Add i18n
+ * @param config
+ */
+function i18n(config) {
+  config.module
+        .rule('i18n')
+        .resourceQuery(/blockType=i18n/)
+        .type('javascript/auto')
+        .use('i18n')
+        .loader('@kazupon/vue-i18n-loader')
+        .end()
+}
+
 // noinspection WebpackConfigHighlighting
 module.exports = {
   tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, aliasConfig,
-  iconFont,
+  iconFont, i18n,
 }

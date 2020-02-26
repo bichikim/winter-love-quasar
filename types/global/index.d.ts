@@ -4,5 +4,4 @@ declare const expect: Chai.ExpectStatic
 
 interface Window {
   expect: Chai.ExpectStatic
-  ResizeObserver?: any
 }

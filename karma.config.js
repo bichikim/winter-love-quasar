@@ -1,15 +1,20 @@
 /**
  * Karma settings
- * This test must have packages below
- * karma, karma-chai, karma-sourcemap-loader, karma-spec-reporter, karma-webpack
- * (mocha, chai, karma-coverage)
  * @author BichiKim <bichi@live.co.kr>
  */
+
 process.env.NODE_ENV = 'test'
+
+// to fix webstorm ts-node error
 process.env.TS_NODE_PROJECT = null
+
 const {join} = require('path')
 const quasarChainConfig = require('./build/webpack.quasar.js')
+
+// get quasar webpack config
 const webpack = quasarChainConfig('test').toConfig()
+
+// karma config
 module.exports = function config(config) {
 
   config.set({

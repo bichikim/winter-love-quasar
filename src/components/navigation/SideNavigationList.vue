@@ -1,11 +1,12 @@
 <template lang="pug">
-  q-list(v-if="items")
+  q-list(v-if="items" padding)
     side-navigation-item(
       v-for="(item, key) in items"
       v-bind="item"
       :insetLabel="insetLabel"
       :depth="depth"
       :key="key"
+      @click="$emit('click', $event)"
     )
 </template>
 

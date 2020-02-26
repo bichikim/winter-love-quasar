@@ -13,17 +13,8 @@ interface FirebaseInitOptions {
   appId: string
 }
 
-declare module '@/store/context' {
-  interface ContextRecode {
-    firebase: () => (app.App)
-  }
-}
-
 const firebase: Project.BootFileFunction = ({Vue}, options: FirebaseInitOptions) => {
-  if(Vue.storeContext.exist('firebase')) {
-    return
-  }
-  Vue.storeContext.set('firebase', () => (Firebase.initializeApp(options)))
+  Vue.prototype.$firebase('firebase', () => (Firebase.initializeApp(options)))
 }
 
 export default firebase

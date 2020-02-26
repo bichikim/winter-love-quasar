@@ -12,6 +12,7 @@ declare namespace NodeJS {
 
   interface ProcessEnv {
     NODE_ENV: string
+    DEV: boolean
 
     // quasar (vue)
     VUE_ROUTER_MODE?: 'hash' | 'history' | 'abstract'
