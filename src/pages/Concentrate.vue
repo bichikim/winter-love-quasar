@@ -4,7 +4,7 @@
       :step="step"
       v-model="value"
       show-value
-      size="90px"
+      size="200px"
       :thickness="0.22"
       color="lime"
       track-color="lime-3"
