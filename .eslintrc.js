@@ -27,6 +27,12 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['*.html'],
+      rules: {
+        'max-len': 'off',
+      },
+    },
+    {
       files: ['*.js'],
       rules: {
         'indent': 'off',

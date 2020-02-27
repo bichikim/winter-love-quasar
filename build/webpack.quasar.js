@@ -2,13 +2,14 @@ const createChain = require('@quasar/app/lib/webpack/create-chain')
 const quasarConfig = require('../quasar.conf')
 const spa = require('@quasar/app/lib/webpack/spa')
 const {jsConfig} = require('./webpack.chain')
+const {merge} = require('lodash')
 
 const defaultQuasarConfig = {
   ctx: {dev: true, mode: {spa: true}},
   css: [], boot: [],
   vendor: {add: [], remove: []},
   build: {
-    sourceMap: 'eval',
+    sourceMap: true,
     transpileDependencies: [],
     stylusLoaderOptions: {},
     sassLoaderOptions: {},
@@ -47,17 +48,24 @@ const defaultQuasarConfig = {
   framework: {
     all: true,
   },
+  // for HtmlWebpackPlugin
   __html: {
-    variables: {},
+    variables: {
+      ctx: {
+        mode: {
+          spa: true,
+        },
+      },
+    },
   },
 }
 
-module.exports = function quasarChainConfig(mode) {
+module.exports = function quasarChainConfig() {
 
   const _quasarConfig = quasarConfig({
-    mode,
+    mode: 'spa',
   })
-  const config = {...defaultQuasarConfig, ..._quasarConfig}
+  const config = merge(defaultQuasarConfig, quasarConfig)
   const quasarConfigChain = createChain(config, 'SPA')
   const {chainWebpack} = _quasarConfig.build
   if(chainWebpack) {

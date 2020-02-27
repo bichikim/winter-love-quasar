@@ -2,6 +2,8 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 const {tsConfig, pugConfig, iconFont, eslint, i18n} = require('./build/webpack.chain.js')
+const envReader = require('./build/env-reader')
+
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
@@ -44,7 +46,7 @@ module.exports = function (ctx) {
       //            (fastest compile time; minimum bundle size; most tedious)
       // * true   - Import everything from Quasar
       //            (not treeshaking Quasar; biggest bundle size; convenient)
-      all: 'auto',
+      all: true,
 
       components: [],
       directives: [],
@@ -56,8 +58,8 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: true,
 
-    sourceFiles: {
-    },
+    // sourceFiles: {
+    // },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
@@ -70,13 +72,13 @@ module.exports = function (ctx) {
       // Options below are automatically set depending on the env, set them if you want to override
       // preloadChunks: false,
       // extractCSS: false,
+      env: envReader(process.env, 'VUE'),
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       chainWebpack(cfg) {
         if(ctx.prod) {
           eslint(cfg)
         }
-        // eslint(cfg)
         tsConfig(cfg)
         pugConfig(cfg)
         iconFont(cfg)
@@ -91,9 +93,9 @@ module.exports = function (ctx) {
       open: true, // opens browser window automatically
     },
 
-    // animations: 'all', // --- includes all animations
+    animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    // animations: [],
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
