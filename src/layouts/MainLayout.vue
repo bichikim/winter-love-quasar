@@ -1,7 +1,7 @@
 <template lang="pug">
   q-layout(:view="view" ref="layout")
     q-header.bg-transparent.no-pointer-events
-      q-toolbar.toolbar
+      q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="side === 'right'? 'reverse' : ''")
         q-btn.shadow-3.all-pointer-events(
           flat dense
           @click="onClickOpen"
@@ -11,15 +11,25 @@
         q-btn.shadow-3.all-pointer-events(
           flat dense
           :icon="dark ? 'las la-moon' : 'las la-sun'" @click="onToggleDark")
+        q-btn.shadow-3.all-pointer-events(
+          flat dense
+          icon="las la-hand-paper"
+          :class="side === 'left' ? 'reflect' : ''"
+          @click="onToggleSide"
+        )
     q-no-ssr
       side-navigation(
         :items="items"
+        :side="side"
         v-model="open"
         :mini="mini"
+        :breakpoint="breakpoint"
         @click="onNavClick"
+        @below-breakpoint="belowBreakpoint = $event"
         :elevated="true"
+        ref="drawer"
       )
-    .background
+    .background.absolute-top-left.fit
       q-no-ssr
         w-map(:apiKey="apiKey" :dark="dark")
     q-page-container.no-pointer-events
@@ -27,12 +37,9 @@
 </template>
 
 <style lang="stylus">
-  .background
-    position absolute
-    left 0
-    top 0
-    width 100%
-    height 100%
+
+  .reflect
+    transform scale(-1, 1)
 </style>
 
 <script lang="ts">
@@ -55,11 +62,12 @@
     },
   })
   export default class MainLayout extends Vue {
-    @Prop({default: 'lHh Lpr fff'}) view: string
+    @Prop({default: 'lHr Lpr lFr'}) view: string
     @Prop({default: 1023}) breakpoint: number
 
     open: boolean = false
     mini: boolean = false
+    side: string = 'right'
     version: string = 'version'
     layout: any = null
     apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
@@ -67,6 +75,7 @@
       center: {lat: -34.397, lng: 150.644},
       zoom: 8,
     }
+    belowBreakpoint: boolean = false
 
     get items() {
       return this.$store.state.aside.items
@@ -76,16 +85,16 @@
       return Dark.isActive
     }
 
-    get belowBreakpoint() {
-      const {layout} = this
-      if(!layout) {
-        return true
-      }
-      return layout.totalWidth <= this.breakpoint
-    }
-
     get menuBtnIcon() {
       return 'menu'
+    }
+
+    onToggleSide() {
+      if(this.side === 'left') {
+        this.side = 'right'
+      } else {
+        this.side = 'left'
+      }
     }
 
     onClickOpen() {

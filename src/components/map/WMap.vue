@@ -68,14 +68,20 @@
       return this.dark ? darkStyle : lightStyle
     }
 
+    get backgroundColor() {
+      return this.dark ? '#333333' : '#FFFFFF'
+    }
+
     get options() {
       const {
         fullscreenControl, scaleControl, streetViewControl, zoomControl,
         rotateControl, panControl, mapTypeControl, draggable, styles,
+        backgroundColor,
       } = this
       return {
         fullscreenControl, scaleControl, streetViewControl, zoomControl,
         rotateControl, panControl, mapTypeControl, draggable, styles,
+        backgroundColor,
       }
     }
 
@@ -84,13 +90,13 @@
       const {
         center, zoom, fullscreenControl, scaleControl, streetViewControl,
         zoomControl, rotateControl, panControl, mapTypeControl, draggable,
-        styles,
+        styles, backgroundColor,
       } = this
       const runner = () => {
         this.map = new google.maps.Map(mapContainer, {
           center, zoom, fullscreenControl, scaleControl, panControl, draggable,
           streetViewControl, zoomControl, rotateControl, mapTypeControl,
-          styles,
+          styles, backgroundColor,
         })
       }
 

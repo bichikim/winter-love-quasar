@@ -1,6 +1,6 @@
 <template lang="pug">
-  q-page.felx.flex-center
-    span hi?
+  q-page.column.items-center.justify-center
+    .text-h1.text-center Hello There?
 </template>
 
 <style>

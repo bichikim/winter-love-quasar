@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-list(v-if="items" padding)
+  q-list(v-if="items" padding ref="list")
     side-navigation-item(
       v-for="(item, key) in items"
       v-bind="item"
@@ -19,6 +19,7 @@
   } from 'vue-property-decorator'
   import NavigationItemDepth from './NavigationItemDepth'
   import NavigationShare from './NavigationShare'
+  import {QList} from 'quasar'
 
   @Component({
     components: {
