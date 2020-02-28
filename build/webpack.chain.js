@@ -1,6 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const path = require('path')
+const Eslint = require('eslint')
 
 function resolve(...args) {
   return path.join(__dirname, '../', ...args)
@@ -96,6 +97,18 @@ function stylusConfig(config) {
   return config
 }
 
+function eslint(config) {
+  config.module.rule('eslint')
+        .enforce('pre')
+        .test(/\.(js|vue)$/)
+        .exclude.add(/node_modules/).end()
+        .use('eslint').loader('eslint-loader')
+        .options({
+          formatter: Eslint.CLIEngine.getFormatter('stylish'),
+        })
+        .end()
+}
+
 /**
  * Add file-loader for image files
  * @param config
@@ -149,5 +162,5 @@ function i18n(config) {
 // noinspection WebpackConfigHighlighting
 module.exports = {
   tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, aliasConfig,
-  iconFont, i18n,
+  iconFont, i18n, eslint,
 }
