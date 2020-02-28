@@ -21,7 +21,7 @@
       )
     .background
       q-no-ssr
-        w-map(:apiKey="apiKey")
+        w-map(:apiKey="apiKey" :dark="dark")
     q-page-container.no-pointer-events
       router-view
 </template>
