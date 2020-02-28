@@ -6,6 +6,16 @@ Vue.config.devtools = true
 export default (previewComponent) => {
 
   return {
+    data() {
+      return {
+        env: 'hello',
+      }
+    },
+    provide() {
+      return {
+        env: 'hello',
+      }
+    },
     async created(this: any) {
       // @ts-ignore
       // if(!window.__boot) {

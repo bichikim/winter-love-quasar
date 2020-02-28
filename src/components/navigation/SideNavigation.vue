@@ -4,6 +4,7 @@
     :value="value"
     :side="side"
     :key="side"
+    :elevated="elevated"
     show-if-above
     :behavior="behavior"
     :mini="mini && miniState"
@@ -32,6 +33,7 @@
     @Prop({default: 'left'}) side: Side
     @Prop({default: true}) mini: boolean
     @Prop({default: 'default'}) behavior: 'default' | 'desktop' | 'mobile'
+    @Prop({default: false}) elevated: boolean
 
     miniState: boolean = true
 

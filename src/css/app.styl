@@ -1,4 +1,36 @@
 // app global css
-body.body--dark {
-  background: #333333
-}
+body.body--dark
+  background: $dark-page
+
+.q-btn
+  color $primary
+  background $light-dimmed-background
+  backdrop-filter: blur(2px)
+
+body.body--dark
+  .q-btn
+    color white
+    background $dimmed-background
+
+.q-drawer
+  background $light-dimmed-background
+  backdrop-filter: blur(4px)
+body.body--dark
+  .q-drawer
+    background $dimmed-background
+
+.q-drawer__backdrop
+  background-color $transparent !important
+
+// google map
+a[href^="http://maps.google.com/maps"]
+  display none !important
+
+a[href^="https://maps.google.com/maps"]
+  display none !important
+
+.gmnoprint a, .gmnoprint span, .gm-style-cc
+  display:none
+
+.gmnoprint div
+  background:none !important

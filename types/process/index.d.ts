@@ -16,7 +16,8 @@ declare namespace NodeJS {
 
     // quasar (vue)
     VUE_ROUTER_MODE?: 'hash' | 'history' | 'abstract'
-    VUE_ROUTER_BASE: string | undefined
+    VUE_ROUTER_BASE?: string
+    VUE_GOOGLE_MAPS_API_KEY: string
 
     // firebase
     FIREBASE_API_KEY: string

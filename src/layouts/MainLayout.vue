@@ -1,24 +1,49 @@
 <template lang="pug">
   q-layout(:view="view" ref="layout")
-    q-header
-      q-toolbar
-        q-btn(flat @click="onClickOpen" dense icon="menu")
+    q-header.bg-transparent.no-pointer-events
+      q-toolbar.toolbar
+        q-btn.shadow-3.all-pointer-events(
+          flat dense
+          @click="onClickOpen"
+          icon="las la-bars"
+        )
         q-space
-        q-btn(flat round :icon="dark ? 'ion-moon' : 'ion-sunny'" @click="onToggleDark")
+        q-btn.shadow-3.all-pointer-events(
+          flat dense
+          :icon="dark ? 'las la-moon' : 'las la-sun'" @click="onToggleDark")
     q-no-ssr
-      side-navigation(:items="items" v-model="open" :mini="mini" @click="onNavClick")
-    q-page-container
+      side-navigation(
+        :items="items"
+        v-model="open"
+        :mini="mini"
+        @click="onNavClick"
+        :elevated="true"
+      )
+    .background
+      q-no-ssr
+        w-map(:apiKey="apiKey")
+    q-page-container.no-pointer-events
       router-view
 </template>
 
+<style lang="stylus">
+  .background
+    position absolute
+    left 0
+    top 0
+    width 100%
+    height 100%
+</style>
+
 <script lang="ts">
-  import {Component, Prop, Vue} from 'vue-property-decorator'
   import {Dark} from 'quasar'
+  import {Component, Prop, Vue} from 'vue-property-decorator'
 
 
   @Component({
     components: {
       SideNavigation: () => (import('src/components/navigation/SideNavigation.vue')),
+      WMap: () => (import('src/components/map/WMap.vue')),
     },
     filters: {
       unKnown(value: string) {
@@ -37,6 +62,11 @@
     mini: boolean = false
     version: string = 'version'
     layout: any = null
+    apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
+    mapConfig: google.maps.MapOptions = {
+      center: {lat: -34.397, lng: 150.644},
+      zoom: 8,
+    }
 
     get items() {
       return this.$store.state.aside.items

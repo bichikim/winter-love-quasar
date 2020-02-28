@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.felx.flex-center
-    span tool
+    span hi?
 </template>
 
 <style>
