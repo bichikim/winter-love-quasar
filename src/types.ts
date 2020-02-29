@@ -1,6 +1,5 @@
 import Vue, {ComponentOptions, VueConstructor} from 'vue'
 import VueRouter from 'vue-router'
-import {Store} from 'vuex'
 
 /**
  * Quasar ssr Context
@@ -18,7 +17,8 @@ export interface QSsrContext {
  * Quasar boot function params
  * @link https://quasar.dev/quasar-cli/cli-documentation/boot-files#Anatomy-of-a-boot-file
  */
-export interface BootFileParams<TStore extends Store<any>  = Store<any>> {
+export interface BootFileParams
+<TStore extends typeof Vue.prototype.$store  = typeof Vue.prototype.$store> {
   app: ComponentOptions<Vue>
   Vue: VueConstructor<Vue>;
   store: TStore;

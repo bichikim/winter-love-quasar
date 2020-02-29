@@ -22,6 +22,7 @@
 <style lang="stylus" scoped>
   .side-navigation::v-deep
     aside
+      pointer-events all
       box-shadow $shadow-4
 
   .handy-drawer::v-deep
