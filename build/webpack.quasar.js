@@ -7,6 +7,8 @@ const {merge} = require('lodash')
 const defaultQuasarConfig = {
   ctx: {dev: true, mode: {spa: true}},
   css: [], boot: [],
+  // default no supporting ts
+  supportTS: false,
   vendor: {add: [], remove: []},
   build: {
     sourceMap: true,

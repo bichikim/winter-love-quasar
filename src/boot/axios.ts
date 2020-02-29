@@ -1,5 +1,14 @@
-import Vue from 'vue'
-import Axios from 'axios'
+import Axios, {AxiosInstance} from 'axios'
+import {BootFileFunction} from 'src/types'
 
+declare module 'vue/types/vue' {
+  interface Vue {
+    $axios: AxiosInstance
+  }
+}
 
-Vue.prototype.$axios = Axios
+const boot: BootFileFunction = ({Vue}) => {
+  Vue.prototype.$axios = Axios
+}
+
+export default boot

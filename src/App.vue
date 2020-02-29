@@ -5,6 +5,7 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
+  import {setContext} from 'src/context'
 
   /**
    * Register component hook
@@ -35,6 +36,9 @@
 
     // noinspection JSUnusedGlobalSymbols Vue life cycle
     created() {
+      // set sharing context (root vue)
+      setContext(this.$root)
+
       // Run adding Quasar icon mapping
       this.iconMap()
     }
