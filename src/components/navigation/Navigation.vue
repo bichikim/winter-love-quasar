@@ -18,17 +18,17 @@
 
 <script lang="ts">
   import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
-  import NavigationShare from './NavigationShare'
+  import WNavigationShare from 'src/components/navigation/WNavigationShare'
   import {NavItem, Side} from './types'
 
   @Component({
     components: {
-      SideNavigation: () => (import('./SideNavigation.vue')),
+      SideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
       HeaderNavigation: () => (import('./HeaderNavigation.vue')),
     },
   })
   export default class Navigation<R extends Record<string, Function>>
-    extends Mixins(NavigationShare) {
+    extends Mixins(WNavigationShare) {
     @Prop({default: false, type: Boolean}) value: boolean
     @Prop({default: false, type: Boolean}) landscapeView: boolean
     @Prop({default: 'left'}) side: Side

@@ -4,7 +4,7 @@ import {Vue, Prop, Component} from 'vue-property-decorator'
  * Navigation Item style Props
  */
 @Component
-export default class NavigationItemShare<R  extends Record<string, Function>>
+export default class WNavigationItemShare<R  extends Record<string, Function>>
   extends Vue {
   /**
    * Button ripple animation

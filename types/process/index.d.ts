@@ -17,22 +17,18 @@ declare namespace NodeJS {
     // quasar (vue)
     VUE_ROUTER_MODE?: 'hash' | 'history' | 'abstract'
     VUE_ROUTER_BASE?: string
+
+    // google map
     VUE_GOOGLE_MAPS_API_KEY: string
 
     // firebase
-    FIREBASE_API_KEY: string
-    FIREBASE_AUTH_DOMAIN: string
-    FIREBASE_DATABASE_URL: string
-    FIREBASE_PROJECT_ID: string
-    FIREBASE_STORAGE_BUCKET: string
-    FIREBASE_MESSAGING_SENDER_ID: string
-    FIREBASE_API_ID: string
-
-    /**
-     * Test env only
-     **/
-    // karma
-    KARMA_WITH_FIREBASE?: 'true' | 'false'
+    VUE_FIREBASE_API_KEY: string
+    VUE_FIREBASE_AUTH_DOMAIN: string
+    VUE_FIREBASE_DATABASE_URL: string
+    VUE_FIREBASE_PROJECT_ID: string
+    VUE_FIREBASE_STORAGE_BUCKET: string
+    VUE_FIREBASE_MESSAGING_SENDER_ID: string
+    VUE_FIREBASE_API_ID: string
   }
 }
 

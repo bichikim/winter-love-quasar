@@ -2,7 +2,7 @@ import * as Project from '@/types'
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $jQuery: JQueryStatic
+    readonly $jQuery: JQueryStatic
   }
 }
 
@@ -11,7 +11,7 @@ const esModule = (value: any) => {
 }
 
 const jQuery: Project.BootFileFunction = async ({Vue}) => {
-  Vue.prototype.$jQuery = esModule(await import('jquery'))
+  Vue.prototype['$jQuery'] = esModule(await import('jquery'))
 }
 
 export default jQuery

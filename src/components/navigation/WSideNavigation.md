@@ -12,7 +12,7 @@ const items = [
 const info = null
 
 <q-layout container style="height: 250px">
-<SideNavigation v-model="drawer" :items="items" @click="info = $event"/>
+<WSideNavigation v-model="drawer" :items="items" @click="info = $event"/>
 </q-layout>
 <q-toggle label="Drawer" v-model="drawer" />
 <q-field label="Click" stack-label>

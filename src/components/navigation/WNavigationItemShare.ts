@@ -6,7 +6,7 @@ import {RawLocation} from 'vue-router'
  * NavItem component implementation
  */
 @Component
-export default class NavigationItemShare<R  extends Record<string, Function>>
+export default class WNavigationItemShare<R  extends Record<string, Function>>
   extends Vue implements NavItem {
 
   @Prop() icon?: string

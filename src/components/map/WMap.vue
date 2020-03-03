@@ -38,6 +38,7 @@
     google: null | typeof window.google = null
     map: null | google.maps.Map = null
 
+
     async created() {
       this.google = await load(this.apiKey)
       this.initializeMap(this.google)

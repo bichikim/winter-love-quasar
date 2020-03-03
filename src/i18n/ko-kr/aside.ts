@@ -1,4 +1,4 @@
 export default {
-  'concentrate': '집중',
+  'history': '내역',
   'smoothie': '스무디',
 }

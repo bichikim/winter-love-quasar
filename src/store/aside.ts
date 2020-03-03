@@ -9,13 +9,14 @@ export default (ctx: StoreContext) => {
     version: number = 0
     items: NavItem[] = [
       {
-        title: 'aside.concentrate',
+        title: 'aside.history',
         icon: 'las la-stopwatch',
-        push: '/concentrate',
+        push: '/history',
       },
       {
         title: 'aside.smoothie',
         icon: 'las la-snowflake',
+        push: '/smoothie',
       },
     ]
   }

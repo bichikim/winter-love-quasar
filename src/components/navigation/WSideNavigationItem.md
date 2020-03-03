@@ -14,7 +14,7 @@ const items = [
 const showItems = false
 const info = null
 
-<SideNavigationItem 
+<WSideNavigationItem 
     v-bind="{title, icon, items: showItems ? items : undefined}"
     :push="push"
     :expansion-click="expansionClick"

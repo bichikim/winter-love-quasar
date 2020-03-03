@@ -3,12 +3,12 @@ import {BootFileFunction} from 'src/types'
 
 declare module 'vue/types/vue' {
   interface Vue {
-    $axios: AxiosInstance
+    readonly $axios: AxiosInstance
   }
 }
 
 const boot: BootFileFunction = ({Vue}) => {
-  Vue.prototype.$axios = Axios
+  Vue.prototype['$axios'] = Axios
 }
 
 export default boot

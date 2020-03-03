@@ -11,7 +11,7 @@ const items=[
 ]
 const info = null
 
-<SideNavigationList v-bind="{insetLabel, depth, ripple, items}" @click="info = $event"/>
+<WSideNavigationList v-bind="{insetLabel, depth, ripple, items}" @click="info = $event"/>
 
 <q-separator spaced />
 <q-input label="Inset Label" type="number" v-model="insetLabel" />

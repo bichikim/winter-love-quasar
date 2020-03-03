@@ -7,7 +7,8 @@ const routes: RouteConfig[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {path: '', component: () => import('pages/Index.vue')},
-      {path: '/concentrate', component: () => import('pages/Concentrate.vue')},
+      {path: '/history', component: () => import('pages/History.vue')},
+      {path: '/smoothie', component: () => import('pages/Smoothie.vue')},
     ],
   },
 ]

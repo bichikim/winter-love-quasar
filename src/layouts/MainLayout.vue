@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-layout(:view="view" ref="layout")
+  q-layout(:view="view")
     q-header.bg-transparent.no-pointer-events
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="side === 'right'? 'reverse' : ''")
         q-btn.shadow-3.all-pointer-events(
@@ -18,7 +18,7 @@
           @click="onToggleSide"
         )
     q-no-ssr
-      side-navigation(
+      w-side-navigation(
         :items="items"
         :side="side"
         v-model="open"
@@ -37,7 +37,6 @@
 </template>
 
 <style lang="stylus">
-
   .reflect
     transform scale(-1, 1)
 </style>
@@ -46,19 +45,10 @@
   import {Dark} from 'quasar'
   import {Component, Prop, Vue} from 'vue-property-decorator'
 
-
   @Component({
     components: {
-      SideNavigation: () => (import('src/components/navigation/SideNavigation.vue')),
+      WSideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
       WMap: () => (import('src/components/map/WMap.vue')),
-    },
-    filters: {
-      unKnown(value: string) {
-        if(value) {
-          return value
-        }
-        return 'unknown'
-      },
     },
   })
   export default class MainLayout extends Vue {
@@ -69,7 +59,6 @@
     mini: boolean = false
     side: string = 'right'
     version: string = 'version'
-    layout: any = null
     apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
     mapConfig: google.maps.MapOptions = {
       center: {lat: -34.397, lng: 150.644},
@@ -118,9 +107,6 @@
       Dark.toggle()
     }
 
-    mounted() {
-      this.layout = this.$refs.layout
-    }
   }
 </script>
 

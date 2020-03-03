@@ -8,14 +8,14 @@
 </style>
 
 <script lang="ts">
-  import NavigationShare from './NavigationShare'
+  import WNavigationShare from 'src/components/navigation/WNavigationShare'
   import {
     Component, Mixins, Prop,
   } from 'vue-property-decorator'
 
   @Component
   export default class HeaderNavigation<R extends Record<string, Function>>
-    extends Mixins(NavigationShare) {
+    extends Mixins(WNavigationShare) {
 
   }
 </script>

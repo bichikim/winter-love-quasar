@@ -1,5 +1,5 @@
 import {createLocalVue, mount} from '@vue/test-utils'
-import WhiteSpace from '@/components/WhiteSpace.vue'
+import WhiteSpace from 'src/components/WhiteSpace.vue'
 describe('WhiteSpace.vue', () => {
   it('should add <dr> with a content of props ', () => {
     const localVue = createLocalVue()

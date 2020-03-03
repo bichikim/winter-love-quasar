@@ -8,7 +8,6 @@
     :behavior="behavior"
     :mini="mini && miniState"
     :class="classes"
-    ref="drawer"
     @mouseover="onMouseover"
     @mouseout="onMouseout"
     @input="$emit('input', $event)"
@@ -16,7 +15,7 @@
     v-bind="$attrs"
   )
     q-scroll-area.fit(:thumb-style="thumbStyle")
-      side-navigation-list(@click="$emit('click', $event)" :items="items")
+      w-side-navigation-list(@click="$emit('click', $event)" :items="items")
 </template>
 
 <style lang="stylus" scoped>
@@ -41,25 +40,25 @@
 
 <script lang="ts">
   import {Component, Inject, Mixins, Prop, Watch} from 'vue-property-decorator'
-  import NavigationShare from './NavigationShare'
+  import WNavigationShare from 'src/components/navigation/WNavigationShare'
   import {Side} from './types'
 
   @Component({
     components: {
-      SideNavigationList: () => (import('./SideNavigationList.vue')),
+      WSideNavigationList: () => (import('src/components/navigation/WSideNavigationList.vue')),
     },
   })
-  export default class SideNavigation<R> extends Mixins(NavigationShare) {
+  export default class WSideNavigation<R> extends Mixins(WNavigationShare) {
     @Prop({default: true}) value: boolean
     @Prop({default: 'left'}) side: Side
     @Prop({default: true}) mini: boolean
     @Prop({default: 'default'}) behavior: 'default' | 'desktop' | 'mobile'
     @Prop({default: false}) elevated: boolean
     @Prop({default: 1023}) breakpoint: number
-    @Inject() readonly layout: any
+
+    @Inject({default: {}}) readonly layout: any
 
     miniState: boolean = true
-    drawer: any = null
 
     thumbStyle = {
       right: '4px',
@@ -74,7 +73,7 @@
     }
 
     get belowBreakpoint() {
-      return this.layout.totalWidth <= this.breakpoint
+      return (this.layout.totalWidth ?? this.$q.screen.width) <= this.breakpoint
     }
 
     get classes() {
@@ -88,10 +87,6 @@
         classes.push('right')
       }
       return classes.join(' ')
-    }
-
-    mounted() {
-      this.drawer = this.$refs.drawer as any
     }
 
     @Watch('mini')

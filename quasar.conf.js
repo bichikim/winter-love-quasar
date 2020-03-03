@@ -12,6 +12,8 @@ module.exports = function (ctx) {
     boot: [
       'i18n',
       'axios',
+      'firebase',
+      'reflect-metadata',
       {path: 'icon', server: false},
     ],
 

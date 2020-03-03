@@ -1,4 +1,4 @@
 export default {
-  'concentrate': 'concentrate',
+  'history': 'history',
   'smoothie': 'smoothie',
 }

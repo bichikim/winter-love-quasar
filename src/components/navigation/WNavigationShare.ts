@@ -4,6 +4,6 @@ import {
 } from 'vue-property-decorator'
 
 @Component
-export default class NavigationShare<R extends Record<string, Function>> extends Vue {
+export default class WNavigationShare<R extends Record<string, Function>> extends Vue {
   @Prop({required: true, type: Array}) items: (NavItem<R>)[]
 }

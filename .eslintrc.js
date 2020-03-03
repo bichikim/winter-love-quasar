@@ -1,5 +1,5 @@
 module.exports = {
-  plugins: ['@typescript-eslint', 'import', 'vue', 'sort-class-members'],
+  plugins: ['@typescript-eslint', 'import', 'vue', 'sort-class-members', 'pug'],
   env: {
     'commonjs': true,
     'browser': true,
