@@ -1,28 +1,19 @@
+@import "./glass"
+
 // app global css
 body.body--dark
   background: $dark-page
 
-.q-btn.glass
-  color $primary
-  background $light-dimmed-background
-  backdrop-filter: blur(3px)
-
-body.body--dark .q-btn.glass
-    color $white
-    background $dimmed-background
-    // backdrop-filter .q-btn.glass
-
-.q-drawer
-  background $light-dimmed-background
-  backdrop-filter: blur(3px)
-body.body--dark
-  .q-drawer
-    background $dimmed-background
-
 .q-drawer__backdrop
   background-color $transparent !important
 
-// google map
+
+.q-field--dense
+  .q-field__control
+    height 32px
+
+
+// >> google map
 a[href^="http://maps.google.com/maps"]
   display none !important
 
@@ -34,3 +25,5 @@ a[href^="https://maps.google.com/maps"]
 
 .gmnoprint div
   background:none !important
+
+// <<

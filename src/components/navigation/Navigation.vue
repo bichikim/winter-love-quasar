@@ -24,7 +24,6 @@
   @Component({
     components: {
       SideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
-      HeaderNavigation: () => (import('./HeaderNavigation.vue')),
     },
   })
   export default class Navigation<R extends Record<string, Function>>

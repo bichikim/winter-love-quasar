@@ -23,23 +23,10 @@
     aside
       pointer-events all
       box-shadow $shadow-4
-
-  .handy-drawer::v-deep
-    aside
-      height 300px
-      top unset
-      bottom 0
-      overflow hidden
-  .handy-drawer.right::v-deep
-    aside
-      border-top-left-radius 20px
-  .handy-drawer.left::v-deep
-    aside
-      border-top-right-radius 20px
 </style>
 
 <script lang="ts">
-  import {Component, Inject, Mixins, Prop, Watch} from 'vue-property-decorator'
+  import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
   import WNavigationShare from 'src/components/navigation/WNavigationShare'
   import {Side} from './types'
 
@@ -54,9 +41,6 @@
     @Prop({default: true}) mini: boolean
     @Prop({default: 'default'}) behavior: 'default' | 'desktop' | 'mobile'
     @Prop({default: false}) elevated: boolean
-    @Prop({default: 1023}) breakpoint: number
-
-    @Inject({default: {}}) readonly layout: any
 
     miniState: boolean = true
 
@@ -67,20 +51,8 @@
       opacity: 0.2,
     }
 
-    @Watch('belowBreakpoint', {immediate: true})
-    __belowBreakpoint(value) {
-      this.$emit('below-breakpoint', value)
-    }
-
-    get belowBreakpoint() {
-      return (this.layout.totalWidth ?? this.$q.screen.width) <= this.breakpoint
-    }
-
     get classes() {
       const classes: string[] = []
-      if(this.belowBreakpoint) {
-        classes.push('handy-drawer')
-      }
       if(this.side === 'left') {
         classes.push('left')
       } else {

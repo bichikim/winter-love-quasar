@@ -1,37 +1,54 @@
 <template lang="pug">
-  q-layout.main-layout(:view="view")
+  q-layout.main-layout(:view="view" ref="layout")
     q-header.bg-transparent.no-pointer-events
-      q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="side === 'right'? 'reverse' : ''")
-        q-btn.shadow-3.all-pointer-events(
+      q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="toolbarClass")
+        q-btn.shadow-3.glass.all-pointer-events(
+          v-if="!belowBreakpoint"
           flat dense
           @click="onClickOpen"
           icon="las la-bars"
         )
         q-space
-        q-btn.shadow-3.all-pointer-events(
+        q-btn.shadow-3.glass.all-pointer-events(
           flat dense
           :icon="dark ? 'las la-moon' : 'las la-sun'" @click="onToggleDark")
-        q-btn.shadow-3.all-pointer-events(
+        q-btn.shadow-3.glass.all-pointer-events(
           flat dense
           icon="las la-hand-paper"
           :class="side === 'left' ? 'reflect' : ''"
           @click="onToggleSide"
         )
+    q-footer.bg-transparent.no-pointer-events(v-if="belowBreakpoint")
+      q-toolbar.row.q-gutter-x-md.q-pr-none.con.footer.q-pb-md(:class="toolbarClass")
+        q-btn.shadow-3.glass.all-pointer-events(
+          flat dense
+          icon="las la-bars"
+          @click="onClickOpen"
+        )
+        .all-pointer-events.grow.relative-position.handy-navigation-wrapper.footer-wrapper
+          transition(
+            enter-active-class="animated fadeIn"
+            leave-active-class="animated fadeOut"
+          )
+            q-input.glass(value="hello" dense standout v-show="!open")
+          w-handy-navigation.absolute-top-left.fit(
+            :value="open"
+          )
     q-no-ssr
-      w-side-navigation(
+      w-side-navigation.glass(
+        v-if="!belowBreakpoint"
         :items="items"
         :side="side"
-        v-model="open"
-        :mini="mini"
+        :mini="open"
         :breakpoint="breakpoint"
         @click="onNavClick"
-        @below-breakpoint="belowBreakpoint = $event"
         :elevated="true"
         ref="drawer"
       )
     .background.absolute-top-left.fit
       q-no-ssr
         w-map(:apiKey="apiKey" :dark="dark")
+
     q-page-container.no-pointer-events
       router-view
 </template>
@@ -39,24 +56,31 @@
 <style lang="stylus">
   .reflect
     transform scale(-1, 1)
+  .grow
+    flex-grow 1
+  .footer
+    height 32px
+  .footer-wrapper
+    height 32px
 </style>
 
 <script lang="ts">
   import {Dark} from 'quasar'
-  import {Component, Prop, Vue} from 'vue-property-decorator'
+  import {Component, Prop, Vue, Ref} from 'vue-property-decorator'
 
   @Component({
     components: {
       WSideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
+      WHandyNavigation: () => (import('src/components/navigation/WHandyNavigation.vue')),
       WMap: () => (import('src/components/map/WMap.vue')),
     },
   })
   export default class MainLayout extends Vue {
     @Prop({default: 'lHr Lpr lFr'}) view: string
     @Prop({default: 1023}) breakpoint: number
+    @Ref() layout: any
 
     open: boolean = false
-    mini: boolean = false
     side: string = 'right'
     version: string = 'version'
     apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
@@ -64,7 +88,6 @@
       center: {lat: -34.397, lng: 150.644},
       zoom: 8,
     }
-    belowBreakpoint: boolean = false
 
     get items() {
       return this.$store.state.aside.items
@@ -78,6 +101,14 @@
       return 'menu'
     }
 
+    get toolbarClass() {
+      return this.side === 'right'? 'reverse' : ''
+    }
+
+    get belowBreakpoint() {
+      return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+    }
+
     onToggleSide() {
       if(this.side === 'left') {
         this.side = 'right'
@@ -87,11 +118,7 @@
     }
 
     onClickOpen() {
-      if(this.belowBreakpoint) {
-        this.open = !this.open
-        return
-      }
-      this.mini = !this.mini
+      this.open = !this.open
     }
 
     onNavClick(value) {
