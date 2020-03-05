@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-const {tsConfig, pugConfig, iconFont, eslint, i18n} = require('./build/webpack.chain.js')
+const {tsConfig, pugConfig, iconFont, eslint, i18n, aliasConfig} = require('./build/webpack.chain.js')
 const envReader = require('./build/env-reader')
 
 module.exports = function (ctx) {
@@ -81,6 +81,7 @@ module.exports = function (ctx) {
         if(ctx.prod) {
           eslint(cfg)
         }
+        aliasConfig(cfg)
         tsConfig(cfg)
         pugConfig(cfg)
         iconFont(cfg)

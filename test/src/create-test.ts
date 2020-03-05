@@ -9,37 +9,23 @@ import {
   VueClass,
   Wrapper,
 } from '@vue/test-utils'
-import {BootFileFunction, BootFileParams} from 'src/types'
-import {QuasarPluginOptions} from 'quasar'
+import {BootFileFunction} from 'src/types'
 import Vue, {ComponentOptions, FunctionalComponentOptions} from 'vue'
-import VueRouter, {RouterOptions} from 'vue-router'
-import Vuex, {Store, StoreOptions} from 'vuex'
-import createQuasar from './create-quasar'
-import VueI18n, {I18nOptions} from 'vue-i18n'
+import boot from 'test/src/create-boot'
+import createBootParams, {AppOptions} from './create-boot-params'
 
 interface App<S = any> {
-  store: Store<S>
-}
-
-export interface BootParams extends Omit<BootFileParams, 'app'> {
-  app: Record<string, any>
+  store: typeof Vue.prototype.$store
 }
 
 export interface ReturnObject {
   app: App,
   localVue: typeof Vue,
   wrapper: Wrapper<Vue>
-  store: Store<any>,
+  store: typeof Vue.prototype.$store,
 }
 
 export type ComplexComponent = ComponentOptions<any> | VueClass<any> | FunctionalComponentOptions
-
-export interface AppOptions {
-  store?: (vue: typeof Vue) => StoreOptions<any>
-  quasar?: QuasarPluginOptions
-  router?: RouterOptions
-  i18n?: I18nOptions,
-}
 
 export interface Options extends AppOptions {
   shallowMount?: ComplexComponent |
@@ -48,64 +34,11 @@ export interface Options extends AppOptions {
   boots?: BootFileFunction[]
 }
 
-function toBeParms(mayArray: any | any[]) {
+function toBeParameters(mayArray: any | any[]) {
   if(Array.isArray(mayArray)) {
     return mayArray
   }
   return [mayArray]
-}
-
-export const createBootParams = (
-  vue: typeof Vue,
-  options: AppOptions = {},
-  ssrContext = null,
-): BootParams => {
-  let store, router
-
-  createQuasar(vue, options.quasar)
-
-  // must exist  **********************
-
-  vue.use(Vuex)
-
-  if(options.store) {
-    store = new Store(options.store(vue))
-  } else {
-    store = new Store({})
-  }
-
-  vue.use(VueRouter)
-
-  if(options.router) {
-    router = new VueRouter({
-      ...options.router,
-      mode: 'abstract',
-    })
-  } else {
-    router = new VueRouter({
-      mode: 'abstract',
-    })
-  }
-
-  const app: Record<string, any> = {
-    store, router,
-  }
-
-  // optional  *************************
-
-  if(options.i18n) {
-    Vue.use(VueI18n)
-    app.i18n = new VueI18n(options.i18n)
-  }
-
-
-  return {
-    Vue: vue,
-    app,
-    ssrContext,
-    router,
-    store,
-  }
 }
 
 const createTest = async (options: Options = {}): Promise<ReturnObject> => {
@@ -117,14 +50,14 @@ const createTest = async (options: Options = {}): Promise<ReturnObject> => {
   localVue.config.productionTip = false
 
   if(options.shallowMount) {
-    const [component, _options] = toBeParms(options.shallowMount)
+    const [component, _options] = toBeParameters(options.shallowMount)
     wrapper = shallowMount(component as any, {
       ...app,
       ..._options,
       localVue,
     })
   } else if(options.mount) {
-    const [component, _options] = toBeParms(options.mount)
+    const [component, _options] = toBeParameters(options.mount)
     wrapper = mount(component as any, {
       ...app,
       ..._options,
@@ -144,11 +77,7 @@ const createTest = async (options: Options = {}): Promise<ReturnObject> => {
   }
 
   if(options.boots) {
-    const promises: Array<Promise<any>> = []
-    options.boots.forEach((boot) => {
-      promises.push(boot(bootParams))
-    })
-    await Promise.all(promises)
+    await boot(options.boots, localVue, bootParams)
   }
 
   return {

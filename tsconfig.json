@@ -65,8 +65,8 @@
     "moduleResolution": "node",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@@/*": ["*"],
+      "src/*": ["src/*"],
+      "test/*": ["test/*"],
       "layouts": ["src/layouts"],
       "pages": ["src/pages"]
     },
