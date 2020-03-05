@@ -5,6 +5,7 @@
 ## UI Example
 
 ![uI](./media/ui-example.gif)
+![uI](./media/ui-example2.png)
 
 ## Trouble Shooting
 
