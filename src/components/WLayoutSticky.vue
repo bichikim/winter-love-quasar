@@ -1,4 +1,5 @@
 <template lang="pug">
+  .w-layout-sticky
 </template>
 
 <style scoped lang="stylus">
@@ -10,7 +11,7 @@
   } from 'vue-property-decorator'
 
   @Component
-  export default class WLayoutBackground extends Vue {
+  export default class WLayoutSticky extends Vue {
 
   }
 </script>

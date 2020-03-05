@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-layout(:view="view")
+  q-layout.main-layout(:view="view")
     q-header.bg-transparent.no-pointer-events
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="side === 'right'? 'reverse' : ''")
         q-btn.shadow-3.all-pointer-events(

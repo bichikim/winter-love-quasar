@@ -1,4 +1,4 @@
-import * as Project from '@/types'
+import * as Project from 'src/types'
 import Firebase, {app} from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'

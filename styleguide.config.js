@@ -13,7 +13,13 @@ module.exports = {
   components: join(root, '/src/components/**/*.vue'),
   styleguideDir: '../.docs/styleguide',
   pagePerSection: true,
+  /**
+   * each component rendering
+   */
   renderRootJsx: join(root, 'test/styleguide.root.ts'),
+  /**
+   * before render import any
+   */
   require: [
     join(root, 'test/styleguide.require.ts'),
   ],

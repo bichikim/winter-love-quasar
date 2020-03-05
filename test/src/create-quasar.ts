@@ -27,38 +27,36 @@ interface Options {
   Vue: typeof _Vue
 }
 
-_Vue.use(Quasar as any, {
-  lang: enUs,
-})
+_Vue.use(Quasar as any, {})
 
 function createQuasar(Vue: typeof _Vue, options: Partial<QuasarPluginOptions> = {}) {
-  Vue.use(Quasar as any, {
-    all: true,
-    plugins: [
-      AddressbarColor,
-      AppFullscreen,
-      Loading,
-      LoadingBar,
-      Meta,
-      Notify,
-    ],
-    directives: [
-      Ripple,
-      ClosePopup,
-      Scroll,
-      ScrollFire,
-      TouchSwipe,
-      TouchRepeat,
-      TouchPan,
-      TouchHold,
-    ],
-    animations: 'all',
-    iconSet: ioniconsV4,
-    ...options,
-  })
 
-  // quasar create only one $q
-  Vue.prototype.$q = _Vue.prototype.$q
+  // Vue.use(Quasar as any, {
+  //   all: true,
+  //   plugins: [
+  //     AddressbarColor,
+  //     AppFullscreen,
+  //     Loading,
+  //     LoadingBar,
+  //     Meta,
+  //     Notify,
+  //   ],
+  //   directives: [
+  //     Ripple,
+  //     ClosePopup,
+  //     Scroll,
+  //     ScrollFire,
+  //     TouchSwipe,
+  //     TouchRepeat,
+  //     TouchPan,
+  //     TouchHold,
+  //   ],
+  //   animations: 'all',
+  //   iconSet: ioniconsV4,
+  //   ...options,
+  // })
+  //
+  // Vue.prototype.$q = _Vue.prototype.$q
   return Quasar
 }
 
