@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-const {tsConfig, pugConfig, iconFont, eslint, i18n, aliasConfig,
+const {tsConfig, pugConfig, iconFont, eslint, i18n,
 } = require('./build/webpack.chain.js')
 const envReader = require('./build/env-reader')
 
@@ -14,6 +14,7 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'firebase',
+      'earth-map',
       'reflect-metadata',
       {path: 'icon', server: false},
     ],
@@ -82,7 +83,6 @@ module.exports = function (ctx) {
         if(ctx.prod) {
           eslint(cfg)
         }
-        aliasConfig(cfg)
         tsConfig(cfg)
         pugConfig(cfg)
         iconFont(cfg)

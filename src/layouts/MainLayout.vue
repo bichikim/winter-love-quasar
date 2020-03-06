@@ -47,8 +47,7 @@
       )
     .background.absolute-top-left.fit
       q-no-ssr
-        w-map(:apiKey="apiKey" :dark="dark")
-
+        w-map(:dark="dark")
     q-page-container.no-pointer-events
       router-view
 </template>
@@ -81,6 +80,7 @@
     @Ref() layout: any
 
     open: boolean = false
+    mini: boolean = false
     side: string = 'right'
     version: string = 'version'
     apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
@@ -93,6 +93,9 @@
       return this.$store.state.aside.items
     }
 
+    /**
+     * whether in quasar dark mode
+     */
     get dark() {
       return Dark.isActive
     }

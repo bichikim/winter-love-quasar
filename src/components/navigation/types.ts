@@ -10,19 +10,21 @@ export type Side = 'left' | 'right'
 
 export type Execution = (context: ExecutionContext, ...args: any[]) => Function
 
-export interface ExecutionRecord extends Record<string, Execution>{
+export type FunctionRecord = Record<string, Function>
+
+export interface ExecutionRecord extends Record<string, Execution> {
   to: Execution
   log: Execution
 }
 
-export interface ExecutionInfo<R extends Record<string, Function>> {
+export interface ExecutionInfo<R extends FunctionRecord = FunctionRecord> {
   name: string & keyof R
   params?: any[]
 }
 
 export type Title = string | ((t: any) => string)
 
-export interface NavItem<R extends Record<string, Function> = any> {
+export interface NavItem<R extends FunctionRecord = FunctionRecord> {
   /**
    * q-icon icon name
    */

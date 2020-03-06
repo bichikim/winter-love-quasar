@@ -1,4 +1,6 @@
-let googleApi: typeof window.google | null = null
+import Google from './type'
+
+let googleApi: Google | null = null
 
 export const googleApiCallback = '__GoogleApiCallback__'
 
@@ -23,7 +25,7 @@ export function loadGoogleMapsApi(src: string) {
 }
 
 export function load(key, waitTime: number = 5000):
-  (typeof window.google) | Promise<typeof window.google> {
+  Google | Promise<Google> {
   if(googleApi) {
     return googleApi
   }
