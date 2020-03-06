@@ -36,11 +36,7 @@
           )
           .all-pointer-events.grow.relative-position.handy-navigation-wrapper.footer-wrapper
             // search input
-            transition(
-              enter-active-class="animated fadeIn"
-              leave-active-class="animated fadeOut"
-            )
-              q-input.text-primary.glass(value="hello" dense standout v-show="!open")
+            w-search-bar(v-model="!open")
             //  below breakpoint navigation
             w-handy-navigation.absolute-top-left.fit(
               :value="open"
@@ -86,6 +82,7 @@
     components: {
       WSideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
       WHandyNavigation: () => (import('src/components/navigation/WHandyNavigation.vue')),
+      WSearchBar: () => (import('src/components/search-bar/WSearchBar.vue')),
     },
   })
   export default class MainLayout extends Vue {
