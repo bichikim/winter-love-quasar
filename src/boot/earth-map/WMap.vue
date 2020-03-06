@@ -7,10 +7,6 @@
       )
 </template>
 
-<style lang="stylus">
-
-</style>
-
 <script lang="ts">
   import {
     Component, Prop, Vue, Watch, Ref,
