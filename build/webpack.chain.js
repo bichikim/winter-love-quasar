@@ -7,6 +7,11 @@ function resolve(...args) {
   return path.join(__dirname, '../', ...args)
 }
 
+/**
+ * typescript building setting
+ * @param config
+ * @param ctx
+ */
 function tsConfig(config, ctx) {
   const {dev = true} = ctx || {}
   config.resolve.extensions.add('.ts').add('.tsx')
@@ -25,6 +30,11 @@ function tsConfig(config, ctx) {
   return config
 }
 
+/**
+ * pug building setting
+ * @param config
+ * @returns {*}
+ */
 function pugConfig(config) {
   config.module.rule('pug')
         .test(/\.pug$/)
@@ -43,6 +53,11 @@ function pugConfig(config) {
   return config
 }
 
+/**
+ * javascript building setting
+ * @param config
+ * @returns {*}
+ */
 function jsConfig(config) {
   config.resolve.extensions.add('.js').add('.jsx')
   config.module.rule('js')
@@ -55,6 +70,11 @@ function jsConfig(config) {
   return config
 }
 
+/**
+ * webpack alias setting
+ * @param config
+ * @returns {*}
+ */
 function aliasConfig(config) {
   config.resolve.alias.set('src', resolve('src'))
   config.resolve.alias.set('test', resolve('test'))
