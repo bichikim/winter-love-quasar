@@ -31,7 +31,7 @@
       )
     .background.absolute-top-left.fit
       q-no-ssr
-        w-map(:apiKey="apiKey" :dark="dark")
+        w-map(:dark="dark")
     q-page-container.no-pointer-events
       router-view
 </template>
@@ -48,7 +48,6 @@
   @Component({
     components: {
       WSideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
-      WMap: () => (import('src/components/map/WMap.vue')),
     },
   })
   export default class MainLayout extends Vue {
@@ -59,7 +58,6 @@
     mini: boolean = false
     side: string = 'right'
     version: string = 'version'
-    apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
     mapConfig: google.maps.MapOptions = {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8,
@@ -70,6 +68,9 @@
       return this.$store.state.aside.items
     }
 
+    /**
+     * whether in quasar dark mode
+     */
     get dark() {
       return Dark.isActive
     }

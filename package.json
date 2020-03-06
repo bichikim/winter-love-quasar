@@ -17,8 +17,8 @@
     "last 1 version, not dead, ie >= 11"
   ],
   "scripts": {
-    "dev": "dotenv -e .env.defalt -e .env.dev \"quasar dev -m spa\" ",
-    "build": "dotenv -e .env \"quasar build\" ",
+    "dev": "dotenv -e \".env.dev\" -e \".env.default\" quasar dev -m spa ",
+    "build": "dotenv -e \".env\" -e \".env.default\" \"quasar build\" ",
     "deploy": "firebase deploy",
     "styleguide": "dotenv -e .env.dev \"vue-styleguidist server\" ",
     "test:quasar": "karma start --browsers=ChromeHeadlessWithoutSecurity",

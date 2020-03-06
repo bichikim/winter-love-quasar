@@ -78,10 +78,10 @@ function jsConfig(config) {
 function aliasConfig(config) {
   config.resolve.alias.set('src', resolve('src'))
   config.resolve.alias.set('test', resolve('test'))
-  // config.resolve.alias.set('layouts', resolve('src', 'layouts'))
-  // config.resolve.alias.set('components', resolve('src', 'components'))
-  // config.resolve.alias.set('pages', resolve('src', 'pages'))
-  // config.resolve.alias.set('assets', resolve('src', 'assets'))
+  config.resolve.alias.set('layouts', resolve('src', 'layouts'))
+  config.resolve.alias.set('components', resolve('src', 'components'))
+  config.resolve.alias.set('pages', resolve('src', 'pages'))
+  config.resolve.alias.set('assets', resolve('src', 'assets'))
   return config
 }
 

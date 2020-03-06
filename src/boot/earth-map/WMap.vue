@@ -1,5 +1,5 @@
 <template lang="pug">
-  .google-map.fit(ref="googleMap")
+  .google-map.fit(ref="mapContainer")
     template(v-if="Boolean(google) && Boolean(map)")
       slot(
         :google="google"
@@ -12,18 +12,18 @@
 </style>
 
 <script lang="ts">
-  import {load} from './google-map-api-loader'
   import {
-    Component, Prop, Vue, Watch,
+    Component, Prop, Vue, Watch, Ref,
   } from 'vue-property-decorator'
   import darkStyle from './dark.json'
   import lightStyle from './light.json'
+  import Google from './type'
 
   @Component
   export default class WMap extends Vue {
-    @Prop() mapConfig?: google.maps.MapOptions
+    @Prop() mapConfig?: Google.maps.MapOptions
     @Prop({required: true, type: String}) apiKey: string
-    @Prop({default: () => ({lat: 40.730, lng: -73.935})}) center: google.maps.LatLng
+    @Prop({default: () => ({lat: 40.730, lng: -73.935})}) center: Google.maps.LatLng
     @Prop({default: 13}) zoom: number
     @Prop({default: false}) fullscreenControl: boolean
     @Prop({default: false}) scaleControl: boolean
@@ -32,18 +32,55 @@
     @Prop({default: false}) rotateControl: boolean
     @Prop({default: false}) panControl: boolean
     @Prop({default: false}) mapTypeControl: boolean
+
+    /**
+     * whether this.map is draggable
+     */
     @Prop({default: true}) draggable: boolean
+
+    /**
+     * whether in dark mode
+     */
     @Prop({default: false}) dark: boolean
 
-    google: null | typeof window.google = null
-    map: null | google.maps.Map = null
+    /**
+     * background color in dark mode
+     */
+    @Prop({default: '#FFFFFF'}) darkBackgroundColor: string
+
+    /**
+     * background color in light mode
+     */
+    @Prop({default: '#333333'}) lightBackgroundColor: string
+
+    /**
+     * map style in dark mode
+     * @see https://mapstyle.withgoogle.com/
+     */
+    @Prop({default: () => (darkStyle)}) darkMapStyle: any
+
+    /**
+     * map style in light mode
+     * @see https://mapstyle.withgoogle.com/
+     */
+    @Prop({default: () => (lightStyle)}) lightMapStyle: any
+    @Ref() mapContainer?: HTMLDivElement
+
+    /**
+     *
+     */
+    google: null | Google = null
+    map: null | Google.maps.Map = null
 
 
-    async created() {
-      this.google = await load(this.apiKey)
-      this.initializeMap(this.google)
+    created() {
+      this.$earthMap.load().then((google) => {
+        this.google = google
+        this.initializeMap(this.google)
+      })
     }
 
+    // update this.map center
     @Watch('center')
     __center(value) {
       if(this.map) {
@@ -51,6 +88,7 @@
       }
     }
 
+    // update this.map zoom
     @Watch('zoom')
     __zoom(value) {
       if(this.map) {
@@ -58,6 +96,7 @@
       }
     }
 
+    // update this.map options
     @Watch('options')
     __options(value) {
       if(this.map) {
@@ -65,14 +104,19 @@
       }
     }
 
+
+    // return this.map style
     get styles() {
-      return this.dark ? darkStyle : lightStyle
+      return this.dark ? this.darkMapStyle : this.lightMapStyle
     }
 
+
+    // return back ground color
     get backgroundColor() {
-      return this.dark ? '#333333' : '#FFFFFF'
+      return this.dark ? this.lightBackgroundColor : this.darkBackgroundColor
     }
 
+    // get options for this.map.setOptions
     get options() {
       const {
         fullscreenControl, scaleControl, streetViewControl, zoomControl,
@@ -86,8 +130,14 @@
       }
     }
 
-    initializeMap(google: typeof window.google) {
-      const mapContainer: HTMLDivElement = this.$refs.googleMap as any
+    initializeMap(google: Google) {
+      const {mapContainer} = this
+      // should render mapContainer before render the map
+      if(!mapContainer) {
+        return this.$nextTick(() => {
+          this.initializeMap(google)
+        })
+      }
       const {
         center, zoom, fullscreenControl, scaleControl, streetViewControl,
         zoomControl, rotateControl, panControl, mapTypeControl, draggable,
