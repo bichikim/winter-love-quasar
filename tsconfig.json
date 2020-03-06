@@ -67,8 +67,12 @@
     "paths": {
       "src/*": ["src/*"],
       "test/*": ["test/*"],
+      "build/*": ["build/*"],
       "layouts": ["src/layouts"],
-      "pages": ["src/pages"]
+      "pages": ["src/pages"],
+      "assets": ["src/assets"],
+      "boot": ["src/boot"],
+      "components": ["src/components"]
     },
     /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
     "allowSyntheticDefaultImports": true,
@@ -115,7 +119,9 @@
     // build environment
   },
   "include": [
+    "build/**/*.js",
     "src/**/*.ts",
+    "test/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "node_modules/vue-tsx-support/enable-check.d.ts"
