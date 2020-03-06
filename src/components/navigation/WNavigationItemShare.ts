@@ -14,6 +14,8 @@ export default class WNavigationItemShare extends Vue implements NavItem {
   @Prop() push?: RawLocation
   @Prop() run?: ExecutionInfo
   @Prop() items?: NavItem[]
+  @Prop() active: boolean
+  @Prop() disable: boolean
 
   get myTitle() {
     return this.$t(this.title)

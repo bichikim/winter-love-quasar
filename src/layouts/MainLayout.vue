@@ -44,6 +44,7 @@
             //  below breakpoint navigation
             w-handy-navigation.absolute-top-left.fit(
               :value="open"
+              :items="items"
             )
     // only over breackpoint
     template(v-else)
@@ -79,6 +80,7 @@
 <script lang="ts">
   import {Dark} from 'quasar'
   import {Component, Prop, Vue, Ref} from 'vue-property-decorator'
+  import Store from 'src/store/root'
 
   @Component({
     components: {
@@ -101,8 +103,10 @@
       zoom: 8,
     }
 
+    rootStore: Store = new Store()
+
     get items() {
-      return this.$store.state.aside.items
+      return []
     }
 
     /**

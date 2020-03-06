@@ -18,7 +18,6 @@
   @Component
   export default class WMap extends Vue {
     @Prop() mapConfig?: Google.maps.MapOptions
-    @Prop({required: true, type: String}) apiKey: string
     @Prop({default: () => ({lat: 40.730, lng: -73.935})}) center: Google.maps.LatLng
     @Prop({default: 13}) zoom: number
     @Prop({default: false}) fullscreenControl: boolean

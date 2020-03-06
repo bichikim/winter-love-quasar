@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-list(v-if="items" padding ref="list")
+  q-list.w-side-navigation-list(v-if="items" padding ref="list")
     w-side-navigation-item(
       v-for="(item, key) in items"
       v-bind="item"
@@ -10,9 +10,6 @@
     )
 </template>
 
-<style scoped lang="stylus">
-</style>
-
 <script lang="ts">
   import {
     Component, Mixins,
@@ -22,7 +19,7 @@
 
   @Component({
     components: {
-      WSideNavigationItem: () => (import('src/components/navigation/WSideNavigationItem.vue')),
+      WSideNavigationItem: () => (import('./WSideNavigationItem.vue')),
     },
   })
   export default class WSideNavigationList extends Mixins(WNavigationShare, NavigationItemDepth) {

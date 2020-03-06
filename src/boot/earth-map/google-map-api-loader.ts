@@ -27,7 +27,7 @@ export function loadGoogleMapsApi(src: string) {
 export function load(key, waitTime: number = 5000):
   Google | Promise<Google> {
   if(googleApi) {
-    return googleApi
+    return Promise.resolve(googleApi)
   }
 
   return new Promise((resolve, reject) => {

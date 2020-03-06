@@ -5,9 +5,7 @@
       leave-active-class="animated fadeOutRight"
     )
       .fit.row.items-center.q-gutter-x-sm(v-if="value")
-        q-btn.glass(label="foo" dense)
-        q-btn.glass(label="foo" dense)
-        q-btn.glass(label="foo" dense)
+        w-handy-navigation-item.glass(:items="items")
 </template>
 
 <style scoped lang="stylus">
@@ -18,12 +16,19 @@
 
 <script lang="ts">
   import {
-    Component, Prop, Vue, Inject,
+    Component, Prop, Inject, Mixins,
   } from 'vue-property-decorator'
+  import WNavigationShare from './WNavigationShare'
 
-  @Component
-  export default class WHandyNavigation extends Vue {
+  @Component({
+    components: {
+      WHandyNavigationItem: () => (import('./WHandyNavigationItem.vue')),
+    },
+  })
+  export default class WHandyNavigation extends Mixins(WNavigationShare) {
+    // open or not
     @Prop({default: true}) value: boolean
+
     @Inject({default: {}}) readonly layout: any
 
     get totalHeight() {
