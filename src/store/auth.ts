@@ -1,8 +1,9 @@
 import * as Sinai from 'sinai'
-import {StoreContext} from 'src/store/type'
 
-export default (ctx: StoreContext) => {
-  const context = ctx.Vue.prototype
+/**
+ * auth store
+ */
+export default (/* ctx: StoreContext */) => {
 
   class State {
     id: string

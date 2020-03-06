@@ -1,9 +1,10 @@
 import * as Sinai from 'sinai'
 import {NavItem} from 'src/components/navigation/types'
-import {StoreContext} from 'src/store/type'
 
-export default (ctx: StoreContext) => {
-  const context = ctx.Vue.prototype
+/**
+ * aside navigation store
+ */
+export default (/* ctx: StoreContext */) => {
 
   class State {
     version: number = 0

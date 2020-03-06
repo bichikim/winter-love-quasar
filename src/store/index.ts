@@ -9,8 +9,8 @@ const store = (ctx) => {
   Vue.use(Sinai)
 
   const root = Sinai.module()
-  root.child('aside', aside(ctx))
-  root.child('auth', auth(ctx))
+  root.child('aside', aside())
+  root.child('auth', auth())
 
   class Fake {
     get store() {
