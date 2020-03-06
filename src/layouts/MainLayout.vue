@@ -79,7 +79,7 @@
 
 <script lang="ts">
   import {Dark} from 'quasar'
-  import {Component, Prop, Vue, Ref} from 'vue-property-decorator'
+  import {Component, Prop, Vue, Ref, Provide} from 'vue-property-decorator'
   import Store from 'src/store/root'
 
   @Component({
@@ -103,10 +103,10 @@
       zoom: 8,
     }
 
-    rootStore: Store = new Store()
+    @Provide('store') rootStore: Store = new Store()
 
     get items() {
-      return []
+      return this.rootStore.aside.items
     }
 
     /**

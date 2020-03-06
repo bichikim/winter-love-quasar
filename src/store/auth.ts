@@ -1,28 +1,7 @@
-import * as Sinai from 'sinai'
+import {Component, Vue} from 'vue-property-decorator'
 
-/**
- * auth store
- */
-export default (/* ctx: StoreContext */) => {
-
-  class State {
-    id: string
-    name: string
-    email: string
-  }
-
-  class Mutation extends Sinai.Mutations<State>() {
-
-  }
-
-  class Actions extends Sinai.Actions<State, Mutation>() {
-    hello() {
-      console.log('hello')
-    }
-  }
-
-  return Sinai.module({
-    state: State,
-    actions: Actions,
-  })
+@Component
+export default class Auth extends Vue {
+  name: string | null = null
+  email: string | null = null
 }

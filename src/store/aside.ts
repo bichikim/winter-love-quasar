@@ -3,5 +3,20 @@ import {NavItem} from 'src/components/navigation/types'
 
 @Component
 export default class Aside extends Vue {
-  items: NavItem[] = []
+  items: NavItem[] = [
+    {
+      title: 'aside.history',
+      icon: 'las la-stopwatch',
+      active: false,
+      disable: false,
+      push: '/history',
+    },
+    {
+      title: 'aside.smoothie',
+      icon: 'las la-snowflake',
+      active: false,
+      disable: false,
+      push: '/smoothie',
+    },
+  ]
 }
