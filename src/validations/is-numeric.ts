@@ -1,7 +1,19 @@
 /* eslint-disable camelcase */
 import _isNumeric from 'validator/es/lib/isNumeric'
 
-const isNumeric = (value: string, options?: {noSymbols?: boolean}) => {
+interface Options {
+  /**
+   * ignore - + .
+   */
+  noSymbols?: boolean
+}
+
+/**
+ * whether value is number string
+ * @param value
+ * @param options
+ */
+const isNumeric = (value: string, options?: Options) => {
   return _isNumeric(value, {no_symbols: options?.noSymbols})
 }
 
