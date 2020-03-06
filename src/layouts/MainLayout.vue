@@ -2,6 +2,8 @@
   q-layout.main-layout(:view="view" ref="layout")
     q-header.bg-transparent.no-pointer-events
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="toolbarClass")
+
+        // over breackpoint menu button
         q-btn.shadow-3.glass.all-pointer-events(
           v-if="!belowBreakpoint"
           flat dense
@@ -9,42 +11,53 @@
           icon="las la-bars"
         )
         q-space
+
+        // dark mode button
         q-btn.shadow-3.glass.all-pointer-events(
           flat dense
           :icon="dark ? 'las la-moon' : 'las la-sun'" @click="onToggleDark")
+
+        // Left-handed Right-handed button
         q-btn.shadow-3.glass.all-pointer-events(
           flat dense
           icon="las la-hand-paper"
           :class="side === 'left' ? 'reflect' : ''"
           @click="onToggleSide"
         )
-    q-footer.bg-transparent.no-pointer-events(v-if="belowBreakpoint")
-      q-toolbar.row.q-gutter-x-md.q-pr-none.con.footer.q-pb-md(:class="toolbarClass")
-        q-btn.shadow-3.glass.all-pointer-events(
-          flat dense
-          icon="las la-bars"
-          @click="onClickOpen"
+    // only below breakpoint
+    template(v-if="belowBreakpoint")
+      q-footer.bg-transparent.no-pointer-events
+        q-toolbar.row.q-gutter-x-md.q-pr-none.con.footer.q-pb-md(:class="toolbarClass")
+          // below breackpoint menu button
+          q-btn.shadow-3.glass.all-pointer-events(
+            flat dense
+            icon="las la-bars"
+            @click="onClickOpen"
+          )
+          .all-pointer-events.grow.relative-position.handy-navigation-wrapper.footer-wrapper
+            // search input
+            transition(
+              enter-active-class="animated fadeIn"
+              leave-active-class="animated fadeOut"
+            )
+              q-input.text-primary.glass(value="hello" dense standout v-show="!open")
+            //  below breakpoint navigation
+            w-handy-navigation.absolute-top-left.fit(
+              :value="open"
+            )
+    // only over breackpoint
+    template(v-else)
+      // for safty navitaion cannot be rendered in ssr
+      q-no-ssr()
+        w-side-navigation.glass(
+          :items="items"
+          :side="side"
+          :mini="open"
+          :breakpoint="breakpoint"
+          @click="onNavClick"
+          :elevated="true"
+          ref="drawer"
         )
-        .all-pointer-events.grow.relative-position.handy-navigation-wrapper.footer-wrapper
-          transition(
-            enter-active-class="animated fadeIn"
-            leave-active-class="animated fadeOut"
-          )
-            q-input.glass(value="hello" dense standout v-show="!open")
-          w-handy-navigation.absolute-top-left.fit(
-            :value="open"
-          )
-    q-no-ssr
-      w-side-navigation.glass(
-        v-if="!belowBreakpoint"
-        :items="items"
-        :side="side"
-        :mini="open"
-        :breakpoint="breakpoint"
-        @click="onNavClick"
-        :elevated="true"
-        ref="drawer"
-      )
     .background.absolute-top-left.fit
       q-no-ssr
         w-map(:dark="dark")
@@ -71,7 +84,6 @@
     components: {
       WSideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
       WHandyNavigation: () => (import('src/components/navigation/WHandyNavigation.vue')),
-      WMap: () => (import('src/components/map/WMap.vue')),
     },
   })
   export default class MainLayout extends Vue {

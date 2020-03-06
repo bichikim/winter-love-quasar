@@ -1,6 +1,7 @@
 @import "./glass"
+@import "./google-map"
 
-// app global css
+// >> quasar app global css
 body.body--dark
   background: $dark-page
 
@@ -8,22 +9,12 @@ body.body--dark
   background-color $transparent !important
 
 
-.q-field--dense
-  .q-field__control
-    height 32px
 
 
-// >> google map
-a[href^="http://maps.google.com/maps"]
-  display none !important
-
-a[href^="https://maps.google.com/maps"]
-  display none !important
-
-.gmnoprint a, .gmnoprint span, .gm-style-cc
-  display:none
-
-.gmnoprint div
-  background:none !important
-
+.q-field
+  &.q-field--dense
+    .q-field__control
+      height 32px
+  input
+    color inherit
 // <<
