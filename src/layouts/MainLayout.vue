@@ -30,11 +30,11 @@
         q-toolbar.row.q-gutter-x-md.q-pr-none.con.footer.q-pb-md(:class="toolbarClass")
           // below breackpoint menu button
           portal-target(name="footer-menu-btn")
-          .w-grow.relative-position.handy-navigation-wrapper.footer-wrapper
+          .w-grow.relative-position.handy-navigation-wrapper
             // search input
             w-search-bar(:value="belowBreakpoint && !open")
             //  below breakpoint navigation
-            w-handy-navigation.absolute-top-left.fit(
+            w-handy-navigation.absolute-top-left.full-width(
               :value="open"
               :items="items"
               :side="side"
@@ -62,9 +62,7 @@
 <style lang="stylus">
   .reflect
     transform scale(-1, 1)
-  .footer
-    height 32px
-  .footer-wrapper
+  .handy-navigation-wrapper
     height 32px
   .no-event
     pointer-events none
