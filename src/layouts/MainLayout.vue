@@ -1,24 +1,24 @@
 <template lang="pug">
   q-layout.main-layout(:view="view" ref="layout")
-    q-header.bg-transparent.no-pointer-events
+    portal(:to="belowBreakpoint ? 'footer-menu-btn' : 'header-menu-btn'")
+      q-btn.shadow-3.glass.active(
+        flat dense
+        @click="onClickOpen"
+        :icon="isMenuActive ? 'las la-times' : 'las la-bars'"
+      )
+    q-header.bg-transparent.no-event
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="toolbarClass")
-
         // over breackpoint menu button
-        q-btn.shadow-3.glass.all-pointer-events(
-          v-if="!belowBreakpoint"
-          flat dense
-          @click="onClickOpen"
-          icon="las la-bars"
-        )
-        q-space
+        portal-target(name="header-menu-btn")
+        w-search-bar.w-grow(:value="!belowBreakpoint")
 
         // dark mode button
-        q-btn.shadow-3.glass.all-pointer-events(
+        q-btn.shadow-3.glass(
           flat dense
           :icon="dark ? 'las la-moon' : 'las la-sun'" @click="onToggleDark")
 
         // Left-handed Right-handed button
-        q-btn.shadow-3.glass.all-pointer-events(
+        q-btn.shadow-3.glass(
           flat dense
           icon="las la-hand-paper"
           :class="side === 'left' ? 'reflect' : ''"
@@ -26,21 +26,18 @@
         )
     // only below breakpoint
     template(v-if="belowBreakpoint")
-      q-footer.bg-transparent.no-pointer-events
+      q-footer.bg-transparent.no-event
         q-toolbar.row.q-gutter-x-md.q-pr-none.con.footer.q-pb-md(:class="toolbarClass")
           // below breackpoint menu button
-          q-btn.shadow-3.glass.all-pointer-events(
-            flat dense
-            icon="las la-bars"
-            @click="onClickOpen"
-          )
-          .all-pointer-events.grow.relative-position.handy-navigation-wrapper.footer-wrapper
+          portal-target(name="footer-menu-btn")
+          .w-grow.relative-position.handy-navigation-wrapper.footer-wrapper
             // search input
-            w-search-bar(v-model="!open")
+            w-search-bar(:value="belowBreakpoint && !open")
             //  below breakpoint navigation
             w-handy-navigation.absolute-top-left.fit(
               :value="open"
               :items="items"
+              :side="side"
             )
     // only over breackpoint
     template(v-else)
@@ -49,7 +46,7 @@
         w-side-navigation.glass(
           :items="items"
           :side="side"
-          :mini="open"
+          :mini="mini"
           :breakpoint="breakpoint"
           @click="onNavClick"
           :elevated="true"
@@ -65,18 +62,20 @@
 <style lang="stylus">
   .reflect
     transform scale(-1, 1)
-  .grow
-    flex-grow 1
   .footer
     height 32px
   .footer-wrapper
     height 32px
+  .no-event
+    pointer-events none
+  .no-event>div>*
+    pointer-events auto
 </style>
 
 <script lang="ts">
   import {Dark} from 'quasar'
-  import {Component, Prop, Vue, Ref, Provide} from 'vue-property-decorator'
   import Store from 'src/store/root'
+  import {Component, Prop, Inject, Ref, Vue} from 'vue-property-decorator'
 
   @Component({
     components: {
@@ -89,9 +88,21 @@
     @Prop({default: 'lHr Lpr lFr'}) view: string
     @Prop({default: 1023}) breakpoint: number
     @Ref() layout: any
+    @Inject() store: Store
 
+    /**
+     * open handy navigation
+     */
     open: boolean = false
+
+    /**
+     * to be mini aside navigation
+     */
     mini: boolean = false
+
+    /**
+     * layout side for Left-handed & Right-handed
+     */
     side: string = 'right'
     version: string = 'version'
     apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
@@ -100,10 +111,8 @@
       zoom: 8,
     }
 
-    @Provide('store') rootStore: Store = new Store()
-
     get items() {
-      return this.rootStore.aside.items
+      return this.store.aside.items
     }
 
     /**
@@ -115,6 +124,14 @@
 
     get menuBtnIcon() {
       return 'menu'
+    }
+
+    get isMenuActive() {
+      const {belowBreakpoint, mini, open} = this
+      if(belowBreakpoint) {
+        return open
+      }
+      return !mini
     }
 
     get toolbarClass() {
@@ -134,7 +151,11 @@
     }
 
     onClickOpen() {
-      this.open = !this.open
+      if(this.belowBreakpoint) {
+        this.open = !this.open
+        return
+      }
+      this.mini = !this.mini
     }
 
     onNavClick(value) {

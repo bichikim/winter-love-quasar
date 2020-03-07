@@ -4,8 +4,9 @@
 </template>
 
 <script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
+  import {Component, Provide, Vue} from 'vue-property-decorator'
   import {setContext} from 'src/context'
+  import Store from 'src/store/root'
 
   /**
    * Register component hook
@@ -19,6 +20,8 @@
    */
   @Component
   export default class App extends Vue {
+
+    @Provide('store') store: Store = new Store()
 
     /**
      * Add Quasar icon mapping logic

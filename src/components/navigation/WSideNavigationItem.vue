@@ -45,7 +45,7 @@
     /**
      * white list of data to send by the click event
      */
-    static clickInfo: (string | keyof WNavigationItemShare<any>)[] = ['push', 'replace', 'run']
+    static clickInfo: (string | keyof WNavigationItemShare)[] = ['push', 'replace', 'run']
 
     /**
      * Whether the expansion item will also emit click event

@@ -1,33 +1,45 @@
 <template lang="pug">
-  .w-handy-navigation.no-pointer-events
+  .w-handy-navigation.relative-position.no-pointer-events
     transition(
-      enter-active-class="animated fadeInRight"
-      leave-active-class="animated fadeOutRight"
+      :key="side"
+      :enter-active-class="`animated ${side === 'right' ? 'fadeInRight' : 'fadeInLeft'}`"
+      :leave-active-class="`animated ${side === 'right' ? 'fadeOutRight' : 'fadeOutLeft'}`"
     )
-      .fit.row.items-center.q-gutter-x-sm(v-if="value")
-        w-handy-navigation-item.glass(:items="items")
+      q-scroll-area.all-pointer-events.wrapper.full-width(
+        v-if="value" horizontal :content-style="{paddingBottom: '5px'}"
+        :thumb-style={display: 'none'}
+      )
+        w-handy-navigation-list.glass(:items="items")
 </template>
 
-<style scoped lang="stylus">
-  .w-handy-navigation
+<style lang="stylus" scoped>
+  .wrapper
     height 40px
+    overflow-x hidden
+    overflow-y unset
+    margin-bottom 5px
+    touch-action pan-x
 
 </style>
 
 <script lang="ts">
-  import {
-    Component, Prop, Inject, Mixins,
-  } from 'vue-property-decorator'
+  import {Component, Inject, Mixins, Prop} from 'vue-property-decorator'
   import WNavigationShare from './WNavigationShare'
 
   @Component({
     components: {
-      WHandyNavigationItem: () => (import('./WHandyNavigationItem.vue')),
+      WHandyNavigationList: () => (import('./WHandyNavigationList.vue')),
     },
   })
   export default class WHandyNavigation extends Mixins(WNavigationShare) {
     // open or not
     @Prop({default: true}) value: boolean
+    @Prop({default: true}) dense: boolean
+
+    /**
+     * animation side
+     */
+    @Prop({default: 'right'}) side: boolean
 
     @Inject({default: {}}) readonly layout: any
 

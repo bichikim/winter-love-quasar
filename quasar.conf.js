@@ -15,6 +15,7 @@ module.exports = function (ctx) {
       'axios',
       'firebase',
       'earth-map',
+      'portal',
       'reflect-metadata',
       {path: 'icon', server: false},
     ],

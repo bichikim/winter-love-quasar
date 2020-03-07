@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.column.items-center.justify-center
-    .text-h1.text-center Hello There?
+    .text-h1.text-center.text-primary Hello There?
 </template>
 
 <style>

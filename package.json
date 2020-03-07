@@ -47,6 +47,7 @@
     "interactjs": "^1.4.4",
     "jquery": "^3.4",
     "lodash": "^4.17",
+    "portal-vue": "^2.1.7",
     "quasar": "^1.9",
     "reflect-metadata": "^0.1.13",
     "sinai": "^0.2.6",
