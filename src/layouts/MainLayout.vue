@@ -1,16 +1,20 @@
 <template lang="pug">
   q-layout.main-layout(:view="view" ref="layout")
+    // portal menu-btn
     portal(:to="belowBreakpoint ? 'footer-menu-btn' : 'header-menu-btn'")
       q-btn.shadow-3.glass.active(
         flat dense
         @click="onClickOpen"
         :icon="isMenuActive ? 'las la-times' : 'las la-bars'"
+        size="md"
       )
-    q-header.bg-transparent.no-event
-      q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs(:class="toolbarClass")
+    portal(:to="belowBreakpoint ? 'footer-search-bar' : 'header-search-bar'")
+      w-search-bar(:value="!open")
+    q-header.bg-transparent.no-pointer-events
+      q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs.all-pointer-events(:class="toolbarClass")
         // over breackpoint menu button
         portal-target(name="header-menu-btn")
-        w-search-bar.w-grow(:value="!belowBreakpoint")
+        portal-target.w-grow(name="header-search-bar")
 
         // dark mode button
         q-btn.shadow-3.glass(
@@ -26,13 +30,13 @@
         )
     // only below breakpoint
     template(v-if="belowBreakpoint")
-      q-footer.bg-transparent.no-event
-        q-toolbar.row.q-gutter-x-md.q-pr-none.con.footer.q-pb-md(:class="toolbarClass")
+      q-footer.bg-transparent.q-pa-none.no-pointer-events
+        q-toolbar.row.q-gutter-x-sm.footer.q-pr-xs.all-pointer-events(:class="toolbarClass")
           // below breackpoint menu button
           portal-target(name="footer-menu-btn")
           .w-grow.relative-position.handy-navigation-wrapper
             // search input
-            w-search-bar(:value="belowBreakpoint && !open")
+            portal-target(name="footer-search-bar")
             //  below breakpoint navigation
             w-handy-navigation.absolute-top-left.full-width(
               :value="open"
@@ -54,38 +58,36 @@
         )
     .background.absolute-top-left.fit
       q-no-ssr
-        w-map(:dark="dark")
+        earth-map(:dark="dark")
     q-page-container.no-pointer-events
       router-view
 </template>
 
-<style lang="stylus">
-  .reflect
-    transform scale(-1, 1)
+<style lang="stylus" scoped>
   .handy-navigation-wrapper
-    height 32px
-  .no-event
-    pointer-events none
-  .no-event>div>*
-    pointer-events auto
+    height 40px
 </style>
 
 <script lang="ts">
-  import {Dark} from 'quasar'
+  import {Dark, QLayout} from 'quasar'
   import Store from 'src/store/root'
   import {Component, Prop, Inject, Ref, Vue} from 'vue-property-decorator'
+  import WSideNavigation from 'src/components/navigation/WSideNavigation.vue'
+  import WHandyNavigation from 'src/components/navigation/WHandyNavigation.vue'
+  import WSearchBar from 'src/components/search-bar/WSearchBar.vue'
 
   @Component({
     components: {
-      WSideNavigation: () => (import('src/components/navigation/WSideNavigation.vue')),
-      WHandyNavigation: () => (import('src/components/navigation/WHandyNavigation.vue')),
-      WSearchBar: () => (import('src/components/search-bar/WSearchBar.vue')),
+      QLayout,
+      WSideNavigation,
+      WHandyNavigation,
+      WSearchBar,
     },
   })
   export default class MainLayout extends Vue {
     @Prop({default: 'lHr Lpr lFr'}) view: string
     @Prop({default: 1023}) breakpoint: number
-    @Ref() layout: any
+    @Ref() layout?: any
     @Inject() store: Store
 
     /**
@@ -101,12 +103,25 @@
     /**
      * layout side for Left-handed & Right-handed
      */
-    side: string = 'right'
+    // side: string = 'right'
+
     version: string = 'version'
     apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
     mapConfig: google.maps.MapOptions = {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8,
+    }
+
+    get side() {
+      return this.store.auth.side
+    }
+
+    set side(value) {
+      this.store.auth.side = value
+    }
+
+    get toolbarPad() {
+      return ''
     }
 
     get items() {

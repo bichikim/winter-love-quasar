@@ -3,7 +3,7 @@
 
 // >> quasar app global css
 body.body--dark
-  background: $dark-page
+  background-color: $dark-page
 
 .q-drawer__backdrop
   background-color $transparent !important
@@ -18,14 +18,15 @@ body.body--dark
 
 
 .q-field
-  &.q-field--dense
-    .q-field__control
-      height 32px
   input
     color inherit
+
 // <<
 
 // >> winter-love global css
-  .w-grow
-    flex-grow 1
-// <<
+
+.w-grow
+  flex-grow 1
+
+.reflect
+  transform scale(-1, 1)

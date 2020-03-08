@@ -1,6 +1,6 @@
 import {BootFileFunction} from 'src/types'
 import {load} from './google-map-api-loader'
-import WMap from './WMap.vue'
+import EarthMap from 'src/boot/earth-map/EarthMap.vue'
 
 interface GoogleApiLoader {
   load(key?: string): Promise<typeof google>
@@ -24,7 +24,7 @@ const boot: BootFileFunction = ({Vue}) => {
   /**
    * load map component
    */
-  Vue.component(WMap.name, WMap)
+  Vue.component('earth-map', EarthMap)
 
   Vue.prototype['$earthMap'] = Object.freeze({
     load(key: string = _key) {

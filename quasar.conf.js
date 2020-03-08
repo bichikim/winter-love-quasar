@@ -6,6 +6,8 @@ const {tsConfig, pugConfig, iconFont, eslint, i18n,
 const envReader = require('./build/env-reader')
 
 module.exports = function (ctx) {
+  const {dev} = ctx
+
   return {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
@@ -16,6 +18,7 @@ module.exports = function (ctx) {
       'firebase',
       'earth-map',
       'portal',
+      'winter-love',
       'reflect-metadata',
       {path: 'icon', server: false},
     ],
@@ -51,10 +54,10 @@ module.exports = function (ctx) {
       //            (fastest compile time; minimum bundle size; most tedious)
       // * true   - Import everything from Quasar
       //            (not treeshaking Quasar; biggest bundle size; convenient)
-      all: true,
+      all: dev ? true : 'auto',
 
-      components: [],
-      directives: [],
+      // components: [],
+      // directives: [],
 
       // Quasar plugins
       plugins: [],

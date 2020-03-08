@@ -4,18 +4,23 @@
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut"
     )
-      q-input.text-primary.glass(v-model="myValue" dense standout v-show="value")
+      q-input.text-primary.glass.text-h6(v-model="myValue" dense standout v-show="value")
         template(#append)
-          q-btn.btn(
-            :icon="mode === 'barcode' ? 'las la-barcode' : 'las la-search'"
-            dense flat
-          )
+          .btn-group
+            q-btn(dense flat icon="las la-search" v-if="isSearchAble")
+            q-btn(
+              icon="las la-barcode"
+              dense flat
+            )
 </template>
 
 <style lang="stylus" scoped>
-  .btn
-    margin-top -10px
+  .btn-group
     margin-right -12px
+  .q-btn
+    border-radius 0
+  .q-btn:last-child
+    border-radius 0 $button-border-radius $button-border-radius 0;
 </style>
 
 <script lang="ts">
@@ -27,11 +32,8 @@
 
     myValue: string = ''
 
-    get mode() {
-      if(this.myValue && this.myValue.length > 0) {
-        return 'search'
-      }
-      return 'barcode'
+    get isSearchAble() {
+      return this.myValue && this.myValue.length > 0
     }
   }
 </script>

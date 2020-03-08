@@ -17035,11 +17035,6 @@ vue-docgen-api@^4.13.1:
     ts-map "^1.0.3"
     vue-template-compiler "^2.0.0"
 
-vue-dragscroll@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/vue-dragscroll/-/vue-dragscroll-2.0.1.tgz#46646ae36ffec9d2c1c40f5f14e0af1fc81ece81"
-  integrity sha512-U1AlKP5fzwc2S8mZAopBDiwIlkLZa8S88XlsLQ+L4eIjvhJDrZCsvoJ1VFdEg+DvCHZRmNAbHScXJ05K56rVwA==
-
 vue-eslint-parser@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-7.0.0.tgz#a4ed2669f87179dedd06afdd8736acbb3a3864d6"

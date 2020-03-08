@@ -23,10 +23,7 @@ declare namespace NodeJS {
 
     // firebase
     VUE_FIREBASE_API_KEY: string
-    VUE_FIREBASE_AUTH_DOMAIN: string
-    VUE_FIREBASE_DATABASE_URL: string
     VUE_FIREBASE_PROJECT_ID: string
-    VUE_FIREBASE_STORAGE_BUCKET: string
     VUE_FIREBASE_MESSAGING_SENDER_ID: string
     VUE_FIREBASE_API_ID: string
   }

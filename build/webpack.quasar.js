@@ -62,12 +62,12 @@ const defaultQuasarConfig = {
   },
 }
 
-module.exports = function quasarChainConfig() {
+module.exports = function quasarChainConfig(all = true) {
 
   const _quasarConfig = quasarConfig({
     mode: 'spa',
   })
-  const config = merge(defaultQuasarConfig, quasarConfig)
+  const config = merge(defaultQuasarConfig, quasarConfig, {framework: {all}})
   const quasarConfigChain = createChain(config, 'SPA')
   const {chainWebpack} = _quasarConfig.build
   if(chainWebpack) {

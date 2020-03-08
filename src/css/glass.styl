@@ -13,22 +13,26 @@ body.body--dark .q-btn.glass
   color $white
   dark-dimmed-glass()
 
-.q-drawer.glass
-  light-dimmed-glass()
-
+// >> q-drawer
 .q-drawer-container.glass .q-drawer
   light-dimmed-glass()
 
-body.body--dark .q-drawer.glass
-  dark-dimmed-glass()
-
 body.body--dark .q-drawer-container.glass .q-drawer
   dark-dimmed-glass()
+// <<
 
+// >> q-card
+.glass
+  &.q-card
+    light-dimmed-glass()
 
+body.body--dark
+  .glass
+    &.q-card
+      dark-dimmed-glass()
+// <<
 
-
-// field
+// >>field
 .glass
   &.q-field,&.q-field.q-field--standout
     .q-field__control
@@ -39,8 +43,6 @@ body.body--dark .q-drawer-container.glass .q-drawer
     input,i
       color inherit
 
-
-
 body.body--dark .glass
   &.q-field,&.q-field.q-field--standout
     .q-field__control
@@ -50,3 +52,4 @@ body.body--dark .glass
   &.q-field--focused.q-field--standout
     input
       color inherit
+// <<

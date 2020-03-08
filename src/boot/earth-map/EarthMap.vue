@@ -16,7 +16,7 @@
   import Google from './type'
 
   @Component
-  export default class WMap extends Vue {
+  export default class EarthMap extends Vue {
     @Prop() mapConfig?: Google.maps.MapOptions
     @Prop({default: () => ({lat: 40.730, lng: -73.935})}) center: Google.maps.LatLng
     @Prop({default: 13}) zoom: number
@@ -71,7 +71,7 @@
     created() {
       this.$earthMap.load().then((google) => {
         this.google = google
-        this.initializeMap(this.google)
+        this.initializeMap(google)
       })
     }
 

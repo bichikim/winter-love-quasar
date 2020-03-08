@@ -6,7 +6,9 @@
       :leave-active-class="`animated ${side === 'right' ? 'fadeOutRight' : 'fadeOutLeft'}`"
     )
       q-scroll-area.all-pointer-events.wrapper.full-width(
-        v-if="value" horizontal :content-style="{paddingBottom: '5px'}"
+        horizontal
+        v-if="value"
+        :content-style="{paddingBottom: '5px'}"
         :thumb-style={display: 'none'}
       )
         w-handy-navigation-list.glass(:items="items")
