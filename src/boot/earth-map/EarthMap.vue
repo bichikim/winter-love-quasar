@@ -1,5 +1,8 @@
 <template lang="pug">
-  .google-map.fit(ref="mapContainer")
+  .google-map.fit(
+    ref="mapContainer"
+    @touchstart="onMouse"
+  )
     template(v-if="Boolean(google) && Boolean(map)")
       slot(
         :google="google"
@@ -67,12 +70,39 @@
     google: null | Google = null
     map: null | Google.maps.Map = null
 
+    // return this.map style
+    get styles() {
+      return this.dark ? this.darkMapStyle : this.lightMapStyle
+    }
+
+    // return back ground color
+    get backgroundColor() {
+      return this.dark ? this.lightBackgroundColor : this.darkBackgroundColor
+    }
+
+    // get options for this.map.setOptions
+    get options() {
+      const {
+        fullscreenControl, scaleControl, streetViewControl, zoomControl,
+        rotateControl, panControl, mapTypeControl, draggable, styles,
+        backgroundColor,
+      } = this
+      return {
+        fullscreenControl, scaleControl, streetViewControl, zoomControl,
+        rotateControl, panControl, mapTypeControl, draggable, styles,
+        backgroundColor,
+      }
+    }
 
     created() {
       this.$earthMap.load().then((google) => {
         this.google = google
         this.initializeMap(google)
       })
+    }
+
+    onMouse() {
+      this.$root.$emit('blur')
     }
 
     // update this.map center
@@ -96,32 +126,6 @@
     __options(value) {
       if(this.map) {
         this.map.setOptions(value)
-      }
-    }
-
-
-    // return this.map style
-    get styles() {
-      return this.dark ? this.darkMapStyle : this.lightMapStyle
-    }
-
-
-    // return back ground color
-    get backgroundColor() {
-      return this.dark ? this.lightBackgroundColor : this.darkBackgroundColor
-    }
-
-    // get options for this.map.setOptions
-    get options() {
-      const {
-        fullscreenControl, scaleControl, streetViewControl, zoomControl,
-        rotateControl, panControl, mapTypeControl, draggable, styles,
-        backgroundColor,
-      } = this
-      return {
-        fullscreenControl, scaleControl, streetViewControl, zoomControl,
-        rotateControl, panControl, mapTypeControl, draggable, styles,
-        backgroundColor,
       }
     }
 
