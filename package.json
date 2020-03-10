@@ -23,7 +23,7 @@
     "deploy": "firebase deploy",
     "styleguide": "dotenv -e .env.dev \"vue-styleguidist server\" ",
     "test": "npm run test:quasar",
-    "test:quasar": "karma start karma.config.js --browsers=Firefox",
+    "test:quasar": "karma start karma.config.js --browsers=Chrome",
     "test:node": "mocha",
     "test:firebase": "",
     "firebase:emulator": "firebase serve --only firestore,database"

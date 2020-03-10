@@ -4,7 +4,7 @@
       enter-active-class="animated fadeIn"
       leave-active-class="animated fadeOut"
     )
-      q-input.text-primary.glass.text-h6(v-model="myValue" dense standout v-show="value")
+      q-input.text-primary.glass.text-h6(v-model="myValue" dense standout v-show="show")
         template(#append)
           .btn-group
             q-btn(dense flat icon="las la-search" v-if="isSearchAble")
@@ -29,6 +29,7 @@
   @Component
   export default class WSearchBar extends Vue {
     @Prop({default: ''}) value: string
+    @Prop({default: true}) show: boolean
 
     myValue: string = ''
 

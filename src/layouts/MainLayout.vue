@@ -1,19 +1,14 @@
 <template lang="pug">
   q-layout.main-layout(:view="view" ref="layout")
     // portal menu-btn
-    portal(:to="belowBreakpoint ? 'footer-menu-btn' : 'header-menu-btn'")
-      q-btn.shadow-3.glass.active(
-        flat dense
-        @click="onClickOpen"
-        :icon="isMenuActive ? 'las la-times' : 'las la-bars'"
-        size="md"
-      )
     portal(:to="belowBreakpoint ? 'footer-search-bar' : 'header-search-bar'")
-      w-search-bar(:value="!open")
+      w-search-bar
+    .background.absolute-top-left.fit
+      q-no-ssr
+        earth-map(:dark="dark")
     q-header.bg-transparent.no-pointer-events
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs.all-pointer-events(:class="toolbarClass")
-        // over breackpoint menu button
-        portal-target(name="header-menu-btn")
+
         portal-target.w-grow(name="header-search-bar")
 
         // dark mode button
@@ -32,17 +27,12 @@
     template(v-if="belowBreakpoint")
       q-footer.bg-transparent.q-pa-none.no-pointer-events
         q-toolbar.row.q-gutter-x-sm.footer.q-pr-xs.all-pointer-events(:class="toolbarClass")
-          // below breackpoint menu button
-          portal-target(name="footer-menu-btn")
-          .w-grow.relative-position.handy-navigation-wrapper
-            // search input
-            portal-target(name="footer-search-bar")
+          w-handy-navigation.handy-navigation-wrapper(
+            :value="true"
+            :items="items"
+          )
+          portal-target.w-grow(name="footer-search-bar")
             //  below breakpoint navigation
-            w-handy-navigation.absolute-top-left.full-width(
-              :value="open"
-              :items="items"
-              :side="side"
-            )
     // only over breackpoint
     template(v-else)
       // for safty navitaion cannot be rendered in ssr
@@ -56,16 +46,40 @@
           :elevated="true"
           ref="drawer"
         )
-    .background.absolute-top-left.fit
-      q-no-ssr
-        earth-map(:dark="dark")
+          template(#default="{mini: _mini}")
+            .navigation-header
+              .profile
+                q-item
+                  q-item-section(side)
+                    q-avatar.bg-red(size="xl")
+                      img(src="~assets/empty-avatar.png")
+                  q-item-section(v-show="!_mini")
+                    q-item-label.text-h5 helle
+                q-item
+                  q-item-section
+                  q-item-section(top side)
+                    .q-gutter-sm.row.no-wrap
+                      q-btn(
+                        v-show="!_mini"
+                        flat dense rounded
+                        icon="las la-user"
+                      )
+                      q-btn(
+                        flat dense rounded
+                        :icon="mini ? 'las la-thumbtack' : 'icon-thumbtack'"
+                        @click="mini = !mini"
+                      )
+
+                q-separator
+
     q-page-container.no-pointer-events
       router-view
 </template>
 
 <style lang="stylus" scoped>
-  .handy-navigation-wrapper
-    height 40px
+
+  .q-menu
+    background-color transparent
 </style>
 
 <script lang="ts">
@@ -103,7 +117,7 @@
     /**
      * layout side for Left-handed & Right-handed
      */
-    // side: string = 'right'
+      // side: string = 'right'
 
     version: string = 'version'
     apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
@@ -148,7 +162,7 @@
     }
 
     get toolbarClass() {
-      return this.side === 'right'? 'reverse' : ''
+      return this.side === 'right' ? 'reverse' : ''
     }
 
     get belowBreakpoint() {
@@ -161,14 +175,6 @@
       } else {
         this.side = 'left'
       }
-    }
-
-    onClickOpen() {
-      if(this.belowBreakpoint) {
-        this.open = !this.open
-        return
-      }
-      this.mini = !this.mini
     }
 
     onNavClick(value) {

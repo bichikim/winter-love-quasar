@@ -1,26 +1,28 @@
 <template lang="pug">
-  .w-handy-navigation.relative-position.no-pointer-events
-    transition(
-      :key="side"
-      :enter-active-class="`animated ${side === 'right' ? 'fadeInRight' : 'fadeInLeft'}`"
-      :leave-active-class="`animated ${side === 'right' ? 'fadeOutRight' : 'fadeOutLeft'}`"
+  q-btn.glass.shadow-3(
+    flat dense
+    :icon="open ? 'las la-times' : 'las la-bars'"
+    size="md"
+  )
+    q-menu(:target="true" breakpoint="0" :offset="[4, 10]" v-model="open"
+      :content-style="{width: `${width ||totalWidth }px`, height: `${menuHeight}px`}"
     )
-      q-scroll-area.all-pointer-events.wrapper.full-width(
+
+      q-scroll-area.all-pointer-events.wrapper.full-height(
         horizontal
         v-if="value"
-        :content-style="{paddingBottom: '5px'}"
-        :thumb-style={display: 'none'}
+        :content-style="{marginTop: '-4px'}"
+        :style="{width: `${width || totalWidth}px`}"
+        :visible="false"
       )
-        w-handy-navigation-list.glass(:items="items")
+        w-handy-navigation-list(
+          :items="items"
+          @change-content-width="width = $event"
+          @change-content-height="height = $event"
+          )
 </template>
 
 <style lang="stylus" scoped>
-  .wrapper
-    height 40px
-    overflow-x hidden
-    overflow-y unset
-    margin-bottom 5px
-    touch-action pan-x
 
 </style>
 
@@ -37,6 +39,7 @@
     // open or not
     @Prop({default: true}) value: boolean
     @Prop({default: true}) dense: boolean
+    @Prop({default: 300}) maxHeight: number
 
     /**
      * animation side
@@ -44,6 +47,25 @@
     @Prop({default: 'right'}) side: boolean
 
     @Inject({default: {}}) readonly layout: any
+
+    open: boolean = false
+
+    width: number | null = null
+    height: number | null = null
+    shadowGap: number = 4
+
+    get menuHeight() {
+      if(this.height) {
+        let height
+        if(this.height < this.maxHeight) {
+          height = this.height
+        } else {
+          height = this.maxHeight
+        }
+        return height + this.shadowGap
+      }
+      return 0
+    }
 
     get totalHeight() {
       return this.layout.totalHeight ?? this.$q.screen.height
