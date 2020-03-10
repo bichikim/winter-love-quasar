@@ -1,7 +1,7 @@
 import routes from 'src/router/routes'
 import store from 'src/store'
 import {BootFileFunction} from 'src/types'
-import {BootParams, createBootParams} from 'test/src/create-boot-params'
+import {BootParams, createBootParams} from './create-boot-params'
 import Vue from 'vue'
 
 interface BootResult {

@@ -1,7 +1,7 @@
 import {QuasarPluginOptions} from 'quasar'
 import * as Sinai from 'sinai'
 import {BootFileParams} from 'src/types'
-import createQuasar from 'test/src/create-quasar'
+import createQuasar from './create-quasar'
 import Vue from 'vue'
 import VueI18n, {I18nOptions} from 'vue-i18n'
 import VueRouter, {RouterOptions} from 'vue-router'

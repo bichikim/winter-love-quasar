@@ -26,8 +26,6 @@ module.exports = function config(config) {
       // to add polyfills before running tests
       'test/src/karma.polyfill.ts',
       'test/src/**/*.spec.ts',
-      // add all files in assets
-      'src/assets/**/*',
     ],
     exclude: [
       './**/*.spec.skip.js',
@@ -60,7 +58,7 @@ module.exports = function config(config) {
       noInfo: true,
     },
     // enable / disable colors in the output (reporters and logs)
-    autoWatch: true,
+    autoWatch: false,
     logLevel: config.LOG_INFO,
     colors: true,
     customLaunchers: {

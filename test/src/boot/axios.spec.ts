@@ -8,6 +8,7 @@ describe('axios', function test() {
     const {context} = await boot([axios], localVue)
     const wrapper = shallowMount({
       name: 'empty-component',
+      template: '<div></div>',
     }, {
       ...context,
       localVue,
