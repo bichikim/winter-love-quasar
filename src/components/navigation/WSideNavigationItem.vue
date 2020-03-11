@@ -30,7 +30,6 @@
 </template>
 
 <script lang="ts">
-  import {pick} from 'lodash'
   import {Component, Mixins, Prop, Emit} from 'vue-property-decorator'
   import NavigationItemDepth from 'src/components/navigation/WNavigationItemDepth'
   import WNavigationItemShare from 'src/components/navigation/WNavigationItemShare'
@@ -42,10 +41,6 @@
   })
   export default class WSideNavigationItem extends Mixins(WNavigationItemShare,
     NavigationItemDepth) {
-    /**
-     * white list of data to send by the click event
-     */
-    static clickInfo: (string | keyof WNavigationItemShare)[] = ['push', 'replace', 'run']
 
     /**
      * Whether the expansion item will also emit click event
@@ -57,7 +52,7 @@
      */
     @Emit('click')
     onClick() {
-      return pick(this.$props, WSideNavigationItem.clickInfo)
+      return this.clickInfo
     }
   }
 </script>

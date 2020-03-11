@@ -4,6 +4,7 @@
     :label="myTitle"
     :icon="icon"
     v-bind="{dense}"
+    @click="$emit('click', clickInfo)"
     no-caps
   )
 </template>

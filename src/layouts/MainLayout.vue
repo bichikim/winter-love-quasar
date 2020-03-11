@@ -20,7 +20,7 @@
         q-btn.shadow-3.glass(
           flat dense
           icon="las la-hand-paper"
-          :class="side === 'left' ? 'reflect' : ''"
+          :class="side === 'left' ? 'w-reflect' : ''"
           @click="onToggleSide"
         )
     // only below breakpoint
@@ -30,6 +30,8 @@
           w-handy-navigation.handy-navigation-wrapper(
             :value="true"
             :items="items"
+            :side="side"
+            @click="onNavClick"
           )
           portal-target.w-grow(name="footer-search-bar")
             //  below breakpoint navigation
@@ -75,12 +77,6 @@
     q-page-container.no-pointer-events
       router-view
 </template>
-
-<style lang="stylus" scoped>
-
-  .q-menu
-    background-color transparent
-</style>
 
 <script lang="ts">
   import {Dark, QLayout} from 'quasar'

@@ -4,21 +4,26 @@
     :icon="open ? 'las la-times' : 'las la-bars'"
     size="md"
   )
-    q-menu(:target="true" breakpoint="0" :offset="[4, 10]" v-model="open"
+    q-menu(
+      :target="true"
+      breakpoint="0"
+      :offset="[side === 'right' ? 4 : 0, 0]"
+      v-model="open"
       :content-style="{width: `${width ||totalWidth }px`, height: `${menuHeight}px`}"
     )
 
       q-scroll-area.all-pointer-events.wrapper.full-height(
+        :key="width"
         horizontal
-        v-if="value"
-        :content-style="{marginTop: '-4px'}"
+        :content-style="{marginTop: `-${shadowGap}px`}"
         :style="{width: `${width || totalWidth}px`}"
         :visible="false"
       )
         w-handy-navigation-list(
           :items="items"
-          @change-content-width="width = $event"
-          @change-content-height="height = $event"
+          :side="side"
+          @content-width="width = $event"
+          @content-height="height = $event"
           )
 </template>
 
@@ -65,10 +70,6 @@
         return height + this.shadowGap
       }
       return 0
-    }
-
-    get totalHeight() {
-      return this.layout.totalHeight ?? this.$q.screen.height
     }
 
     get totalWidth() {

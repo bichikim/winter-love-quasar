@@ -12,7 +12,7 @@ export default class Aside extends Vue {
       push: '/history',
     },
     {
-      title: 'aside.smoothie----',
+      title: 'aside.smoothie',
       icon: 'las la-snowflake',
       active: false,
       disable: false,

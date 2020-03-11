@@ -1,3 +1,4 @@
+import {pick} from 'lodash'
 import {Vue, Prop, Component} from 'vue-property-decorator'
 import {NavItem, ExecutionInfo} from './types'
 import {RawLocation} from 'vue-router'
@@ -19,5 +20,9 @@ export default class WNavigationItemShare extends Vue implements NavItem {
 
   get myTitle() {
     return this.$t(this.title)
+  }
+
+  get clickInfo() {
+    return pick(this.$props, ['push', 'replace', 'run'])
   }
 }

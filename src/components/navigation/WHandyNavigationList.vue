@@ -1,7 +1,10 @@
 <template lang="pug">
-  .w-handy-navigation-list.no-wrap.row.justify-end.no-pointer-events
-    .column.q-pr-xs.justify-end.no-wrap(ref="content")
-      .wrapper(ref="wrapper")
+  .w-handy-navigation-list.no-wrap.row.justify-end.no-pointer-events.fit
+    .no-wrap.fit(ref="content")
+      .wrapper.q-pr-xs.q-pt-sm(
+        ref="wrapper"
+        :class="side === 'right' ? 'text-right': 'text-left'"
+      )
         w-handy-navigation-item.navigation-item(
           v-for="(item, key) in items"
           v-bind="item"
@@ -11,8 +14,12 @@
 </template>
 
 <style lang="stylus">
+  .wrapper
+    position absolute
+
   .w-handy-navigation-list
     min-height 100%
+
   .navigation-item
     margin-bottom $space-sm.x
     flex-shrink 0
@@ -22,7 +29,7 @@
 </style>
 
 <script lang="ts">
-  import {Component, Mixins, Ref, Watch} from 'vue-property-decorator'
+  import {Component, Mixins, Prop, Ref, Watch} from 'vue-property-decorator'
   import WNavigationShare from './WNavigationShare'
 
   @Component({
@@ -31,27 +38,27 @@
     },
   })
   export default class WHandyNavigationList extends Mixins(WNavigationShare) {
+    @Prop({default: 'right'}) side: number
+
     @Ref() content?: HTMLDivElement
     @Ref() wrapper?: HTMLDivElement
 
-
-    contentWidth: null |  number = null
+    wrapperWidth: null | number = null
     wrapperHeight: null | number = null
 
-
-    @Watch('contentWidth')
+    @Watch('wrapperWidth')
     __contentWidth(value) {
-      this.$emit('change-content-width', value)
+      this.$emit('content-width', value)
     }
 
     @Watch('wrapperHeight')
     __wrapperWidth(value) {
-      this.$emit('change-content-height', value)
+      this.$emit('content-height', value)
     }
 
     updateContentWidth() {
       this.wrapperHeight = this.wrapper?.clientHeight || null
-      this.contentWidth = this.content?.clientWidth || null
+      this.wrapperWidth = this.wrapper?.clientWidth || null
     }
 
     mounted() {
