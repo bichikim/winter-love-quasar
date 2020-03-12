@@ -35,7 +35,9 @@
 
   @Component({
     components: {
-      WSideNavigationList: () => (import('src/components/navigation/WSideNavigationList.vue')),
+      WSideNavigationList: () => (import(
+        /* webpackMode: "eager" */
+        'src/components/navigation/WSideNavigationList.vue')),
     },
   })
   export default class WSideNavigation<R> extends Mixins(WNavigationShare) {

@@ -1,12 +1,11 @@
 import {RouteConfig} from 'vue-router'
 
-
 const routes: RouteConfig[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      {path: '', component: () => import('pages/Index.vue')},
+      {path: '', component: () => import(/* webpackMode: "eager" */'pages/Index.vue')},
       {path: '/history', component: () => import('pages/History.vue')},
       {path: '/smoothie', component: () => import('pages/Smoothie.vue')},
       {path: '/sign', component: () => import('pages/Sign.vue')},

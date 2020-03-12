@@ -13,6 +13,5 @@
   export default class IndexPage extends Vue {
 
     meta: {}
-
   }
 </script>

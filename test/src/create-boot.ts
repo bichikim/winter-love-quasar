@@ -1,7 +1,5 @@
-import routes from 'src/router/routes'
-import store from 'src/store'
 import {BootFileFunction} from 'src/types'
-import {BootParams, createBootParams} from './create-boot-params'
+import {BootParams, createBootParams, AppOptions} from './create-boot-params'
 import Vue from 'vue'
 
 interface BootResult {
@@ -13,21 +11,15 @@ interface BootResult {
  * boot function test helper
  * @param boots what boot function you want to test
  * @param vue
- * @param bootParams
+ * @param appOptions
  */
 export const boot = async (
   boots: BootFileFunction[],
   vue: typeof Vue = Vue,
-  bootParams?: BootParams,
+  appOptions?: AppOptions,
 ): Promise<BootResult> => {
 
-  const _bootParams: BootParams = bootParams ?? createBootParams(vue, {
-    store: (Vue) => (store({Vue})),
-    router: {
-      mode: 'abstract',
-      routes,
-    },
-  })
+  const _bootParams: BootParams = createBootParams(vue, appOptions)
 
   const wait = boots.reduce((wait, boot) => {
     wait.push(boot(_bootParams))

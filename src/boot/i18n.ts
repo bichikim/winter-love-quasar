@@ -2,12 +2,22 @@ import VueI18n from 'vue-i18n'
 import messages from 'src/i18n'
 import {BootFileFunction} from 'src/types'
 import axios from 'axios'
+import Vue from 'vue'
 
 export type LocaleFunction = (locale: SupportLocale) => Promise<void>
 
 declare module 'vue/types/vue' {
   interface Vue {
+    /**
+     * change i18n locale, quasar lang, html lang & axios Accept-Language (if vue has $axios)
+     */
     $locale: LocaleFunction
+  }
+}
+
+declare module 'vue/types/options' {
+  interface ComponentOptions<V extends Vue> {
+    locale?: LocaleFunction
   }
 }
 
@@ -24,9 +34,24 @@ const resolveEsModule = (module: MaybeEsModule): any => {
   return module.default ?? module
 }
 
+const findVuePluginInstance = (vue: Vue, name: string) => {
+  if(vue.$root) {
+    return vue.$root.$options[name]
+  }
+  return vue.$options[name]
+}
+
 const boot: BootFileFunction = ({Vue, app}) => {
 
   Vue.use(VueI18n)
+
+  // local is single Singleton
+  Vue.mixin({
+    created(this: Vue) {
+
+      this.$locale = findVuePluginInstance(this, 'locale')
+    },
+  })
 
   // Set i18n instance on app
   app.i18n = new VueI18n({
@@ -41,16 +66,15 @@ const boot: BootFileFunction = ({Vue, app}) => {
     'ko-kr': () => (import('quasar/lang/ko-kr')),
   }
 
-  Vue.prototype.$locale = async function (locale: SupportLocale) {
+  // add new $locale
+  app.locale = async function (this: Vue, locale: SupportLocale) {
     if(!this || !this.$i18n) {
       throw new Error('$locale: please use $locale function in a Vue instance')
     }
 
     this.$i18n.locale = locale
 
-    if(this.$axios) {
-      axios.defaults.headers.common['Accept-Language'] = locale
-    }
+    axios.defaults.headers.common['Accept-Language'] = locale
 
     if(!document) {
       throw new Error('$locale: please do not call $locale in server side')

@@ -1,8 +1,8 @@
 import {QuasarPluginOptions} from 'quasar'
-import * as Sinai from 'sinai'
 import {BootFileParams} from 'src/types'
 import createQuasar from './create-quasar'
 import Vue from 'vue'
+import Vuex from 'vuex'
 import VueI18n, {I18nOptions} from 'vue-i18n'
 import VueRouter, {RouterOptions} from 'vue-router'
 
@@ -26,16 +26,11 @@ export const createBootParams = (
 
   createQuasar(vue, options.quasar)
 
-  // must exist  **********************
-
-  vue.use(Sinai)
-
   if(options.store) {
+    vue.use(Vuex)
     store = options.store(vue)
   } else {
-    store = Sinai.store(Sinai.module(), {
-      strict: false,
-    })
+    store = null
   }
 
   vue.use(VueRouter)
