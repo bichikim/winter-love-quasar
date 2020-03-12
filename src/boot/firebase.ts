@@ -19,8 +19,12 @@ declare module 'vue/types/vue' {
   }
 }
 
-const boot: Project.BootFileFunction = ({Vue}) => {
-
+const boot: Project.BootFileFunction = (context) => {
+  const {Vue} = context
+  console.log(context)
+  if(Vue.prototype.$firebase) {
+    return
+  }
   Vue.prototype['$firebase'] = Firebase.initializeApp({
     apiKey: process.env.VUE_FIREBASE_API_KEY,
     authDomain: `${process.env.VUE_FIREBASE_PROJECT_ID}.firebaseapp.com`,

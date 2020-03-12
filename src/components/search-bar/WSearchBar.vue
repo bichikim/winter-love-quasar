@@ -17,8 +17,10 @@
 <style lang="stylus" scoped>
   .btn-group
     margin-right -12px
+
   .q-btn
     border-radius 0
+
   .q-btn:last-child
     border-radius 0 $button-border-radius $button-border-radius 0;
 </style>

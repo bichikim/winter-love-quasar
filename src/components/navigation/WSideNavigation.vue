@@ -29,8 +29,8 @@
 </style>
 
 <script lang="ts">
-  import {Component, Mixins, Prop, Watch} from 'vue-property-decorator'
   import WNavigationShare from 'src/components/navigation/WNavigationShare'
+  import {Component, Mixins, Prop} from 'vue-property-decorator'
   import {Side} from './types'
 
   @Component({

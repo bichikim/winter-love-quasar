@@ -1,7 +1,7 @@
 import {pick} from 'lodash'
-import {Vue, Prop, Component} from 'vue-property-decorator'
-import {NavItem, ExecutionInfo} from './types'
+import {Component, Prop, Vue} from 'vue-property-decorator'
 import {RawLocation} from 'vue-router'
+import {ExecutionInfo, NavItem} from './types'
 
 /**
  * NavItem component implementation

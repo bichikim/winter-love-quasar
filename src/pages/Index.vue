@@ -1,6 +1,6 @@
 <template lang="pug">
   q-page.column.items-center.justify-center
-    .text-h1.text-center.text-primary Hello There?
+    h1.text-center.text-primary Hello There?
 </template>
 
 <style>
@@ -8,12 +8,11 @@
 
 <script lang="ts">
   import {Component, Vue} from 'vue-property-decorator'
+
   @Component
   export default class IndexPage extends Vue {
 
-    meta: {
-
-    }
+    meta: {}
 
   }
 </script>

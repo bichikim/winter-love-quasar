@@ -1,7 +1,5 @@
+import {Component, Prop, Vue} from 'vue-property-decorator'
 import {NavItem} from './types'
-import {
-  Component, Prop, Vue,
-} from 'vue-property-decorator'
 
 @Component
 export default class WNavigationShare extends Vue {

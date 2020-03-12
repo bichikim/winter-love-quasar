@@ -13,6 +13,7 @@
   .q-btn::v-deep
     .q-btn__content
       flex-wrap nowrap
+
       div
         white-space nowrap
 </style>

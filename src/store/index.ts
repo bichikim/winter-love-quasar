@@ -1,6 +1,5 @@
 import Vuex from 'vuex'
 
-
 const store = (ctx) => {
   const {Vue} = ctx
   Vue.use(Vuex)

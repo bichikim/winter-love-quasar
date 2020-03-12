@@ -11,7 +11,6 @@
       v-model="open"
       :content-style="{width: `${width ||totalWidth }px`, height: `${menuHeight}px`}"
     )
-
       q-scroll-area.all-pointer-events.wrapper.full-height(
         :key="width"
         :style="{width: `${width || totalWidth}px`, height: `${menuHeight}px`}"
@@ -22,7 +21,7 @@
           :side="side"
           @content-width="width = $event"
           @content-height="height = $event"
-          )
+        )
           slot
 </template>
 

@@ -30,9 +30,9 @@
 </template>
 
 <script lang="ts">
-  import {Component, Mixins, Prop, Emit} from 'vue-property-decorator'
   import NavigationItemDepth from 'src/components/navigation/WNavigationItemDepth'
   import WNavigationItemShare from 'src/components/navigation/WNavigationItemShare'
+  import {Component, Emit, Mixins, Prop} from 'vue-property-decorator'
 
   @Component({
     components: {

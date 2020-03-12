@@ -8,6 +8,9 @@ declare module 'vue/types/vue' {
 }
 
 const boot: BootFileFunction = ({Vue}) => {
+  if(Vue.prototype.$axios) {
+    return
+  }
   Vue.prototype['$axios'] = Axios
 }
 

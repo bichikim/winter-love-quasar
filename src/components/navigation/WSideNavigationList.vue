@@ -11,11 +11,9 @@
 </template>
 
 <script lang="ts">
-  import {
-    Component, Mixins,
-  } from 'vue-property-decorator'
   import NavigationItemDepth from 'src/components/navigation/WNavigationItemDepth'
   import WNavigationShare from 'src/components/navigation/WNavigationShare'
+  import {Component, Mixins} from 'vue-property-decorator'
 
   @Component({
     components: {

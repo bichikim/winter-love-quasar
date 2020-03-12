@@ -1,4 +1,4 @@
-import {Vue, Prop, Component} from 'vue-property-decorator'
+import {Component, Prop, Vue} from 'vue-property-decorator'
 
 /**
  * Navigation Item style Props

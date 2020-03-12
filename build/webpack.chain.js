@@ -102,6 +102,11 @@ function vueConfig(config, plugin = true) {
   return config
 }
 
+/**
+ * stylus config
+ * @param config
+ * @return {*}
+ */
 function stylusConfig(config) {
   config.resolve.extensions.add('.styl').add('stylus')
   config.module.rule('stylus')

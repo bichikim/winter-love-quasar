@@ -1,16 +1,14 @@
 <template lang="pug">
   q-page.column
     .wrapper.col-grow
-      .text-black.text-h1 Smoothie
+      h1.text-black Smoothie
 </template>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
 </style>
 
 <script lang="ts">
-  import {
-    Component, Prop, Vue,
-  } from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
 
   @Component
   export default class SmoothiePage extends Vue {

@@ -6,8 +6,4 @@ export default {
   failed: 'Action failed',
   success: 'Action was successful',
   aside,
-  navigation: {
-    reservations: 'reservations',
-    smootie: 'smootie',
-  },
 }

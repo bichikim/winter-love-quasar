@@ -2,14 +2,12 @@
   q-btn.bg-primary()
 </template>
 
-<style scoped lang="stylus">
+<style lang="stylus" scoped>
 
 </style>
 
 <script lang="ts">
-  import {
-    Component, Prop, Vue,
-  } from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
 
   @Component
   export default class ColorPalette extends Vue {
