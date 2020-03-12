@@ -7,16 +7,14 @@
     q-menu(
       :target="true"
       breakpoint="0"
-      :offset="[side === 'right' ? 4 : 0, 0]"
+      :offset="[shadowGap, 0]"
       v-model="open"
       :content-style="{width: `${width ||totalWidth }px`, height: `${menuHeight}px`}"
     )
 
       q-scroll-area.all-pointer-events.wrapper.full-height(
         :key="width"
-        horizontal
-        :content-style="{marginTop: `-${shadowGap}px`}"
-        :style="{width: `${width || totalWidth}px`}"
+        :style="{width: `${width || totalWidth}px`, height: `${menuHeight}px`}"
         :visible="false"
       )
         w-handy-navigation-list(
@@ -25,10 +23,12 @@
           @content-width="width = $event"
           @content-height="height = $event"
           )
+          slot
 </template>
 
 <style lang="stylus" scoped>
-
+  .wrapper
+    position absolute
 </style>
 
 <script lang="ts">

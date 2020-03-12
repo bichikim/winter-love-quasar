@@ -1,10 +1,11 @@
 <template lang="pug">
   .w-handy-navigation-list.no-wrap.row.justify-end.no-pointer-events.fit
     .no-wrap.fit(ref="content")
-      .wrapper.q-pr-xs.q-pt-sm(
+      .wrapper.q-pa-xs(
         ref="wrapper"
         :class="side === 'right' ? 'text-right': 'text-left'"
       )
+        slot
         w-handy-navigation-item.navigation-item(
           v-for="(item, key) in items"
           v-bind="item"
