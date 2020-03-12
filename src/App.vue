@@ -5,7 +5,7 @@
 
 <script lang="ts">
   import {Component, Provide, Vue} from 'vue-property-decorator'
-  import Store from 'src/store/root'
+  import Store from 'src/store'
 
   /**
    * Register component hook

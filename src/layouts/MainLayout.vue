@@ -80,7 +80,7 @@
 
 <script lang="ts">
   import {Dark, QLayout} from 'quasar'
-  import Store from 'src/store/root'
+  import Store from 'src/store'
   import {Component, Prop, Inject, Ref, Vue} from 'vue-property-decorator'
   import WSideNavigation from 'src/components/navigation/WSideNavigation.vue'
   import WHandyNavigation from 'src/components/navigation/WHandyNavigation.vue'

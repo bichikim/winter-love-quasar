@@ -21,7 +21,6 @@ declare module 'vue/types/vue' {
 
 const boot: Project.BootFileFunction = (context) => {
   const {Vue} = context
-  console.log(context)
   if(Vue.prototype.$firebase) {
     return
   }
