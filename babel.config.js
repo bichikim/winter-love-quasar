@@ -20,35 +20,7 @@ module.exports = {
   ],
   env: {
     test: {
-      presets: [
-        [
-          '@quasar/babel-preset-app', {
-          // for tree shacking
-          modules: false,
-          presetEnv: {
-            modules: 'commonjs',
-            targets: {
-              node: true,
-            },
-          },
-        }],
-      ],
       plugins: [
-        [
-          'module-resolver',
-          {
-            alias: {
-              'src': './src',
-              'test': './test',
-              'build': './build',
-              'layouts': './src/layouts',
-              'pages': './src/pages',
-              'assets': './src/assets',
-              'boot': './src/boot',
-              'components': './src/components',
-            },
-          },
-        ],
         'istanbul',
       ],
     },

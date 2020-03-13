@@ -7,19 +7,24 @@ interface BootResult {
   results: any[]
 }
 
+interface BootOptions extends AppOptions {
+  bootParams?: BootParams
+}
+
 /**
  * boot function test helper
  * @param boots what boot function you want to test
  * @param vue
- * @param appOptions
+ * @param bootOptions
  */
 export const boot = async (
   boots: BootFileFunction[],
   vue: typeof Vue = Vue,
-  appOptions?: AppOptions,
+  bootOptions: BootOptions = {},
 ): Promise<BootResult> => {
+  const {bootParams, ...appOptions} = bootOptions
 
-  const _bootParams: BootParams = createBootParams(vue, appOptions)
+  const _bootParams: BootParams = bootParams ?? createBootParams(vue, appOptions)
 
   const wait = boots.reduce((wait, boot) => {
     wait.push(boot(_bootParams))

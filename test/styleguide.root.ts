@@ -1,3 +1,7 @@
+/**
+ * style guide each component root
+ */
+
 /* eslint-disable require-atomic-updates */
 import {merge} from 'lodash'
 import axios from 'src/boot/axios'
@@ -28,9 +32,13 @@ export default (previewComponent) => {
         // boot function can be async
         // @ts-ignore
         window.__boot = await boot([i18n, axios], Vue, {
-          app: {},
-          Vue,
-          ssrContext: null,
+          bootParams : {
+            app: {},
+            Vue,
+            router: this.router,
+            ssrContext: null,
+            store: null,
+          },
         })
       }
 
