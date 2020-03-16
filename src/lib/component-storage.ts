@@ -1,4 +1,7 @@
-import {cloneDeep, omit, pick} from 'lodash'
+import {cloneDeep} from 'lodash'
+import forceDefault from './force-default'
+import applyRecord from './apply-record'
+import filterRecord from './filter-record'
 import Vue from 'vue'
 
 /**
@@ -61,16 +64,6 @@ interface Options {
   }
 }
 
-export function filter(target, only: string[] = [], except: string[] = []) {
-  let _target = target
-
-  if(only.length > 0) {
-    _target = pick(target, only)
-  }
-
-  return omit(_target, except)
-}
-
 export function filterPrivate(target, privatePreFix = '__') {
   return Object.keys(target).reduce((result ,key) => {
     if(!key.startsWith(privatePreFix)) {
@@ -80,25 +73,21 @@ export function filterPrivate(target, privatePreFix = '__') {
   }, {})
 }
 
-function getStorageName(key: string, namespace: string) {
+export function getStorageName(key: string, namespace: string) {
   return `${key}/${namespace}`
 }
 
-function saveLocal(key: string, namespace: string, data: Record<string, any>) {
-
+export function saveLocal(key: string, namespace: string, data: Record<string, any>) {
   localStorage.setItem(getStorageName(key, namespace), JSON.stringify(data))
 }
 
 export function getLocal(key: string, namespace: string) {
-  try {
+  return forceDefault(() => {
     const rowData = localStorage.getItem(getStorageName(key, namespace))
     if(rowData) {
       return JSON.parse(rowData)
     }
-  } catch(e) {
-    // skip
-  }
-  return {}
+  }, {})
 }
 
 export function saveSession(key: string, namespace: string, data: Record<string, any>) {
@@ -106,24 +95,12 @@ export function saveSession(key: string, namespace: string, data: Record<string,
 }
 
 export function getSession(key: string, namespace: string) {
-  try {
+  return forceDefault(() => {
     const rowData = sessionStorage.getItem(getStorageName(key, namespace))
     if(rowData) {
       return JSON.parse(rowData)
     }
-  } catch(e) {
-    // skip
-  }
-  return {}
-}
-
-export function apply(target: Record<string, any>, source: Record<string, any>) {
-  Object.keys(target).forEach((key) => {
-    const sourceValue = source[key]
-    if(typeof sourceValue !== 'undefined') {
-      target[key] = sourceValue
-    }
-  })
+  }, {})
 }
 
 
@@ -210,11 +187,12 @@ export default function componentStorage(options: Options = {}) {
 
         if(saves.local) {
           const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
-          saveLocal(key, _namespace, filterPrivate(filter(data, only, except), privatePrefix))
+          saveLocal(key, _namespace, filterPrivate(filterRecord(data, only, except), privatePrefix))
         }
         if(saves.session) {
           const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
-          saveSession(key, _namespace, filterPrivate(filter(data, only, except), privatePrefix))
+          saveSession(
+            key, _namespace, filterPrivate(filterRecord(data, only, except), privatePrefix))
         }
         // skip cookie for now
       },
@@ -227,17 +205,17 @@ export default function componentStorage(options: Options = {}) {
 
         if(saves.local) {
           const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
-          apply(
+          applyRecord(
             this.$data,
-            filterPrivate(filter(getLocal(key, _namespace), only, except), privatePrefix),
+            filterPrivate(filterRecord(getLocal(key, _namespace), only, except), privatePrefix),
           )
         }
 
         if(saves.session) {
           const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
-          apply(
+          applyRecord(
             this.$data,
-            filterPrivate(filter(getSession(key, _namespace), only, except), privatePrefix),
+            filterPrivate(filterRecord(getSession(key, _namespace), only, except), privatePrefix),
           )
         }
       },
