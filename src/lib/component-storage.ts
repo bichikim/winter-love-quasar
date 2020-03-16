@@ -80,15 +80,18 @@ export function filterPrivate(target, privatePreFix = '__') {
   }, {})
 }
 
+function getStorageName(key: string, namespace: string) {
+  return `${key}/${namespace}`
+}
 
 function saveLocal(key: string, namespace: string, data: Record<string, any>) {
 
-  localStorage.setItem(`${key}/${namespace}`, JSON.stringify(data))
+  localStorage.setItem(getStorageName(key, namespace), JSON.stringify(data))
 }
 
 export function getLocal(key: string, namespace: string) {
   try {
-    const rowData = localStorage.getItem(`${key}/${namespace}`)
+    const rowData = localStorage.getItem(getStorageName(key, namespace))
     if(rowData) {
       return JSON.parse(rowData)
     }
@@ -99,12 +102,12 @@ export function getLocal(key: string, namespace: string) {
 }
 
 export function saveSession(key: string, namespace: string, data: Record<string, any>) {
-  sessionStorage.setItem(`${key}/${namespace}`, JSON.stringify(data))
+  sessionStorage.setItem(getStorageName(key, namespace), JSON.stringify(data))
 }
 
 export function getSession(key: string, namespace: string) {
   try {
-    const rowData = sessionStorage.getItem(`${key}/${namespace}`)
+    const rowData = sessionStorage.getItem(getStorageName(key, namespace))
     if(rowData) {
       return JSON.parse(rowData)
     }
