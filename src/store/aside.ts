@@ -1,7 +1,14 @@
-import {Component, Vue} from 'vue-property-decorator'
 import {NavItem} from 'src/components/navigation/types'
+import componentStorage from 'src/lib/component-storage'
+import {Component, Vue} from 'vue-property-decorator'
 
-@Component
+@Component({
+  mixins: [componentStorage({
+    saves: {
+      session: true,
+    },
+  })],
+})
 export default class Aside extends Vue {
   items: NavItem[] = [
     {

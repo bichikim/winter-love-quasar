@@ -4,9 +4,11 @@
 const {tsConfig, pugConfig, iconFont, eslint, i18n,
 } = require('./build/webpack.chain.js')
 const envReader = require('./build/env-reader')
+const pkg = require('./package.json')
 
 module.exports = function (ctx) {
   const {dev} = ctx
+  const {version = 'unknown'} = pkg
 
   return {
     // app boot file (/src/boot)
@@ -67,11 +69,13 @@ module.exports = function (ctx) {
     supportIE: true,
 
     sourceFiles: {
-      store: false,
+      // disable using vuex
+      store: '_store',
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      // in SSR mode history only
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // showProgress: false,
@@ -81,7 +85,10 @@ module.exports = function (ctx) {
       // Options below are automatically set depending on the env, set them if you want to override
       // preloadChunks: false,
       // extractCSS: false,
-      env: envReader(process.env, 'VUE'),
+      env: {
+        VERSION: JSON.stringify(version),
+        ...envReader(process.env, 'VUE'),
+      },
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
       chainWebpack(cfg) {
@@ -97,9 +104,9 @@ module.exports = function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      https: false,
+      https: true,
       port: 8080,
-      open: true, // opens browser window automatically
+      open: false, // opens browser window automatically
     },
 
     animations: 'all', // --- includes all animations
@@ -109,6 +116,7 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
       pwa: true,
+      debug: true,
     },
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa

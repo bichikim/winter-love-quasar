@@ -16,7 +16,7 @@
   } from 'vue-property-decorator'
   import darkStyle from './dark.json'
   import lightStyle from './light.json'
-  import Google from './type'
+  import Google from './google'
 
   @Component
   export default class EarthMap extends Vue {

@@ -10,7 +10,19 @@ import 'src/boot/icon'
 import Vue from 'vue'
 import boot from './src/create-boot'
 
+// set devtool true because the vue-styleguides set it false
 Vue.config.devtools = true
+
+const _boot = {
+  get value() {
+    // @ts-ignore
+    return window.__boot
+  },
+  set value(value) {
+    // @ts-ignore
+    window.__boot = value
+  },
+}
 
 export default (previewComponent) => {
 
@@ -27,11 +39,9 @@ export default (previewComponent) => {
     },
     async created(this: any) {
       // call all boots
-      // @ts-ignore
-      if(!window.__boot) {
+      if(!_boot.value) {
         // boot function can be async
-        // @ts-ignore
-        window.__boot = await boot([i18n, axios], Vue, {
+        _boot.value = await boot([i18n, axios], Vue, {
           bootParams : {
             app: {},
             Vue,
@@ -42,8 +52,7 @@ export default (previewComponent) => {
         })
       }
 
-      //@ts-ignore
-      const {context: {app}} = window.__boot
+      const {context: {app}} = _boot.value
 
       merge(previewComponent, app)
 

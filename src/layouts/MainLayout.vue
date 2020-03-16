@@ -110,13 +110,6 @@
      */
     mini: boolean = false
 
-    /**
-     * layout side for Left-handed & Right-handed
-     */
-      // side: string = 'right'
-
-    version: string = 'version'
-    apiKey: string = process.env.VUE_GOOGLE_MAPS_API_KEY
     mapConfig: google.maps.MapOptions = {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8,
@@ -130,10 +123,6 @@
       this.store.auth.side = value
     }
 
-    get toolbarPad() {
-      return ''
-    }
-
     get items() {
       return this.store.aside.items
     }
@@ -143,18 +132,6 @@
      */
     get dark() {
       return Dark.isActive
-    }
-
-    get menuBtnIcon() {
-      return 'menu'
-    }
-
-    get isMenuActive() {
-      const {belowBreakpoint, mini, open} = this
-      if(belowBreakpoint) {
-        return open
-      }
-      return !mini
     }
 
     get toolbarClass() {

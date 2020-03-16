@@ -1,4 +1,4 @@
-import Google from './type'
+import Google from './google'
 
 let googleApi: Google | null = null
 

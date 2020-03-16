@@ -1,4 +1,3 @@
-import {QuasarPluginOptions} from 'quasar'
 import {BootFileParams} from 'src/types'
 import createQuasar from './create-quasar'
 import Vue from 'vue'
@@ -8,7 +7,7 @@ import VueRouter, {RouterOptions} from 'vue-router'
 
 export interface AppOptions {
   store?: (vue: typeof Vue) => typeof Vue.prototype.$store
-  quasar?: QuasarPluginOptions
+  quasar?: boolean
   router?: RouterOptions
   i18n?: I18nOptions,
 }
@@ -24,7 +23,7 @@ export const createBootParams = (
 ): BootParams => {
   let store, router
 
-  createQuasar(vue, options.quasar)
+  createQuasar(vue)
 
   if(options.store) {
     vue.use(Vuex)

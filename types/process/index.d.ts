@@ -26,6 +26,9 @@ declare namespace NodeJS {
     VUE_FIREBASE_PROJECT_ID: string
     VUE_FIREBASE_MESSAGING_SENDER_ID: string
     VUE_FIREBASE_API_ID: string
+
+    // project version
+    VERSION: string
   }
 }
 

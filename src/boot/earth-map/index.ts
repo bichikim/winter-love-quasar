@@ -1,6 +1,6 @@
 import {BootFileFunction} from 'src/types'
 import {load} from './google-map-api-loader'
-import EarthMap from 'src/boot/earth-map/EarthMap.vue'
+import EarthMap from './EarthMap.vue'
 
 interface GoogleApiLoader {
   load(key?: string): Promise<typeof google>
