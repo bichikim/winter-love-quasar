@@ -2,7 +2,7 @@ import {cloneDeep} from 'lodash'
 import forceDefault from './force-default'
 import applyRecord from './apply-record'
 import filterRecord from './filter-record'
-import Vue from 'vue'
+import Vue, {ComponentOptions} from 'vue'
 
 /**
  * save strategy; pick only and omit except
@@ -23,6 +23,11 @@ interface SaveObject {
    * {foo: {foo: 'foo', bar: 'bar'} => {foo: {foo: 'foo'}}
    */
   except?: string[]
+}
+
+
+export interface ComponentStorageComponentOptions extends ComponentOptions<Vue> {
+  __componentStorage: ComponentStorage
 }
 
 /**
@@ -103,129 +108,176 @@ export function getSession(key: string, namespace: string) {
   }, {})
 }
 
+class ComponentStorage {
+  private _vm?: Vue
+  private _dataUpdated: boolean = false
+  private _namespace?: string
+  private _key: string
+  private readonly _restore: 'created' | 'mounted'
+  private _namespaceGetterName: string
+  private _privatePrefix: string
+  private _saves: {
+    session?: SaveObject | boolean
+    local?: SaveObject | boolean
+    cookie?: SaveObject | boolean
+  }
+
+  constructor(options: Options = {}) {
+    this._namespace = options.namespace
+    this._key = options.key ?? 'component-storage'
+    this._restore = options.restore ?? 'mounted'
+    this._namespaceGetterName = options.namespaceGetterName ?? 'storageName'
+    this._privatePrefix = options.privatePrefix ?? '__'
+    this._saves = cloneDeep(options.saves ?? {})
+  }
+
+  init(vm: Vue) {
+    if(this._vm) {
+      throw new Error('cannot init twice')
+    }
+    this._vm = vm
+  }
+
+  get vm() {
+    if(!this._vm) {
+      throw new Error('no vm')
+    }
+    return this._vm
+  }
+
+  get key() {
+    return this._key
+  }
+
+  set key(value: string) {
+    this._key = value
+  }
+
+  get namespace() {
+    return this._namespace ?? this.vm.$options.name
+  }
+
+  set namespace(value) {
+    this._namespace = value
+  }
+
+  /**
+   * register watching data
+   * supporting vue instance without rendering
+   * updated won't be called without rendering
+   * @private
+   */
+  registerDataWatch() {
+    const {vm, _privatePrefix} = this
+    Object.keys(vm.$data).forEach((key) => {
+      if(!key.startsWith(_privatePrefix)) {
+        vm.$watch(key, () => {
+          if(!this._dataUpdated) {
+            this._dataUpdated = true
+            vm.$nextTick(() => {
+              this._dataUpdated = false
+              this.save()
+            })
+          }
+        })
+      }
+    })
+  }
+
+  save() {
+    const {vm, _saves: saves, _key, _privatePrefix} = this
+    const _namespace = this.getNamespace()
+    const data = cloneDeep(vm.$data)
+
+    if(saves.local) {
+      const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
+      saveLocal(_key, _namespace, filterPrivate(filterRecord(data, only, except), _privatePrefix))
+    }
+    if(saves.session) {
+      const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
+      saveSession(
+        _key, _namespace, filterPrivate(filterRecord(data, only, except), _privatePrefix))
+    }
+    // skip cookie for now
+  }
+
+  restore(time: 'mounted' | 'created') {
+    const {vm, _saves: saves, _privatePrefix, _key} = this
+    const _namespace = this.getNamespace()
+
+    if(this._restore !== time) {
+      return
+    }
+
+    if(saves.local) {
+      const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
+      applyRecord(
+        vm.$data,
+        filterPrivate(filterRecord(getLocal(_key, _namespace), only, except), _privatePrefix),
+      )
+    }
+
+    if(saves.session) {
+      const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
+      applyRecord(
+        vm.$data,
+        filterPrivate(filterRecord(getSession(_key, _namespace), only, except), _privatePrefix),
+      )
+    }
+  }
+
+  getNamespace() {
+    const {vm, _namespaceGetterName, _namespace} = this
+    return _namespace ??
+      vm[_namespaceGetterName] ??
+      vm.$options[_namespaceGetterName]??
+      vm.$options.name
+  }
+
+
+}
 
 /**
  * Please use this as mixin
  */
-export default function componentStorage(options: Options = {}) {
-  let namespace = options.namespace
-  let key = options.key ?? 'component-storage'
-  const {
-    restore = 'mounted',
-    namespaceGetterName = 'storageName',
-    privatePrefix = '__',
+export default function componentStorage(options: Options = {}): ComponentStorageComponentOptions {
 
-  } = options
-
-  const saves = cloneDeep(options.saves ?? {})
-
-  return Vue.extend({
-    data() {
-      return {
-        // eslint-disable-next-line vue/no-reserved-keys
-        __dataUpdated: false,
-      }
-    },
+  return {
+    __componentStorage: new ComponentStorage(options),
     computed: {
+      $componentStorage(this: any) {
+        return this.$options.__componentStorage
+      },
       storageKey: {
-        get() {
-          return key
+        get(this: any) {
+          return this.$componentStorage.key
         },
-        set(value: string) {
-          key = value
+        set(this: any, value: string) {
+          this.$componentStorage.key = value
         },
       },
       storageNamespace: {
         get(this: any) {
-          return namespace ?? this.$options.name
+          return this.$componentStorage.namespace
         },
-        set(value: string) {
-          namespace = value
+        set(this: any, value: string) {
+          this.$componentStorage.namespace = value
         },
       },
     },
     created(this: any) {
-      this.__registerDataWatch()
-      this.__restore('created')
+      const {$componentStorage} = this
+      $componentStorage.init(this)
+      $componentStorage.registerDataWatch()
+      $componentStorage.restore('created')
 
       // mounted won't be called without rendering
       // as mounted
       this.$nextTick(() => {
-        this.__restore('mounted')
-        this.__save()
+        $componentStorage.restore('mounted')
+        $componentStorage.save()
       })
     },
-    methods: {
-      /**
-       * register watching data
-       * supporting vue instance without rendering
-       * updated won't be called without rendering
-       * @private
-       */
-      __registerDataWatch() {
-        Object.keys(this.$data).forEach((key) => {
-          if(!key.startsWith(privatePrefix)) {
-            this.$watch(key, () => {
-              if(!this.__dataUpdated) {
-                this.__dataUpdated = true
-                this.$nextTick(() => {
-                  this.__dataUpdated = false
-                  this.__save()
-                })
-              }
-            })
-          }
-        })
-      },
-      // todo need to add __watchChangedNamespace
-      /*
-       * @private
-       */
-      __save(this: any) {
-        const _namespace = this.__getNamespace()
-        const data = cloneDeep(this.$data)
-
-        if(saves.local) {
-          const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
-          saveLocal(key, _namespace, filterPrivate(filterRecord(data, only, except), privatePrefix))
-        }
-        if(saves.session) {
-          const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
-          saveSession(
-            key, _namespace, filterPrivate(filterRecord(data, only, except), privatePrefix))
-        }
-        // skip cookie for now
-      },
-      __restore(this: any, time: 'mounted' | 'created') {
-        const _namespace = this.__getNamespace()
-
-        if(restore !== time) {
-          return
-        }
-
-        if(saves.local) {
-          const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
-          applyRecord(
-            this.$data,
-            filterPrivate(filterRecord(getLocal(key, _namespace), only, except), privatePrefix),
-          )
-        }
-
-        if(saves.session) {
-          const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
-          applyRecord(
-            this.$data,
-            filterPrivate(filterRecord(getSession(key, _namespace), only, except), privatePrefix),
-          )
-        }
-      },
-      __getNamespace(this: any) {
-        return namespace ??
-          this[namespaceGetterName] ??
-          this.$options[namespaceGetterName]??
-          this.$options.name
-      },
-    },
-  })
+  }
 }
 
