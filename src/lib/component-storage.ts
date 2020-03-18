@@ -132,9 +132,6 @@ class ComponentStorage {
   }
 
   init(vm: Vue) {
-    if(this._vm) {
-      throw new Error('cannot init twice')
-    }
     this._vm = vm
   }
 
