@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import {ClientRequest, ServerResponse} from 'http'
-import {RawLocation, Route} from 'vue-router'
 import {ThisTypedComponentOptionsWithRecordProps} from 'vue/types/options'
 import {CombinedVueInstance} from 'vue/types/vue'
 import {ComponentStorage} from './index'
@@ -33,25 +32,9 @@ export interface SaveObject {
   except?: string[]
 }
 
-interface QuasarSsrContext {
-  res: ServerResponse
-  req: ClientRequest
-}
-
-export interface QuasarPreFetchPayload {
-  store?: any
-  currentRoute: Route
-  previousRoute: Route
-  redirect: (location: RawLocation) => void
-  ssrContext: QuasarSsrContext
-}
-
-interface NuxtPreFetchPayload {
-
-}
-
 export interface Methods {
-  __serverPrefetch(this: VueInstance, payload)
+  __restoreServerSideCookie(this: VueInstance, req: ClientRequest)
+  __saveServerSideCookie(this: VueInstance, res: ServerResponse)
 }
 
 export interface Data {
@@ -82,8 +65,6 @@ export interface StorageComponentOptions
     Methods,
     Computed,
     Props> {
-  preFetch: (this: VueInstance, payload: QuasarPreFetchPayload) => any
-  serverPrefetch: (this: VueInstance) => any
   __componentStorage: ComponentStorage
 }
 
@@ -108,17 +89,33 @@ export interface Options {
   namespaceGetterName?: string
 
   /**
-   * ignore private data to save
+   * Ignore private data to save
    * @default '__'
    */
   privatePrefix?: string
 
   /**
-   * restore when component is created or mounted
+   * Restore when component is created or mounted
    * @default mounted
    */
   restore?: 'created' | 'mounted'
 
+  /**
+   * for restore cookie in server side you must set this
+   * @example (req) => (req.cookies)
+   */
+  requestCookie?: (req) => Record<string, any>
+
+  responseCookie?: (data) => void
+
+  /**
+   * @default 2147483647
+   */
+  cookieMaxAge?: number
+
+  /**
+   * Which data the Component Storage will save
+   */
   saves?: {
     session?: SaveObject | boolean
     local?: SaveObject | boolean

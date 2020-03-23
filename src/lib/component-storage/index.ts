@@ -4,9 +4,11 @@ import {VueClass} from 'vue-class-component/lib/declarations'
 import applyRecord from '../apply-record'
 import filterRecord from '../filter-record'
 import forceDefault from '../force-default'
+import Cookie from 'cookie'
+import {ClientRequest, ServerResponse} from 'http'
+
 import {
   Options,
-  QuasarPreFetchPayload,
   SaveObject,
   StorageComponentOptions,
   VueInstance,
@@ -43,6 +45,12 @@ export function saveSession(key: string, namespace: string, data: Record<string,
   sessionStorage.setItem(getStorageName(key, namespace), JSON.stringify(data))
 }
 
+export function getCookie(key: string, namespace: string) {
+  return forceDefault(() => {
+    JSON.parse(Cookie.parse(document.cookie)[namespace])
+  }, {})
+}
+
 /**
  * Whether running the client environment
  */
@@ -63,14 +71,17 @@ export class ComponentStorage {
   private _dataUpdated: boolean = false
   private readonly _restore: 'created' | 'mounted'
   private _namespaceGetterName: string
-  private _privatePrefix: string
-  private _saves: {
+  private readonly _privatePrefix: string
+  private _requestCookie?: (req) => Record<string, any>
+  private _cookieMaxAge: number
+  private readonly _saves: {
     session?: SaveObject | boolean
     local?: SaveObject | boolean
     cookie?: SaveObject | boolean
   }
-
   private _vm?: Vue
+  private _namespace?: string
+  private _key: string
 
   get vm() {
     if(!this._vm) {
@@ -79,17 +90,13 @@ export class ComponentStorage {
     return this._vm
   }
 
-  private _namespace?: string
-
   get namespace() {
-    return this._namespace ?? this.vm.$options.name
+      return this._namespace ?? this.vm.$options.name
   }
 
   set namespace(value) {
     this._namespace = value
   }
-
-  private _key: string
 
   get key() {
     return this._key
@@ -106,9 +113,11 @@ export class ComponentStorage {
     this._namespaceGetterName = options.namespaceGetterName ?? 'storageName'
     this._privatePrefix = options.privatePrefix ?? '__'
     this._saves = cloneDeep(options.saves ?? {})
+    this._requestCookie = options.requestCookie
+    this._cookieMaxAge = options.cookieMaxAge ?? 2147483647
   }
 
-  init(vm: Vue) {
+  registerVueInstance(vm: Vue) {
     this._vm = vm
   }
 
@@ -152,8 +161,12 @@ export class ComponentStorage {
     // skip cookie for now
   }
 
-  restore(time: 'mounted' | 'created') {
-    const {vm, _saves: saves, _privatePrefix, _key} = this
+  /**
+   *
+   * @param time call function time flag "created" may run in server side (server has no storage)
+   */
+  restore(time: 'mounted' | 'created' = 'mounted') {
+    const {_saves: saves, _key} = this
     const _namespace = this.getNamespace()
 
     if(this._restore !== time) {
@@ -161,32 +174,75 @@ export class ComponentStorage {
     }
 
     if(saves.local) {
-      const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
-      applyRecord(
-        vm.$data,
-        filterPrivate(filterRecord(getLocal(_key, _namespace), only, except), _privatePrefix),
-      )
+      const localData = getLocal(_key, _namespace)
+      this.applyRecord(localData, saves.local)
     }
 
     if(saves.session) {
-      const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
-      applyRecord(
-        vm.$data,
-        filterPrivate(filterRecord(getSession(_key, _namespace), only, except), _privatePrefix),
-      )
+      const sessionData = getSession(_key, _namespace)
+      this.applyRecord(sessionData, saves.session)
+    }
+
+    if(saves.cookie) {
+      const cookieData  = getCookie(this._key, _namespace)
+      this.applyRecord(cookieData, saves.cookie)
     }
   }
 
-  restoreCookie(mode: 'server' | 'client') {
-    // empty
+  applyRecord(data: Record<string, any>, filter: SaveObject | boolean = true) {
+    const {except = [], only = []} = typeof filter === 'boolean' ? {} : filter
+    const {_privatePrefix} = this
+
+    applyRecord(
+      this.vm.$data,
+      filterPrivate(
+        filterRecord(
+          data,
+          only,
+          except,
+        ),
+        _privatePrefix,
+      ),
+    )
   }
 
-  serverPreFetch(payload?: QuasarPreFetchPayload) {
-    if(!payload) {
+  restoreServerCookie(req: ClientRequest) {
+    const {cookie} = this._saves
+    const {_requestCookie} = this
+    if(!cookie || !_requestCookie) {
       return
     }
-    const {req, res} = payload.ssrContext ?? {}
-    console.log(res, req)
+
+    const namespace = this.getNamespace()
+    const cookieData = forceDefault(() => {
+      const rawCookie = req.getHeader('cookie')
+      if(rawCookie) {
+        return JSON.parse(Cookie.parse(rawCookie)[namespace])
+      }
+    }, {})
+    this.applyRecord(cookieData, cookie)
+  }
+
+  saveServerCookie(res: ServerResponse) {
+    const {cookie} = this._saves
+    if(!cookie) {
+      return
+    }
+
+    const {_cookieMaxAge} = this
+    const {only = [], except = []} = typeof cookie === 'boolean' ? {} : cookie
+    const namespace = this.getNamespace()
+    const data = filterPrivate(
+      filterRecord(
+        cloneDeep(this.vm.$data),
+        only, except,
+      ),
+      this._privatePrefix,
+    )
+    res.setHeader(
+      'Set-Cookie',
+      Cookie.serialize(namespace, JSON.stringify(data), {maxAge: _cookieMaxAge}),
+    )
   }
 
   getNamespace() {
@@ -196,7 +252,6 @@ export class ComponentStorage {
       vm.$options[_namespaceGetterName] ??
       vm.$options.name
   }
-
 
 }
 
@@ -230,21 +285,19 @@ export function createStorageComponentOptions(options: Options = {}):
         },
       },
     },
-    preFetch(payload: QuasarPreFetchPayload) {
-      this.$componentStorage.serverPreFetch(payload)
-    },
-    serverPrefetch() {
-      this.$componentStorage.serverPreFetch()
-      return Promise.resolve()
-    },
     methods: {
-      __serverPrefetch(payload?: QuasarPreFetchPayload) {
-        this.$componentStorage.serverPreFetch(payload)
+      __restoreServerSideCookie(req: ClientRequest) {
+        this.$componentStorage.restoreServerCookie(req)
+      },
+      __saveServerSideCookie(res) {
+        this.$componentStorage.saveServerCookie(res)
       },
     },
     created(this: any) {
       const {$componentStorage} = this
-      $componentStorage.init(this)
+
+      // register vue instance
+      $componentStorage.registerVueInstance(this)
       $componentStorage.registerDataWatch()
       $componentStorage.restore('created')
 
