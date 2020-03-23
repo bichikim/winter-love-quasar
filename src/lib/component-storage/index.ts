@@ -3,8 +3,6 @@ import Vue from 'vue'
 import {VueClass} from 'vue-class-component/lib/declarations'
 import applyRecord from '../apply-record'
 import filterRecord from '../filter-record'
-import forceDefault from '../force-default'
-import Cookie from 'cookie'
 import {ClientRequest, ServerResponse} from 'http'
 
 import {
@@ -14,58 +12,18 @@ import {
   VueInstance,
 } from './types'
 
-
-export function filterPrivate(target, privatePreFix = '__') {
-  return Object.keys(target).reduce((result, key) => {
-    if(!key.startsWith(privatePreFix)) {
-      result[key] = target[key]
-    }
-    return result
-  }, {})
-}
-
-export function getStorageName(key: string, namespace: string) {
-  return `${key}/${namespace}`
-}
-
-export function saveLocal(key: string, namespace: string, data: Record<string, any>) {
-  localStorage.setItem(getStorageName(key, namespace), JSON.stringify(data))
-}
-
-export function getLocal(key: string, namespace: string) {
-  return forceDefault(() => {
-    const rowData = localStorage.getItem(getStorageName(key, namespace))
-    if(rowData) {
-      return JSON.parse(rowData)
-    }
-  }, {})
-}
-
-export function saveSession(key: string, namespace: string, data: Record<string, any>) {
-  sessionStorage.setItem(getStorageName(key, namespace), JSON.stringify(data))
-}
-
-export function getCookie(key: string, namespace: string) {
-  return forceDefault(() => {
-    JSON.parse(Cookie.parse(document.cookie)[namespace])
-  }, {})
-}
-
-/**
- * Whether running the client environment
- */
-export function isClient() {
-  return typeof window === 'object'
-}
-
-export function getSession(key: string, namespace: string) {
-  return forceDefault(() => {
-    const rowData = sessionStorage.getItem(getStorageName(key, namespace))
-    if(rowData) {
-      return JSON.parse(rowData)
-    }
-  }, {})
-}
+import {
+  getCookie,
+  filterPrivate,
+  getLocal,
+  getSession,
+  isClient,
+  saveLocal,
+  saveSession,
+  saveCookie,
+  getServerCookie,
+  saveServerCookie,
+} from './utils'
 
 export class ComponentStorage {
   private _dataUpdated: boolean = false
@@ -73,7 +31,7 @@ export class ComponentStorage {
   private _namespaceGetterName: string
   private readonly _privatePrefix: string
   private _requestCookie?: (req) => Record<string, any>
-  private _cookieMaxAge: number
+  private readonly _cookieOptions: any
   private readonly _saves: {
     session?: SaveObject | boolean
     local?: SaveObject | boolean
@@ -114,7 +72,7 @@ export class ComponentStorage {
     this._privatePrefix = options.privatePrefix ?? '__'
     this._saves = cloneDeep(options.saves ?? {})
     this._requestCookie = options.requestCookie
-    this._cookieMaxAge = options.cookieMaxAge ?? 2147483647
+    this._cookieOptions = options.cookieOptions
   }
 
   registerVueInstance(vm: Vue) {
@@ -149,16 +107,34 @@ export class ComponentStorage {
     const _namespace = this.getNamespace()
     const data = cloneDeep(vm.$data)
 
+    const getFilter = (filter: SaveObject | boolean) => {
+      const {only = [], except = []} = typeof filter === 'boolean' ? {} : filter
+      return {only, except}
+    }
+
     if(saves.local) {
-      const {only = [], except = []} = typeof saves.local === 'boolean' ? {} : saves.local
+      const {only, except} = getFilter(saves.local)
+
       saveLocal(_key, _namespace, filterPrivate(filterRecord(data, only, except), _privatePrefix))
     }
+
     if(saves.session) {
-      const {only = [], except = []} = typeof saves.session === 'boolean' ? {} : saves.session
+      const {only, except} = getFilter(saves.session)
+
       saveSession(
         _key, _namespace, filterPrivate(filterRecord(data, only, except), _privatePrefix))
     }
-    // skip cookie for now
+
+    if(saves.cookie) {
+      const {only, except} = getFilter(saves.cookie)
+
+      saveCookie(
+        _key,
+        _namespace,
+        filterPrivate(filterRecord(data, only, except), _privatePrefix),
+        this._cookieOptions,
+      )
+    }
   }
 
   /**
@@ -208,18 +184,13 @@ export class ComponentStorage {
 
   restoreServerCookie(req: ClientRequest) {
     const {cookie} = this._saves
-    const {_requestCookie} = this
+    const {_requestCookie, _key} = this
     if(!cookie || !_requestCookie) {
       return
     }
 
     const namespace = this.getNamespace()
-    const cookieData = forceDefault(() => {
-      const rawCookie = req.getHeader('cookie')
-      if(rawCookie) {
-        return JSON.parse(Cookie.parse(rawCookie)[namespace])
-      }
-    }, {})
+    const cookieData = getServerCookie(req, _key, namespace)
     this.applyRecord(cookieData, cookie)
   }
 
@@ -229,7 +200,7 @@ export class ComponentStorage {
       return
     }
 
-    const {_cookieMaxAge} = this
+    const {_cookieOptions} = this
     const {only = [], except = []} = typeof cookie === 'boolean' ? {} : cookie
     const namespace = this.getNamespace()
     const data = filterPrivate(
@@ -239,10 +210,7 @@ export class ComponentStorage {
       ),
       this._privatePrefix,
     )
-    res.setHeader(
-      'Set-Cookie',
-      Cookie.serialize(namespace, JSON.stringify(data), {maxAge: _cookieMaxAge}),
-    )
+    saveServerCookie(res, this.key, namespace, data, _cookieOptions)
   }
 
   getNamespace() {

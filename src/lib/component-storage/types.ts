@@ -109,9 +109,9 @@ export interface Options {
   responseCookie?: (data) => void
 
   /**
-   * @default 2147483647
+   *
    */
-  cookieMaxAge?: number
+  cookieOptions?: any
 
   /**
    * Which data the Component Storage will save
