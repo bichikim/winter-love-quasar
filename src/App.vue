@@ -12,7 +12,7 @@
    * @link https://github.com/vuejs/vue-class-component#adding-custom-hooks
    * @link https://quasar.dev/quasar-plugins/meta for meta
    */
-  Component.registerHooks(['meta'])
+  Component.registerHooks(['meta', 'preFetch', 'serverPrefetch'])
 
   /**
    * Init app setting in runtime level

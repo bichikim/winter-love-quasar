@@ -1,9 +1,9 @@
 import {NavItem} from 'src/components/navigation/types'
-import componentStorage from 'src/lib/component-storage'
+import {createStorage} from 'src/lib/component-storage'
 import {Component, Vue} from 'vue-property-decorator'
 
 @Component({
-  mixins: [componentStorage({
+  mixins: [createStorage({
     saves: {
       session: true,
     },

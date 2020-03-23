@@ -2,8 +2,6 @@ module.exports = {
   presets: [
     [
       '@quasar/babel-preset-app', {
-      // for tree shacking
-      modules: false,
     }],
     [
       'typescript-vue',
@@ -17,6 +15,7 @@ module.exports = {
     ['@babel/plugin-proposal-decorators', {legacy: true}],
     ['@babel/proposal-class-properties', {loose: true}],
     '@babel/plugin-proposal-optional-chaining',
+    'lodash',
   ],
   env: {
     test: {

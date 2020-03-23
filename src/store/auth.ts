@@ -1,15 +1,13 @@
 import {auth} from 'firebase/app'
-import componentStorage from 'src/lib/component-storage'
-import {Component, Vue} from 'vue-property-decorator'
+import {createStorage} from 'src/lib/component-storage'
+import {Component, Mixins} from 'vue-property-decorator'
 
-@Component({
-  mixins: [componentStorage({
-    saves: {
-      session: true,
-    },
-  })],
-})
-export default class Auth extends Vue {
+@Component
+export default class Auth extends Mixins(createStorage({
+  saves: {
+    session: true,
+  },
+})) {
   name: string | null = null
   email: string | null = null
   side: 'left' | 'right' = 'right'

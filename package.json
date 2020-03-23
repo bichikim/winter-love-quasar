@@ -9,9 +9,9 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">= 8.9.0",
-    "npm": ">= 5.6.0",
-    "yarn": ">= 1.6.0"
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
@@ -26,7 +26,8 @@
     "test:quasar": "karma start karma.config.js --browsers=Chrome",
     "test:node": "mocha",
     "test:firebase": "",
-    "firebase:emulator": "firebase serve --only firestore,database"
+    "firebase:emulator": "firebase serve --only firestore,database",
+    "prettier": "prettier-eslint \"src/*.js\" "
   },
   "scriptsDescription": {
     "dev": "serve in development mode (pwa)",
@@ -47,7 +48,7 @@
     "axios": "^0.19.0",
     "firebase": "^7.2.1",
     "jquery": "^3.4",
-    "lodash": "^4.17",
+    "lodash": "^4.17.15",
     "portal-vue": "^2.1.7",
     "quasar": "^1.9",
     "reflect-metadata": "^0.1.13",
@@ -89,6 +90,7 @@
     "@vue/test-utils": "^1.0.0-beta.32",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-plugin-istanbul": "^6.0.0",
+    "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-typescript-vue": "^1.0.3",
     "chai": "^4.2.0",
@@ -112,6 +114,8 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.2",
     "mocha": "^7.0.1",
+    "prettier-eslint": "^9.0.1",
+    "prettier-eslint-cli": "^5.0.0",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.0.0",

@@ -64,11 +64,14 @@ interface StoreLike<V extends Vue = Vue> {
   unregisterModule(path: string): void
 }
 
-export function announcer(): DevToolHook {
+export function announcer(): DevToolHook | undefined {
   const hook = getHook()
 
   if(!hook) {
-    throw new Error('no hook')
+    if(process.env.NODE_ENV === 'development') {
+      console.warn('Your browser does not exist the devtool')
+    }
+    return
   }
 
   hook.emit('vuex:init', createFakeStore())

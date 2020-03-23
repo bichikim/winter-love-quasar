@@ -15,9 +15,15 @@ function resolve(...args) {
 function tsConfig(config, ctx) {
   const {dev = true} = ctx || {}
   config.resolve.extensions.add('.ts').add('.tsx')
-  config.module.rule('ts')
+  config.module.rule('babel-ts')
         .test(/\.tsx?$/)
-        .use('babel').loader('babel-loader').end()
+        .use('babel').loader('babel-loader')
+        .options({
+          compact: false,
+          extends: path.resolve(__dirname, '..', 'babel.config.js'),
+        })
+        .end()
+
   if(dev) {
     config.plugin('ts-checker')
           .use(ForkTsCheckerWebpackPlugin, [

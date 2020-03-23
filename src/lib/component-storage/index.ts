@@ -1,76 +1,20 @@
 import {cloneDeep} from 'lodash'
-import forceDefault from './force-default'
-import applyRecord from './apply-record'
-import filterRecord from './filter-record'
-import Vue, {ComponentOptions} from 'vue'
+import Vue from 'vue'
+import {VueClass} from 'vue-class-component/lib/declarations'
+import applyRecord from '../apply-record'
+import filterRecord from '../filter-record'
+import forceDefault from '../force-default'
+import {
+  Options,
+  QuasarPreFetchPayload,
+  SaveObject,
+  StorageComponentOptions,
+  VueInstance,
+} from './types'
 
-/**
- * save strategy; pick only and omit except
- */
-interface SaveObject {
-  /**
-   * only filter
-   * first filter
-   * @example ['foo.bar']
-   * {foo: {foo: 'foo', bar: 'bar'} => {foo: {bar: 'bar'}}
-   */
-  only?: string[]
-
-  /**
-   * except filter
-   * after only filter
-   * @example ['foo.bar']
-   * {foo: {foo: 'foo', bar: 'bar'} => {foo: {foo: 'foo'}}
-   */
-  except?: string[]
-}
-
-
-export interface ComponentStorageComponentOptions extends ComponentOptions<Vue> {
-  __componentStorage: ComponentStorage
-}
-
-/**
- * componentStorage options
- * @default {}
- */
-interface Options {
-  /**
-   * @default 'component-storage'
-   */
-  key?: string
-  /**
-   * @default vue.name or vue.[namespaceGetterName]
-   */
-  namespace?: string
-
-  /**
-   * Namespace name reference (getter | data)
-   * @default 'storageName'
-   */
-  namespaceGetterName?: string
-
-  /**
-   * ignore private data to save
-   * @default '__'
-   */
-  privatePrefix?: string
-
-  /**
-   * restore when component is created or mounted
-   * @default mounted
-   */
-  restore?: 'created' | 'mounted'
-
-  saves?: {
-    session?: SaveObject | boolean
-    local?: SaveObject | boolean
-    cookie?: SaveObject | boolean
-  }
-}
 
 export function filterPrivate(target, privatePreFix = '__') {
-  return Object.keys(target).reduce((result ,key) => {
+  return Object.keys(target).reduce((result, key) => {
     if(!key.startsWith(privatePreFix)) {
       result[key] = target[key]
     }
@@ -99,6 +43,13 @@ export function saveSession(key: string, namespace: string, data: Record<string,
   sessionStorage.setItem(getStorageName(key, namespace), JSON.stringify(data))
 }
 
+/**
+ * Whether running the client environment
+ */
+export function isClient() {
+  return typeof window === 'object'
+}
+
 export function getSession(key: string, namespace: string) {
   return forceDefault(() => {
     const rowData = sessionStorage.getItem(getStorageName(key, namespace))
@@ -108,11 +59,8 @@ export function getSession(key: string, namespace: string) {
   }, {})
 }
 
-class ComponentStorage {
-  private _vm?: Vue
+export class ComponentStorage {
   private _dataUpdated: boolean = false
-  private _namespace?: string
-  private _key: string
   private readonly _restore: 'created' | 'mounted'
   private _namespaceGetterName: string
   private _privatePrefix: string
@@ -120,6 +68,35 @@ class ComponentStorage {
     session?: SaveObject | boolean
     local?: SaveObject | boolean
     cookie?: SaveObject | boolean
+  }
+
+  private _vm?: Vue
+
+  get vm() {
+    if(!this._vm) {
+      throw new Error('no vm')
+    }
+    return this._vm
+  }
+
+  private _namespace?: string
+
+  get namespace() {
+    return this._namespace ?? this.vm.$options.name
+  }
+
+  set namespace(value) {
+    this._namespace = value
+  }
+
+  private _key: string
+
+  get key() {
+    return this._key
+  }
+
+  set key(value: string) {
+    this._key = value
   }
 
   constructor(options: Options = {}) {
@@ -133,29 +110,6 @@ class ComponentStorage {
 
   init(vm: Vue) {
     this._vm = vm
-  }
-
-  get vm() {
-    if(!this._vm) {
-      throw new Error('no vm')
-    }
-    return this._vm
-  }
-
-  get key() {
-    return this._key
-  }
-
-  set key(value: string) {
-    this._key = value
-  }
-
-  get namespace() {
-    return this._namespace ?? this.vm.$options.name
-  }
-
-  set namespace(value) {
-    this._namespace = value
   }
 
   /**
@@ -223,11 +177,23 @@ class ComponentStorage {
     }
   }
 
+  restoreCookie(mode: 'server' | 'client') {
+    // empty
+  }
+
+  serverPreFetch(payload?: QuasarPreFetchPayload) {
+    if(!payload) {
+      return
+    }
+    const {req, res} = payload.ssrContext ?? {}
+    console.log(res, req)
+  }
+
   getNamespace() {
     const {vm, _namespaceGetterName, _namespace} = this
     return _namespace ??
       vm[_namespaceGetterName] ??
-      vm.$options[_namespaceGetterName]??
+      vm.$options[_namespaceGetterName] ??
       vm.$options.name
   }
 
@@ -237,12 +203,14 @@ class ComponentStorage {
 /**
  * Please use this as mixin
  */
-export default function componentStorage(options: Options = {}): ComponentStorageComponentOptions {
+export function createStorageComponentOptions(options: Options = {}):
+  StorageComponentOptions {
 
   return {
     __componentStorage: new ComponentStorage(options),
     computed: {
-      $componentStorage(this: any) {
+      // --> __componentStorage
+      $componentStorage(this: any): ComponentStorage {
         return this.$options.__componentStorage
       },
       storageKey: {
@@ -262,11 +230,28 @@ export default function componentStorage(options: Options = {}): ComponentStorag
         },
       },
     },
+    preFetch(payload: QuasarPreFetchPayload) {
+      this.$componentStorage.serverPreFetch(payload)
+    },
+    serverPrefetch() {
+      this.$componentStorage.serverPreFetch()
+      return Promise.resolve()
+    },
+    methods: {
+      __serverPrefetch(payload?: QuasarPreFetchPayload) {
+        this.$componentStorage.serverPreFetch(payload)
+      },
+    },
     created(this: any) {
       const {$componentStorage} = this
       $componentStorage.init(this)
       $componentStorage.registerDataWatch()
       $componentStorage.restore('created')
+
+      // do not restore or save in server side
+      if(!isClient()) {
+        return
+      }
 
       // mounted won't be called without rendering
       // as mounted
@@ -278,3 +263,8 @@ export default function componentStorage(options: Options = {}): ComponentStorag
   }
 }
 
+export function createStorage(options: Options): VueClass<VueInstance> {
+  return Vue.extend(createStorageComponentOptions(options))
+}
+
+export default createStorage

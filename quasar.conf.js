@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
-const {tsConfig, pugConfig, iconFont, eslint, i18n,
+const {
+  tsConfig, pugConfig, iconFont, eslint, i18n,
 } = require('./build/webpack.chain.js')
 const envReader = require('./build/env-reader')
 const pkg = require('./package.json')
@@ -65,6 +66,8 @@ module.exports = function (ctx) {
       plugins: [],
     },
 
+    preFetch: true,
+
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: true,
 
@@ -95,7 +98,8 @@ module.exports = function (ctx) {
         if(ctx.prod) {
           eslint(cfg)
         }
-        tsConfig(cfg)
+
+        tsConfig(cfg, ctx)
         pugConfig(cfg)
         iconFont(cfg)
         i18n(cfg)
