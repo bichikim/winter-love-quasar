@@ -1,7 +1,7 @@
 <template lang="pug">
   .google-map.fit(
     ref="mapContainer"
-    @touchstart="onMouse"
+    @touchstart="onTouchstart"
   )
     template(v-if="Boolean(google) && Boolean(map)")
       slot(
@@ -17,6 +17,7 @@
   import darkStyle from './dark.json'
   import lightStyle from './light.json'
   import Google from './google'
+  import blur from 'src/lib/blur-active-element'
 
   @Component
   export default class EarthMap extends Vue {
@@ -101,8 +102,8 @@
       })
     }
 
-    onMouse() {
-      this.$root.$emit('blur')
+    onTouchstart() {
+      blur()
     }
 
     // update this.map center

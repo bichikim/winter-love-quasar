@@ -1,6 +1,7 @@
 light-dimmed-glass()
   background $light-dimmed-background
   backdrop-filter: blur(3px)
+
 dark-dimmed-glass()
   background $dimmed-background
   backdrop-filter: blur(3px)
@@ -19,6 +20,7 @@ body.body--dark .q-btn.glass
 
 body.body--dark .q-drawer-container.glass .q-drawer
   dark-dimmed-glass()
+
 // <<
 
 // >> q-card
@@ -30,26 +32,36 @@ body.body--dark
   .glass
     &.q-card
       dark-dimmed-glass()
+
 // <<
 
 // >>field
 .glass
-  &.q-field,&.q-field.q-field--standout
+  &.q-field, &.q-field.q-field--standout
     .q-field__control
       color $primary
       box-shadow $shadow-3
       light-dimmed-glass()
+
   &.q-field--focused.q-field--standout
-    input,i
+    .q-field__control::after
+      box-shadow 0 1px 5px $accent
+
+    input
+      color inherit
+
+    i
       color inherit
 
 body.body--dark .glass
-  &.q-field,&.q-field.q-field--standout
+  &.q-field, &.q-field.q-field--standout
     .q-field__control
       color $white
       box-shadow $shadow-3
       dark-dimmed-glass()
+
   &.q-field--focused.q-field--standout
     input
       color inherit
+
 // <<
