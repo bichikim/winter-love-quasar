@@ -1,15 +1,14 @@
 import {NavItem} from 'src/components/navigation/types'
-import {createStorage} from 'src/lib/component-storage'
-import {Component, Vue} from 'vue-property-decorator'
+import {createStorage} from 'src/mixins/component-storage'
+import {Component, Mixins} from 'vue-property-decorator'
+import createStoreBus from 'src/store/store-bus'
 
-@Component({
-  mixins: [createStorage({
-    saves: {
-      session: true,
-    },
-  })],
-})
-export default class Aside extends Vue {
+@Component
+export default class Aside extends Mixins(createStorage({
+  saves: {
+    session: true,
+  },
+}), createStoreBus()) {
   items: NavItem[] = [
     {
       title: 'aside.history',

@@ -1,30 +1,28 @@
-import {cloneDeep} from 'lodash'
+import {ClientRequest, ServerResponse} from 'http'
+import {cloneDeep, clone} from 'lodash'
+import applyRecord from 'src/lib/apply-record'
+import filterRecord from 'src/lib/filter-record'
 import Vue from 'vue'
 import {VueClass} from 'vue-class-component/lib/declarations'
-import applyRecord from '../apply-record'
-import filterRecord from '../filter-record'
-import {ClientRequest, ServerResponse} from 'http'
+
+import {Options, SaveObject, StorageComponentOptions, VueInstance} from './types'
 
 import {
-  Options,
-  SaveObject,
-  StorageComponentOptions,
-  VueInstance,
-} from './types'
-
-import {
-  getCookie,
   filterPrivate,
+  getCookie,
   getLocal,
+  getServerCookie,
   getSession,
   isClient,
-  saveLocal,
-  saveSession,
   saveCookie,
-  getServerCookie,
+  saveLocal,
   saveServerCookie,
+  saveSession,
 } from './utils'
 
+/**
+ * please add this mixin first then others
+ */
 export class ComponentStorage {
   private _dataUpdated: boolean = false
   private readonly _restore: 'created' | 'mounted'
@@ -49,7 +47,7 @@ export class ComponentStorage {
   }
 
   get namespace() {
-      return this._namespace ?? this.vm.$options.name
+    return this._namespace ?? this.vm.$options.name
   }
 
   set namespace(value) {
@@ -105,7 +103,7 @@ export class ComponentStorage {
   save() {
     const {vm, _saves: saves, _key, _privatePrefix} = this
     const _namespace = this.getNamespace()
-    const data = cloneDeep(vm.$data)
+    const data = clone(filterPrivate(vm.$data, _privatePrefix))
 
     const getFilter = (filter: SaveObject | boolean) => {
       const {only = [], except = []} = typeof filter === 'boolean' ? {} : filter
@@ -115,14 +113,14 @@ export class ComponentStorage {
     if(saves.local) {
       const {only, except} = getFilter(saves.local)
 
-      saveLocal(_key, _namespace, filterPrivate(filterRecord(data, only, except), _privatePrefix))
+      saveLocal(_key, _namespace, filterRecord(data, only, except))
     }
 
     if(saves.session) {
       const {only, except} = getFilter(saves.session)
 
       saveSession(
-        _key, _namespace, filterPrivate(filterRecord(data, only, except), _privatePrefix))
+        _key, _namespace, filterRecord(data, only, except))
     }
 
     if(saves.cookie) {
@@ -131,7 +129,7 @@ export class ComponentStorage {
       saveCookie(
         _key,
         _namespace,
-        filterPrivate(filterRecord(data, only, except), _privatePrefix),
+        filterRecord(data, only, except),
         this._cookieOptions,
       )
     }
@@ -160,7 +158,7 @@ export class ComponentStorage {
     }
 
     if(saves.cookie) {
-      const cookieData  = getCookie(this._key, _namespace)
+      const cookieData = getCookie(this._key, _namespace)
       this.applyRecord(cookieData, saves.cookie)
     }
   }
@@ -236,32 +234,8 @@ export function createStorageComponentOptions(options: Options = {}):
       $componentStorage(this: any): ComponentStorage {
         return this.$options.__componentStorage
       },
-      storageKey: {
-        get(this: any) {
-          return this.$componentStorage.key
-        },
-        set(this: any, value: string) {
-          this.$componentStorage.key = value
-        },
-      },
-      storageNamespace: {
-        get(this: any) {
-          return this.$componentStorage.namespace
-        },
-        set(this: any, value: string) {
-          this.$componentStorage.namespace = value
-        },
-      },
     },
-    methods: {
-      __restoreServerSideCookie(req: ClientRequest) {
-        this.$componentStorage.restoreServerCookie(req)
-      },
-      __saveServerSideCookie(res) {
-        this.$componentStorage.saveServerCookie(res)
-      },
-    },
-    created(this: any) {
+    created(this: VueInstance) {
       const {$componentStorage} = this
 
       // register vue instance
@@ -284,7 +258,7 @@ export function createStorageComponentOptions(options: Options = {}):
   }
 }
 
-export function createStorage(options: Options): VueClass<VueInstance> {
+export const createStorage = (options: Options): VueClass<VueInstance> => {
   return Vue.extend(createStorageComponentOptions(options))
 }
 

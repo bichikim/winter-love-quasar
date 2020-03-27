@@ -1,6 +1,5 @@
 import Vue from 'vue'
-import {ClientRequest, ServerResponse} from 'http'
-import {ThisTypedComponentOptionsWithRecordProps} from 'vue/types/options'
+import {ComponentOptions, PropsDefinition} from 'vue/types/options'
 import {CombinedVueInstance} from 'vue/types/vue'
 import {ComponentStorage} from './index'
 
@@ -33,8 +32,6 @@ export interface SaveObject {
 }
 
 export interface Methods {
-  __restoreServerSideCookie(this: VueInstance, req: ClientRequest)
-  __saveServerSideCookie(this: VueInstance, res: ServerResponse)
 }
 
 export interface Data {
@@ -43,27 +40,20 @@ export interface Data {
 
 export interface Computed {
   $componentStorage: ComponentStorage
-  storageKey: string
-  storageNamespace: string
 }
 
 export interface Props {
 
 }
 
-export interface VueInstance extends CombinedVueInstance<Vue,
-  Data,
-  Methods,
-  Computed,
-  Props> {
-}
+export type VueInstance = CombinedVueInstance<Vue, Data, Methods, Computed, Props>
 
 export interface StorageComponentOptions
-  extends ThisTypedComponentOptionsWithRecordProps<
-    Vue,
+  extends ComponentOptions<Vue,
     Data,
     Methods,
     Computed,
+    PropsDefinition<Props>,
     Props> {
   __componentStorage: ComponentStorage
 }
