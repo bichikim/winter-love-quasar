@@ -7,10 +7,16 @@
       q-input.text-primary.glass.text-h6(v-model="myValue" dense standout v-show="show")
         template(#append)
           .btn-group
-            q-btn(dense flat icon="las la-search" v-if="isSearchAble")
+            q-btn(
+              dense flat
+              icon="las la-search"
+              v-if="isSearchAble"
+              @click="$emit('click-search')"
+            )
             q-btn(
               icon="las la-barcode"
               dense flat
+              @click="$emit('click-barcode')"
             )
 </template>
 

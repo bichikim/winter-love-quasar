@@ -1,20 +1,25 @@
 <template lang="pug">
-  q-layout.main-layout(:view="view" ref="layout")
-    // portal menu-btn
-    portal(:to="belowBreakpoint ? 'footer-search-bar' : 'header-search-bar'")
-      w-search-bar
-    .background.absolute-top-left.fit
-      q-no-ssr
-        earth-map(:dark="dark")
+  q-layout.main-layout(:view = "view" ref = "layout")
+
+    template(description="search-bar")
+      portal(:to = "belowBreakpoint ? 'footer-search-bar' : 'header-search-bar'")
+        w-search-bar(@click-barcode="onClickBarcode")
+
+    template(description="earth-map")
+      .background.absolute-top-left.fit
+        q-no-ssr
+          earth-map(:dark="dark")
+
     q-header.bg-transparent.no-pointer-events
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs.all-pointer-events(:class="toolbarClass")
-
         portal-target.w-grow(name="header-search-bar")
 
         // dark mode button
         q-btn.shadow-3.glass(
           flat dense
-          :icon="dark ? 'las la-moon' : 'las la-sun'" @click="onToggleDark")
+          :icon="dark ? 'las la-moon' : 'las la-sun'"
+          @click="onToggleDark"
+        )
 
         // Left-handed Right-handed button
         q-btn.shadow-3.glass(
@@ -23,8 +28,8 @@
           :class="side === 'left' ? 'w-reflect' : ''"
           @click="onToggleSide"
         )
-    // only below breakpoint
-    template(v-if="belowBreakpoint")
+
+    template(description="only below breakpoint" v-if="belowBreakpoint")
       q-footer.bg-transparent.q-pa-none.no-pointer-events
         q-toolbar.row.q-gutter-x-sm.footer.q-pr-xs.all-pointer-events(:class="toolbarClass")
           w-handy-navigation.handy-navigation-wrapper(
@@ -34,10 +39,8 @@
             @click="onNavClick"
           )
           portal-target.w-grow(name="footer-search-bar")
-            //  below breakpoint navigation
-    // only over breackpoint
-    template(v-else)
-      // for safty navitaion cannot be rendered in ssr
+
+    template(description = "below break point" v-else)
       q-no-ssr()
         w-side-navigation.glass(
           :items="items"
@@ -76,6 +79,9 @@
 
     q-page-container.no-pointer-events
       router-view
+
+    template(description="dialog")
+      w-bar-code-dialog(v-model="barcodeOpened" :maximized="belowBreakpoint")
 </template>
 
 <script lang="ts">
@@ -85,6 +91,7 @@
   import WSideNavigation from 'src/components/navigation/WSideNavigation.vue'
   import WHandyNavigation from 'src/components/navigation/WHandyNavigation.vue'
   import WSearchBar from 'src/components/search-bar/WSearchBar.vue'
+  import WBarCodeDialog from 'src/components/bar-code/WBarCodeDialog.vue'
 
   @Component({
     components: {
@@ -92,6 +99,7 @@
       WSideNavigation,
       WHandyNavigation,
       WSearchBar,
+      WBarCodeDialog,
     },
   })
   export default class MainLayout extends Vue {
@@ -101,14 +109,11 @@
     @Inject() store: Store
 
     /**
-     * open handy navigation
-     */
-    open: boolean = false
-
-    /**
      * to be mini aside navigation
      */
     mini: boolean = false
+
+    barcodeOpened: boolean = false
 
     mapConfig: google.maps.MapOptions = {
       center: {lat: -34.397, lng: 150.644},
@@ -142,17 +147,22 @@
       return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
     }
 
+    onClickBarcode() {
+      this.barcodeOpened = !this.barcodeOpened
+    }
+
     onToggleSide() {
       if(this.side === 'left') {
         this.side = 'right'
-      } else {
-        this.side = 'left'
+        return
       }
+      this.side = 'left'
     }
 
     onNavClick(value) {
       if(value.push) {
         this.$router.push(value.push)
+        return
       }
       if(value.replace) {
         this.$router.replace(value.replace)
