@@ -17,10 +17,10 @@
     "last 1 version, not dead, ie >= 11"
   ],
   "scripts": {
-    "dev": "quasar dev -m ssr",
-    "build": "quasar build -m ssr",
-    "serve": "quasar serve dist/spa",
-    "deploy": "yarn build && firebase deploy",
+    "dev": "quasar dev -m pwa",
+    "build": "quasar build -m pwa",
+    "serve": "quasar serve dist/pwa",
+    "deploy": "firebase deploy",
     "styleguide": "vue-styleguidist server",
     "test": "npm run test:quasar",
     "test:quasar": "karma start karma.config.js --browsers=Chrome",

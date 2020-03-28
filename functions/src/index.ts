@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-const SSR = require('../dist/index.js')
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
@@ -18,4 +17,3 @@ export const createUser = functions.auth.user().onCreate((user) => {
   return admin.auth().setCustomUserClaims(user.uid, {test: true})
 })
 
-export const ssr = SSR && SSR.app ? functions.https.onRequest(SSR.app) : undefined

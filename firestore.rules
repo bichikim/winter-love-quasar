@@ -2,12 +2,12 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isSignIn() {
-      return request.auth != null
+      return request.auth != null;
     }
 
 
-    match /{everyThing=**} {
-      allow read, create, delete, update: if request.auth.token.admin == true
+    match /{document=**} {
+      allow read, create, delete, update: if request.auth.token.admin == true;
     }
 
   	match /users/{user}/name {
