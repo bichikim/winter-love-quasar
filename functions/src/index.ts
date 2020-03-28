@@ -91,7 +91,7 @@ export const changeUserClaims = functions.https
 
   await TargetUser.set(target)
 
-  admin.auth().createCustomToken(targetUid, {admin})
+  await admin.auth().createCustomToken(targetUid, {admin})
 
   response.status(200).send(target)
 })
