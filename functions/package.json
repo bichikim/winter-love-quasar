@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Bichi Kim <bichi@live.co.kr>",
   "scripts": {
-    "build": "yarn && tsc && node fix-tsc.js",
+    "build": "yarn && tsc",
     "serve": "npm run build && firebase serve --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
