@@ -19,6 +19,7 @@ const
 const
   ssr = require('quasar-ssr'),
   extension = require('./extension'),
+  csp = require('./csp'),
   app = express(),
   port = process.env.PORT || 3000
 
@@ -40,6 +41,9 @@ app.use('/', serve('.', true))
 // we extend the custom common dev & prod parts here
 extension.extendApp({app, ssr})
 
+// Content Security Policy
+app.use(csp)
+
 // this should be last get(), rendering with SSR
 app.get('*', (req, res) => {
   res.setHeader('Content-Type', 'text/html')
@@ -52,30 +56,34 @@ app.get('*', (req, res) => {
   // and potentially look here for inspiration:
   // https://ponyfoo.com/articles/content-security-policy-in-express-apps
 
+
   // https://developer.mozilla.org/en-us/docs/Web/HTTP/Headers/X-Frame-Options
   // res.setHeader('X-frame-options', 'SAMEORIGIN') // one of DENY | SAMEORIGIN | ALLOW-FROM
   // https://example.com
+  res.setHeader('X-frame-options', 'SAMEORIGIN')
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
-  // res.setHeader('X-XSS-Protection', 1)
+  // IE only others already protect XSS
+  res.setHeader('X-XSS-Protection', 1)
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options
-  // res.setHeader('X-Content-Type-Options', 'nosniff')
+  res.setHeader('X-Content-Type-Options', 'nosniff')
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin
   // res.setHeader('Access-Control-Allow-Origin', '*') // one of '*', '<origin>' where origin is
   // one SINGLE origin
+  // todo need to add this next
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control
-  // res.setHeader('X-DNS-Prefetch-Control', 'off') // may be slower, but stops some leaks
+  res.setHeader('X-DNS-Prefetch-Control', 'off') // may be slower, but stops some leaks
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy
-  // res.setHeader('Content-Security-Policy', 'default-src https:')
+  // res.setHeader('Content-Security-Policy', 'default-src https:') --> csp
 
   // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox
   // res.setHeader('Content-Security-Policy', 'sandbox') // this will lockdown your server!!!
   // here are a few that you might like to consider adding to your CSP
-  // object-src, media-src, script-src, frame-src, unsafe-inline
+  // object-src, media-src, script-src, frame-src, unsafe-inline --> csp
 
   ssr.renderToString({req, res}, (err, html) => {
     if(err) {
@@ -101,6 +109,13 @@ app.get('*', (req, res) => {
   })
 })
 
-app.listen(port, () => {
-  console.log(`Server listening at port ${port}`)
-})
+module.exports.app = app
+
+/**
+ * running in firebase it does not run the listen
+ */
+if(!process.env.FIREBASE_CONFIG) {
+  app.listen(port, () => {
+    console.log(`Server listening at port ${port}`)
+  })
+}

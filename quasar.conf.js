@@ -8,7 +8,7 @@ const envReader = require('./build/env-reader')
 const pkg = require('./package.json')
 
 module.exports = function (ctx) {
-  const {dev} = ctx
+  const {dev, mode} = ctx
   const {version = 'unknown'} = pkg
 
   return {
@@ -81,6 +81,7 @@ module.exports = function (ctx) {
       // in SSR mode history only
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
+      distDir: mode.ssr ? 'functions/dist' : null,
       // showProgress: false,
       // gzip: true,
       // analyze: true,

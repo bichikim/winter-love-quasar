@@ -1,6 +1,9 @@
 ## Compiled JavaScript files
-**/*.js
-**/*.js.map
+/lib/**/*.js
+/lib/**/*.js.map
+
+# Quasar static files
+/dist/
 
 # Typescript v1 declaration files
 typings/

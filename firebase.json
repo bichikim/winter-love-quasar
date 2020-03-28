@@ -10,8 +10,7 @@
     "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
   },
   "hosting": {
-    "predeploy": "yarn build",
-    "public": "dist/spa",
+    "public": "functions/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -20,7 +19,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
+        "function": "ssr"
       }
     ],
     "headers": [
