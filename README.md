@@ -4,8 +4,8 @@
 
 ## UI Example
 
-![uI](./media/ui-example.gif)
-![uI](./media/ui-example2.png)
+![ui](./media/ui-example.gif)
+![ui](./media/ui-example2.png)
 
 ## Trouble Shooting
 
@@ -34,3 +34,6 @@ Windows
 
 ### .env should be added to .gitignore
 
+### browser zoom sometimes macks a scrollbar
+
+![issue](./media/issue0.PNG)
