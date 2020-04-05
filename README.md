@@ -34,6 +34,6 @@ Windows
 
 ### .env should be added to .gitignore
 
-### browser zoom sometimes macks a scrollbar
+### browser zoom sometimes macks a scrollbar (quasar bug)
 
 ![issue](./media/issue0.PNG)
