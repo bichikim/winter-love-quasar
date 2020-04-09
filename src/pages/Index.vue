@@ -11,12 +11,10 @@
 </style>
 
 <script lang="ts">
-  import {Component, Vue, Inject} from 'vue-property-decorator'
-  import Store from 'src/store'
+  import {Component, Vue} from 'vue-property-decorator'
 
   @Component
   export default class IndexPage extends Vue {
-    @Inject() store: Store
 
     meta: {}
 

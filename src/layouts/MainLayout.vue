@@ -86,8 +86,9 @@
 
 <script lang="ts">
   import {Dark, QLayout} from 'quasar'
-  import Store from 'src/store'
-  import {Component, Prop, Inject, Ref, Vue} from 'vue-property-decorator'
+  import user from 'src/store/modules/User'
+  import aside from 'src/store/modules/Aside'
+  import {Component, Prop, Ref, Vue} from 'vue-property-decorator'
   import WSideNavigation from 'src/components/navigation/WSideNavigation.vue'
   import WHandyNavigation from 'src/components/navigation/WHandyNavigation.vue'
   import WSearchBar from 'src/components/search-bar/WSearchBar.vue'
@@ -106,7 +107,6 @@
     @Prop({default: 'lHr Lpr lFr'}) view: string
     @Prop({default: 1023}) breakpoint: number
     @Ref() layout?: any
-    @Inject() store: Store
 
     /**
      * to be mini aside navigation
@@ -121,15 +121,15 @@
     }
 
     get side() {
-      return this.store.auth.side
+      return user.side
     }
 
     set side(value) {
-      this.store.auth.side = value
+      user.setSide(value)
     }
 
     get items() {
-      return this.store.aside.items
+      return aside.items
     }
 
     /**

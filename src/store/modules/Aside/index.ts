@@ -1,14 +1,13 @@
+import {getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators'
+import {store} from 'src/store'
 import {NavItem} from 'src/components/navigation/types'
-import {createStorage} from 'src/mixins/component-storage'
-import {Component, Mixins} from 'vue-property-decorator'
-import createStoreBus from 'src/store/store-bus'
 
-@Component
-export default class Aside extends Mixins(createStorage({
-  saves: {
-    session: true,
-  },
-}), createStoreBus()) {
+@Module({
+  store: store(),
+  name: 'aside',
+  dynamic: true,
+})
+class Aside extends VuexModule {
   items: NavItem[] = [
     {
       title: 'aside.history',
@@ -24,6 +23,7 @@ export default class Aside extends Mixins(createStorage({
       disable: false,
       push: '/smoothie',
     },
-
   ]
 }
+
+export default getModule(Aside)

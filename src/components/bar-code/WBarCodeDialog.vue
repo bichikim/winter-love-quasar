@@ -7,6 +7,7 @@
     q-card
       q-card-section
         span {{videoInputDevices ? videoInputDevices.length : 'null'}}
+        span(v-for="item in videoInputDevices || []") {{item}}
         q-space
         q-btn(icon="close" flat round dense v-close-popup)
       q-card-section

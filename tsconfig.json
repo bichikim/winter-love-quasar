@@ -127,7 +127,8 @@
     "noEmit": true
   },
   "include": [
-    "src"
+    "src",
+    "node_modules/vue-tsx-support/enable-check.d.ts"
   ],
   "exclude": [
   ]

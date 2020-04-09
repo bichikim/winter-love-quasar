@@ -1,12 +1,8 @@
 <template lang="pug">
-  q-btn.glass.q-pr-sm.text-capitalize.all-pointer-events(
-    v-close-popup
-    :label="myTitle"
-    :icon="icon"
-    v-bind="{dense}"
-    @click="$emit('click', clickInfo)"
-    no-caps
-  )
+  q-item(clickable v-close-popup v-ripple @click="$emit('click', clickInfo)")
+    q-item-section(avatar)
+      q-icon(:name="icon")
+    q-item-section {{myTitle}}
 </template>
 
 <style lang="stylus" scoped>

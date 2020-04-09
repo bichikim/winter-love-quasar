@@ -22,7 +22,6 @@ module.exports = function (ctx) {
       'earth-map',
       'portal',
       'winter-love',
-      'reflect-metadata',
       {path: 'icon', server: false},
     ],
 
@@ -70,11 +69,6 @@ module.exports = function (ctx) {
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: true,
-
-    sourceFiles: {
-      // disable using vuex
-      store: '_store',
-    },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
