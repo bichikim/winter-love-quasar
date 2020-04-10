@@ -1,11 +1,11 @@
 <template lang="pug">
   q-layout.main-layout(:view = "view" ref = "layout")
 
-    template(description="search-bar")
+    template
       portal(:to = "belowBreakpoint ? 'footer-search-bar' : 'header-search-bar'")
-        w-search-bar(@click-barcode="onClickBarcode")
+        w-search-bar(@click-barcode="onClickBarcode" v-model="searchValue")
 
-    template(description="earth-map")
+    template
       .background.absolute-top-left.fit
         q-no-ssr
           earth-map(:dark="dark")
@@ -29,7 +29,7 @@
           @click="onToggleSide"
         )
 
-    template(description="only below breakpoint" v-if="belowBreakpoint")
+    template(v-if="belowBreakpoint")
       q-footer.bg-transparent.q-pa-none.no-pointer-events
         q-toolbar.row.q-gutter-x-sm.footer.q-pr-xs.all-pointer-events(:class="toolbarClass")
           w-handy-navigation.handy-navigation-wrapper(
@@ -40,7 +40,7 @@
           )
           portal-target.w-grow(name="footer-search-bar")
 
-    template(description = "below break point" v-else)
+    template(v-else)
       q-no-ssr()
         w-side-navigation.glass(
           :items="items"
@@ -80,8 +80,14 @@
     q-page-container.no-pointer-events
       router-view
 
-    template(description="dialog")
-      w-bar-code-dialog(v-model="barcodeOpened" :maximized="belowBreakpoint")
+    template
+      w-bar-code-dialog(
+        v-model="barcodeOpened"
+        :prefer-camera-id="barcodePreferCameraId"
+        :maximized="belowBreakpoint"
+        @changed-camera="onChangedCamera"
+        @scan="onScan"
+      )
 </template>
 
 <script lang="ts">
@@ -93,6 +99,7 @@
   import WHandyNavigation from 'src/components/navigation/WHandyNavigation.vue'
   import WSearchBar from 'src/components/search-bar/WSearchBar.vue'
   import WBarCodeDialog from 'src/components/bar-code/WBarCodeDialog.vue'
+  import {Result} from '@zxing/library'
 
   @Component({
     components: {
@@ -114,6 +121,12 @@
     mini: boolean = false
 
     barcodeOpened: boolean = false
+
+    barcodePreferCameraId: string | null = null
+
+    barcodeValue: Result | null = null
+
+    searchValue: string = ''
 
     mapConfig: google.maps.MapOptions = {
       center: {lat: -34.397, lng: 150.644},
@@ -145,6 +158,15 @@
 
     get belowBreakpoint() {
       return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+    }
+
+    onScan(value) {
+      this.barcodeValue = value
+      this.searchValue = value.toString()
+    }
+
+    onChangedCamera(value) {
+      this.barcodePreferCameraId = value?.id ?? null
     }
 
     onClickBarcode() {
