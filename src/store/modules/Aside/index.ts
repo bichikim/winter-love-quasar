@@ -1,4 +1,4 @@
-import {getModule, Module, Mutation, VuexModule} from 'vuex-module-decorators'
+import {getModule, Module, VuexModule} from 'vuex-module-decorators'
 import {store} from 'src/store'
 import {NavItem} from 'src/components/navigation/types'
 
@@ -17,7 +17,7 @@ class Aside extends VuexModule {
       push: '/history',
     },
     {
-      title: 'aside.smoothie',
+      title: 'aside.cart',
       icon: 'las la-snowflake',
       active: false,
       disable: false,

@@ -1,4 +1,4 @@
 export default {
   'history': 'history',
-  'smoothie': 'smoothie',
+  'cart': 'cart',
 }

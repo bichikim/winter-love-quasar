@@ -1,4 +1,4 @@
 export default {
   'history': '내역',
-  'smoothie': '스무디',
+  'cart': '장바구니',
 }
