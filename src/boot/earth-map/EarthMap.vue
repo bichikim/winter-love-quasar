@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import {
-    Component, Prop, Vue, Watch, Ref,
+    Component, Prop, Vue, Watch, Ref, ProvideReactive,
   } from 'vue-property-decorator'
   import darkStyle from './dark.json'
   import lightStyle from './light.json'
@@ -63,13 +63,19 @@
      * @see https://mapstyle.withgoogle.com/
      */
     @Prop({default: () => (lightStyle)}) lightMapStyle: any
+
+    @Prop({default: false}) getPosition: boolean
+
     @Ref() mapContainer?: HTMLDivElement
+
+    @ProvideReactive() map: null | Google.maps.Map = null
 
     /**
      *
      */
     google: null | Google = null
-    map: null | Google.maps.Map = null
+
+    currentGeo: any = null
 
     // return this.map style
     get styles() {
@@ -102,9 +108,6 @@
       })
     }
 
-    onTouchstart() {
-      blur()
-    }
 
     // update this.map center
     @Watch('center')
@@ -128,6 +131,39 @@
       if(this.map) {
         this.map.setOptions(value)
       }
+    }
+
+    @Watch('getPosition')
+    __setGeo(value) {
+      if(value) {
+        this.onGetGeo()
+      }
+    }
+
+
+    onTouchstart() {
+      blur()
+    }
+
+    onGetGeo() {
+      const end = () => {
+        this.$emit('update:get-position', false)
+      }
+      if(!navigator.geolocation) {
+        end()
+        return
+      }
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.currentGeo = position
+        this.$emit('current-position', position)
+        end()
+      }, () => {
+        end()
+      }, {
+        enableHighAccuracy: true,
+        maximumAge: 5,
+        timeout: 30,
+      })
     }
 
     initializeMap(google: Google) {

@@ -6,7 +6,7 @@
     :key="side"
     show-if-above
     :behavior="behavior"
-    :mini="mini && miniState"
+    :mini="myMini"
     :class="classes"
     @mouseover="onMouseover"
     @mouseout="onMouseout"
@@ -54,7 +54,7 @@
     /**
      * Mouse over mini state
      */
-    miniState: boolean = true
+    miniState: boolean = false
 
     /**
      * scroll thumb style
@@ -64,6 +64,10 @@
       borderRadius: '9px',
       width: '4px',
       opacity: 0.2,
+    }
+
+    get myMini() {
+      return this.mini && this.miniState
     }
 
     /**
