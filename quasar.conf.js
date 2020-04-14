@@ -2,7 +2,7 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 const {
-  tsConfig, pugConfig, iconFont, eslint, i18n, preload,
+  tsConfig, pugConfig, iconFont, eslint, i18n, copy,
 } = require('./build/webpack.chain.js')
 const envReader = require('./build/env-reader')
 const pkg = require('./package.json')
@@ -98,6 +98,7 @@ module.exports = function (ctx) {
         pugConfig(cfg)
         iconFont(cfg)
         i18n(cfg)
+        copy(cfg)
       },
     },
 

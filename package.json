@@ -87,6 +87,7 @@
     "babel-plugin-transform-vue-jsx": "^3.7.0",
     "babel-preset-typescript-vue": "^1.0.3",
     "chai": "^4.2.0",
+    "copy-webpack-plugin": "^5.1.1",
     "core-js": "~2.6.11",
     "cross-spawn": "^7.0.1",
     "css-loader": "^3.2.0",

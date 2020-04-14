@@ -1,6 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 const Eslint = require('eslint')
 
@@ -201,8 +202,15 @@ function preload(config) {
   }])
 }
 
+function copy(config) {
+  config.plugin('copy-webpack')
+    .use(CopyWebpackPlugin, [[
+    {from: 'src/robots.txt', to: 'robots.txt'},
+  ]])
+}
+
 // noinspection WebpackConfigHighlighting
 module.exports = {
   tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, aliasConfig,
-  iconFont, i18n, eslint, preload,
+  iconFont, i18n, eslint, preload, copy,
 }
