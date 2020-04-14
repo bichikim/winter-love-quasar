@@ -1,6 +1,6 @@
 <template lang="pug">
   #q-app
-    router-view
+    router-view(:key="reloadKey")
 </template>
 
 <script lang="ts">
@@ -19,6 +19,8 @@
   @Component
   export default class App extends Vue {
 
+    reloadKey: number = 0
+
     /**
      * Add Quasar icon mapping logic
      */
@@ -33,11 +35,26 @@
       }
     }
 
+    onServiceUpdated() {
+      this.$q.dialog({
+        message: 'Service updated. Would you like to reload?',
+        seamless: true,
+        position: 'top',
+        cancel: true,
+      }).onOk(() => {
+        this.reloadKey += 1
+      })
+    }
+
     // noinspection JSUnusedGlobalSymbols Vue life cycle
     created() {
-
+      document.addEventListener('updated', this.onServiceUpdated)
       // Run adding Quasar icon mapping
       this.iconMap()
+    }
+
+    beforeDestroy() {
+      document.removeEventListener('updated', this.onServiceUpdated)
     }
   }
 </script>

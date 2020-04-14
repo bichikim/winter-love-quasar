@@ -24,7 +24,7 @@ register(process.env.SERVICE_WORKER_FILE, {
       // eslint-disable-next-line no-console
       console.log('Service worker has been registered.')
     }
-    document.dispatchEvent(new CustomEvent('updatefound', {detail: registration}))
+    document.dispatchEvent(new CustomEvent('registered', {detail: registration}))
   },
 
   cached(registration) {
