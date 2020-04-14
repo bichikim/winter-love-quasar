@@ -1,4 +1,9 @@
-export function forceDefault(runner: Function, defaultValue: any) {
+export function forceDefault<
+  T = any
+  >(
+    runner: Function,
+    defaultValue: T,
+    ): T | any {
   try {
     const result = runner()
     if(result) {

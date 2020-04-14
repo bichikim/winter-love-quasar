@@ -103,9 +103,9 @@ export class ComponentStorage {
   save() {
     const {vm, _saves: saves, _key, _privatePrefix} = this
     const _namespace = this.getNamespace()
-    const data = clone(filterPrivate(vm.$data, _privatePrefix))
+    const data: Record<string, any> = clone(filterPrivate(vm.$data, _privatePrefix))
 
-    const getFilter = (filter: SaveObject | boolean) => {
+    const getFilter = (filter: SaveObject | boolean): {only: string[], except: string[]} => {
       const {only = [], except = []} = typeof filter === 'boolean' ? {} : filter
       return {only, except}
     }

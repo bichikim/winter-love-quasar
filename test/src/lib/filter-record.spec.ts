@@ -1,5 +1,5 @@
 import {cloneDeep} from 'lodash'
-import {filterRecord} from 'src/lib/component-storage'
+import filterRecord from 'src/lib/filter-record'
 
 describe('component-storage', function test() {
   describe('filter', function test() {

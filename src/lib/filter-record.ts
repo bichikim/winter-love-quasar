@@ -1,7 +1,20 @@
 import {omit, pick} from 'lodash'
 
-export function filterRecord(target, only: string[] = [], except: string[] = []) {
-  let _target = target
+/**
+ * pick and omit
+ * @param target
+ * @param only
+ * @param except
+ */
+export function filterRecord<
+  T extends object
+  >(
+  target: Record<any, any>,
+  only: ReadonlyArray<string> = [],
+  except: ReadonlyArray<string> = [],
+  ): Record<any, any> {
+
+  let _target: any = target
 
   if(only.length > 0) {
     _target = pick(target, only)
