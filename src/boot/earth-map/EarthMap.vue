@@ -1,7 +1,7 @@
 <template lang="pug">
   .google-map.fit(
     ref="mapContainer"
-    @touchstart="onTouchstart"
+    @touchstart.prevent="onTouchstart"
   )
     template(v-if="Boolean(google) && Boolean(map)")
       slot(

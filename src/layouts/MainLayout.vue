@@ -19,6 +19,7 @@
           flat dense
           :icon="dark ? 'las la-moon' : 'las la-sun'"
           @click="onToggleDark"
+          aria-label="Toggle Dark Mode"
         )
 
         // Left-handed Right-handed button
@@ -27,6 +28,7 @@
           icon="las la-hand-paper"
           :class="side === 'left' ? 'w-reflect' : ''"
           @click="onToggleSide"
+          aria-label="Toggle Left Right Hand"
         )
 
     template(v-if="belowBreakpoint")
@@ -67,10 +69,12 @@
                       q-btn(
                         v-show="!_mini"
                         flat dense rounded
+                        aria-label="User"
                         icon="las la-user"
                       )
                       q-btn(
                         flat dense rounded
+                        aria-label="toggle pin mini"
                         :icon="mini ? 'las la-thumbtack' : 'icon-thumbtack'"
                         @click="mini = !mini"
                       )

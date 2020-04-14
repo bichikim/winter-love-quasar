@@ -2,13 +2,13 @@
 // Configuration for your app
 // https://quasar.dev/quasar-cli/quasar-conf-js
 const {
-  tsConfig, pugConfig, iconFont, eslint, i18n,
+  tsConfig, pugConfig, iconFont, eslint, i18n, preload,
 } = require('./build/webpack.chain.js')
 const envReader = require('./build/env-reader')
 const pkg = require('./package.json')
 
 module.exports = function (ctx) {
-  const {dev} = ctx
+  const {prod} = ctx
   const {version = 'unknown'} = pkg
 
   return {
@@ -34,7 +34,7 @@ module.exports = function (ctx) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v4',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       'line-awesome',
@@ -56,7 +56,8 @@ module.exports = function (ctx) {
       //            (fastest compile time; minimum bundle size; most tedious)
       // * true   - Import everything from Quasar
       //            (not treeshaking Quasar; biggest bundle size; convenient)
-      all: dev ? true : 'auto',
+      // auto import in production mode
+      all: prod ? 'auto' : true,
 
       // components: [],
       // directives: [],
@@ -65,7 +66,7 @@ module.exports = function (ctx) {
       plugins: [],
     },
 
-    preFetch: true,
+    // preFetch: true,
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: true,
@@ -80,7 +81,7 @@ module.exports = function (ctx) {
       // analyze: true,
 
       // Options below are automatically set depending on the env, set them if you want to override
-      // preloadChunks: false,
+
       // extractCSS: false,
       env: {
         VERSION: JSON.stringify(version),

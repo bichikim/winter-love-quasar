@@ -1,5 +1,6 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const path = require('path')
 const Eslint = require('eslint')
 
@@ -192,8 +193,16 @@ function i18n(config) {
         .end()
 }
 
+function preload(config) {
+  config.plugin('preload-webpack')
+  .after('html-webpack')
+  .use(PreloadWebpackPlugin, [{
+      rel: 'preload',
+  }])
+}
+
 // noinspection WebpackConfigHighlighting
 module.exports = {
   tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, aliasConfig,
-  iconFont, i18n, eslint,
+  iconFont, i18n, eslint, preload,
 }

@@ -12,6 +12,7 @@
   "hosting": {
     "predeploy": "yarn build",
     "public": "dist/pwa",
+    "cleanUrls": true,
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -34,7 +35,7 @@
         ]
       },
       {
-        "source": "**/*.@(eot|otf|ttf|ttc|woff|font.css)",
+        "source": "**/*.@(eot|otf|ttf|ttc|woff|woff2|font.css)",
         "headers": [
           {
             "key": "Cache-Control",
