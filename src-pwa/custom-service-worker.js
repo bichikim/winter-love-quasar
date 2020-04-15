@@ -19,11 +19,6 @@ function service() {
       // empty
     }
   })
-
-  workbox.precaching.cleanupOutdatedCaches()
-
-  // precache this. This is all we need for precaching
-  workbox.precaching.precacheAndRoute(self.__precacheManifest || [])
 }
 
 if(workbox) {
