@@ -204,7 +204,7 @@ function preload(config) {
 
 function copy(config) {
   config.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [[
+    .tap((args) => [...args, [
     {from: 'src/robots.txt', to: 'robots.txt'},
   ]])
 }
