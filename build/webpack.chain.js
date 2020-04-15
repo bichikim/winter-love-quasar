@@ -204,9 +204,14 @@ function preload(config) {
 
 function copy(config) {
   config.plugin('copy-webpack')
-    .tap((args) => [...args, [
-    {from: 'src/robots.txt', to: 'robots.txt'},
-  ]])
+    .tap((args) => {
+      const [arg, ...others] = args
+      return [[
+        ...arg,
+        {from: path.join(__dirname, '..', 'src/robots.txt'), to: 'robots.txt'},
+      ], ...others]
+  })
+
 }
 
 // noinspection WebpackConfigHighlighting
