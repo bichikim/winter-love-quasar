@@ -100,7 +100,10 @@ module.exports = function (ctx) {
         pugConfig(cfg)
         iconFont(cfg)
         i18n(cfg)
-        copy(cfg)
+        if(prod) {
+          copy(cfg)
+        }
+
       },
     },
 
