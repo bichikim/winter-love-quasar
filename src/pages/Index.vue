@@ -1,7 +1,6 @@
 <template lang="pug">
   q-page.column.items-center.justify-center
     h1.text-center.text-primary Hello There?
-    q-btn(label="test" @click="onClick")
 </template>
 
 <style lang="stylus">
