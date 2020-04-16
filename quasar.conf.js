@@ -37,16 +37,16 @@ module.exports = function (ctx) {
       // 'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
-      // 'line-awesome',
+      'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      // 'roboto-font', // optional, you are not bound to it
+      'roboto-font', // optional, you are not bound to it
       // 'material-icons', // optional, you are not bound to it
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
-      iconSet: 'material-icons', // Quasar icon set
+      iconSet: 'line-awesome', // Quasar icon set
       lang: 'en-us', // Quasar language pack
       dark: 'auto', // Quasar Dark https://quasar.dev/quasar-plugins/dark#Dark-API
       // Possible values for "all":

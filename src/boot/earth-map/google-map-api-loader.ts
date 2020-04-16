@@ -16,16 +16,18 @@ export function loadGoogleMapsApi(src: string) {
   const script = document.createElement('script')
   script.type = 'text/javascript'
   script.src = src
+  script.crossOrigin = 'anonymous'
 
   const head = document.querySelector('head')
+
   if(!head) {
     throw new Error(createErrorMessage('loadGoogleMapsApi', 'Document has no head'))
   }
+
   head.appendChild(script)
 }
 
-export function load(key, waitTime: number = 5000):
-  Google | Promise<Google> {
+export function load(key, waitTime: number = 5000): Google | Promise<Google> {
   if(googleApi) {
     return Promise.resolve(googleApi)
   }
