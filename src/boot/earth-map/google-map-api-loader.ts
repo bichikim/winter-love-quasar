@@ -16,7 +16,7 @@ export function loadGoogleMapsApi(src: string) {
   const script = document.createElement('script')
   script.type = 'text/javascript'
   script.src = src
-  script.crossOrigin = 'anonymous'
+  // script.crossOrigin = 'use-credentials'
 
   const head = document.querySelector('head')
 

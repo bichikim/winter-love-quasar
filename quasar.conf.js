@@ -98,7 +98,7 @@ module.exports = function (ctx) {
 
         tsConfig(cfg, ctx)
         pugConfig(cfg)
-        iconFont(cfg)
+        iconFont(cfg, {extract: prod})
         i18n(cfg)
         if(prod) {
           copy(cfg)

@@ -1,7 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const Eslint = require('eslint')
 
@@ -160,13 +160,25 @@ function imgConfig(config) {
 /**
  * Add webfonts-loader
  * @param config webpack chain config
- * @param match config file name pattern
+ * @param options
  */
-function iconFont(config, match = /\.font\.js$/) {
+function iconFont(config, options = {}) {
+  const {
+    match = /\.font\.js$/,
+    extract = true,
+  } = options
   config.module.rule('icon-font')
         .test(match)
         .use('style')
-        .loader('style-loader')
+  .when(
+    extract,
+    (use) => {
+      use.loader(MiniCssExtractPlugin.loader)
+    },
+    (use) => {
+      use.loader('style-loader')
+    },
+  )
         .end()
         .use('css')
         .loader('css-loader')
