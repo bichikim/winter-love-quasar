@@ -77,7 +77,6 @@ module.exports = function (ctx) {
     build: {
       // in SSR mode history only
       vueRouterMode: 'hash', // available values: 'hash', 'history'
-
       // showProgress: false,
       // gzip: true,
       // analyze: true,
@@ -127,7 +126,8 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
     pwa: {
       workboxPluginMode: 'InjectManifest', // 'GenerateSW' or 'InjectManifest'
-      workboxOptions: {}, // only for GenerateSW
+      workboxOptions: {
+      }, // only for GenerateSW
       manifest: {
         name: 'Quasar App',
         short_name: 'Quasar App',

@@ -35,7 +35,7 @@
       }
     }
 
-    onServiceUpdated() {
+    onServiceUpdated(event) {
       this.$q.dialog({
         message: 'Service updated. Would you like to reload?',
         seamless: true,

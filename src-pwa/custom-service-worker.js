@@ -5,25 +5,15 @@
  * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
 
-function service() {
-  self.addEventListener('install', (event) => {
-    self.skipWaiting()
-  })
+workbox.core.skipWaiting()
 
-  self.addEventListener('activate', (event) => {
-    return self.clients.claim()
-  })
+workbox.core.clientsClaim()
 
-  self.addEventListener('message', (event) => {
-    if(event.data && event.data.type === 'SKIP_WAITING') {
-      // empty
-    }
-  })
-}
+workbox.core.setCacheNameDetails({prefix: 'winter-love'})
 
-if(workbox) {
-  service()
-} else {
-  console.warn('Service worker is not loaded.')
-}
+self.__precacheManifest = [].concat(self.__precacheManifest || [])
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
+
+
+workbox.routing.registerRoute(/^http/, new workbox.strategies.NetworkFirst(), 'GET')
 

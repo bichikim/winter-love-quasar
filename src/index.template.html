@@ -2,7 +2,6 @@
 <html>
   <head>
     <title><%= htmlWebpackPlugin.options.productName %></title>
-
     <meta charset="utf-8">
     <meta name="description" content="<%= htmlWebpackPlugin.options.productDescription %>">
     <meta name="format-detection" content="telephone=no, address=no">
@@ -20,8 +19,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
   </head>
   <body>
+    <div id="first-loading" class="lds-ripple"><div></div><div></div></div>
     <!-- DO NOT touch the following DIV -->
-    <div id="q-app"></div>
+    <div id="q-app" data-vue="root"></div>
+
     <noscript>
       Please enable JavaScript in your browser.
     </noscript>
