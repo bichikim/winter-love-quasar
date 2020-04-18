@@ -12,6 +12,8 @@
   "hosting": {
     "predeploy": "yarn build",
     "public": "dist/pwa",
+    "cleanUrls": true,
+    "trailingSlash": true,
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -19,7 +21,7 @@
     ],
     "headers": [
       {
-        "source": "**/*.@(html)",
+        "source": "/",
         "headers": [
           {
             "key": "Content-Security-Policy",
@@ -36,12 +38,7 @@
           {
             "key": "Referrer-Policy",
             "value": "same-origin"
-          }
-        ]
-      },
-      {
-        "source": "**",
-        "headers": [
+          },
           {
             "key": "X-frame-options",
             "value": "SAMEORIGIN"

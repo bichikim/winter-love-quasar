@@ -39,6 +39,8 @@ https://securityheaders.com/
 https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Expect-CT
 https://atinove.com/post/5e6d87f1d215fd0a9d45f005/
 
+### Web Application Firewall (WAF)
+
 ## Known issue 
 
 ### .env should be added to .gitignore
@@ -57,3 +59,6 @@ Not support yet
 2. layout.css.backdrop-filter.enabled should be true for it
 
 
+### Content-Security-Policy  style-src unsafe-inline 
+
+unsafe-inline may be dangerous
