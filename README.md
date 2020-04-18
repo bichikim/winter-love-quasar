@@ -30,7 +30,14 @@ Windows
  --unsafely-treat-insecure-origin-as-secure=https://localhost:8080
 ```
 
+## Security
 
+### Expect-CT header
+
+https://securityheaders.com/
+
+https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Expect-CT
+https://atinove.com/post/5e6d87f1d215fd0a9d45f005/
 
 ## Known issue 
 
@@ -39,3 +46,14 @@ Windows
 ### browser zoom sometimes macks a scrollbar (quasar bug)
 
 ![issue](./media/issue0.PNG)
+
+
+### css backdrop filter in firefox
+
+Not support yet 
+
+1. about:config
+
+2. layout.css.backdrop-filter.enabled should be true for it
+
+
