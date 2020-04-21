@@ -4,6 +4,13 @@
  * is picked up by the build system ONLY if
  * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
+
+
+const httpCashList = [
+  /^http/,
+  // [/^https?:\/\/maps.googleapis.com\/maps\/vt\??/, false],
+]
+
 self.addEventListener('message', (event) => {
   const replyPort = event.ports[0]
   const message = event.data
@@ -21,14 +28,6 @@ workbox.core.clientsClaim()
 
 workbox.core.setCacheNameDetails({prefix: 'winter-love'})
 
-self.__precacheManifest = [].concat(self.__precacheManifest || [])
-
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
-
-const httpCashList = [
-  /^http/,
-  // [/^https?:\/\/maps.googleapis.com\/maps\/vt\??/, false],
-]
 
 workbox.routing.registerRoute(({url}) => {
   return httpCashList.some((reg) => {
@@ -39,4 +38,8 @@ workbox.routing.registerRoute(({url}) => {
     return reg.test(url)
   })
 }, new workbox.strategies.NetworkFirst(), 'GET')
+
+self.__precacheManifest = [].concat(self.__precacheManifest || [])
+
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 

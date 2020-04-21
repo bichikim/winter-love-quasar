@@ -127,6 +127,16 @@
       this.swDownloading = true
     }
 
+    mounted() {
+      // remove firstLoading div
+      // #first-loading is in /index.template.html
+      const firstLoading = document.querySelector('#first-loading')
+      if(!firstLoading) {
+        return
+      }
+      firstLoading.remove()
+    }
+
     // noinspection JSUnusedGlobalSymbols Vue life cycle
     created() {
       document.addEventListener('updated', this.onServiceUpdated)
