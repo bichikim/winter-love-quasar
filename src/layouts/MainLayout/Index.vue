@@ -95,19 +95,17 @@
 </template>
 
 <script lang="ts">
-  import {Dark, QLayout} from 'quasar'
-  import user from 'src/store/modules/User'
+  import userOptions from 'src/store/modules/UserOptions'
   import aside from 'src/store/modules/Aside'
   import {Component, Prop, Ref, Vue} from 'vue-property-decorator'
-  import WSideNavigation from 'src/components/navigation/WSideNavigation.vue'
-  import WHandyNavigation from 'src/components/navigation/WHandyNavigation.vue'
-  import WSearchBar from 'src/components/search-bar/WSearchBar.vue'
-  import WBarCodeDialog from 'src/components/bar-code/WBarCodeDialog.vue'
+  import WSideNavigation from './navigation/WSideNavigation.vue'
+  import WHandyNavigation from './navigation/WHandyNavigation.vue'
+  import WSearchBar from './search-bar/WSearchBar.vue'
+  import WBarCodeDialog from './bar-code/WBarCodeDialog.vue'
   import {Result} from '@zxing/library'
 
   @Component({
     components: {
-      QLayout,
       WSideNavigation,
       WHandyNavigation,
       WSearchBar,
@@ -138,11 +136,11 @@
     }
 
     get side() {
-      return user.side
+      return userOptions.side
     }
 
     set side(value) {
-      user.setSide(value)
+      userOptions.setSide(value)
     }
 
     get items() {
@@ -153,7 +151,7 @@
      * whether in quasar dark mode
      */
     get dark() {
-      return Dark.isActive
+      return userOptions.dark
     }
 
     get toolbarClass() {
@@ -196,7 +194,7 @@
     }
 
     onToggleDark() {
-      Dark.toggle()
+      userOptions.setDark(!this.dark)
     }
 
   }

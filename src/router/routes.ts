@@ -3,7 +3,7 @@ import {RouteConfig} from 'vue-router'
 const routes: RouteConfig[] = [
   {
     path: '/',
-    component: () => import(/* webpackMode: "eager" */'layouts/MainLayout.vue'),
+    component: () => import(/* webpackMode: "eager" */'layouts/MainLayout/Index.vue'),
     children: [
       {path: '', component: () => import(/* webpackMode: "eager" */'pages/Index.vue')},
       {path: '/history', component: () => import('pages/History.vue')},

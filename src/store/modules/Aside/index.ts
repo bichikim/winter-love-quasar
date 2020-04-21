@@ -1,6 +1,6 @@
 import {getModule, Module, VuexModule} from 'vuex-module-decorators'
 import {store} from 'src/store'
-import {NavItem} from 'src/components/navigation/types'
+import {NavItem} from 'layouts/MainLayout/navigation/types'
 
 @Module({
   store: store(),

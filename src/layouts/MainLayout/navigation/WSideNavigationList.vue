@@ -11,13 +11,15 @@
 </template>
 
 <script lang="ts">
-  import NavigationItemDepth from 'src/components/navigation/WNavigationItemDepth'
-  import WNavigationShare from 'src/components/navigation/WNavigationShare'
+  import NavigationItemDepth from './WNavigationItemDepth'
+  import WNavigationShare from './WNavigationShare'
   import {Component, Mixins} from 'vue-property-decorator'
 
   @Component({
     components: {
-      WSideNavigationItem: () => (import('./WSideNavigationItem.vue')),
+      WSideNavigationItem: () => (import(
+        /* webpackMode: "eager" */
+        './WSideNavigationItem.vue')),
     },
   })
   export default class WSideNavigationList extends Mixins(WNavigationShare, NavigationItemDepth) {

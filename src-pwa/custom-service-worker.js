@@ -5,15 +5,39 @@
  * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
 
-workbox.core.skipWaiting()
+self.addEventListener('message', (event) => {
+  const replyPort = event.ports[0]
+  const message = event.data
+  if(replyPort && message && message.type === 'SKIP_WAITING') {
+    event.waitUntil(
+      self.skipWaiting().then(
+        () => replyPort.postMessage({error: null}),
+        (error) => replyPort.postMessage({error}),
+      ),
+    )
+  }
+})
 
 workbox.core.clientsClaim()
 
 workbox.core.setCacheNameDetails({prefix: 'winter-love'})
 
 self.__precacheManifest = [].concat(self.__precacheManifest || [])
+
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {})
 
+const httpCashList = [
+  /^http/,
+  // [/^https?:\/\/maps.googleapis.com\/maps\/vt\??/, false],
+]
 
-workbox.routing.registerRoute(/^http/, new workbox.strategies.NetworkFirst(), 'GET')
+workbox.routing.registerRoute(({url}) => {
+  return httpCashList.some((reg) => {
+    if(Array.isArray(reg)) {
+      const [_reg, bool = true] = reg
+      return _reg.test(url) ? bool : !bool
+    }
+    return reg.test(url)
+  })
+}, new workbox.strategies.NetworkFirst(), 'GET')
 

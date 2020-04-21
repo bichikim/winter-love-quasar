@@ -29,7 +29,7 @@
 </style>
 
 <script lang="ts">
-  import WNavigationShare from 'src/components/navigation/WNavigationShare'
+  import WNavigationShare from './WNavigationShare'
   import {Component, Mixins, Prop} from 'vue-property-decorator'
   import {Side} from './types'
 
@@ -37,7 +37,7 @@
     components: {
       WSideNavigationList: () => (import(
         /* webpackMode: "eager" */
-        'src/components/navigation/WSideNavigationList.vue')),
+        './WSideNavigationList.vue')),
     },
   })
   export default class WSideNavigation<R> extends Mixins(WNavigationShare) {
