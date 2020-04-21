@@ -4,7 +4,6 @@
  * is picked up by the build system ONLY if
  * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
-
 self.addEventListener('message', (event) => {
   const replyPort = event.ports[0]
   const message = event.data

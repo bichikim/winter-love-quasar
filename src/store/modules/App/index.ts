@@ -3,8 +3,9 @@ import {store} from 'src/store'
 
 @Module({
   store: store(),
-  name: 'aside',
+  name: 'app',
   dynamic: true,
+  namespaced: true,
 })
 class AppModule extends VuexModule {
   swUpdateSoftReload: boolean = false

@@ -6,6 +6,7 @@ import {NavItem} from 'layouts/MainLayout/navigation/types'
   store: store(),
   name: 'aside',
   dynamic: true,
+  namespaced: true,
 })
 class AsideModule extends VuexModule {
   items: NavItem[] = [

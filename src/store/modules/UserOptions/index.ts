@@ -5,8 +5,9 @@ import {Dark} from 'quasar'
 
 @Module({
   store: store(),
-  name: 'user',
+  name: 'user-options',
   dynamic: true,
+  namespaced: true,
 })
 class UserOptionsModel extends VuexModule {
   side: Side = 'right'

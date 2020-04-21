@@ -51,6 +51,14 @@
       app.setSwOffline(value)
     }
 
+    get swDownloading() {
+      return app.swDownloading
+    }
+
+    set swDownloading(value) {
+      app.setSwDownLoading(value)
+    }
+
     /**
      * Add Quasar icon mapping logic
      */
@@ -100,6 +108,7 @@
      */
     onServiceUpdated(event) {
       this.swUpdateWaiting = true
+      this.swDownloading = false
       this.$q.dialog({
         message: 'Service updated. Would you like to reload?',
         seamless: true,
@@ -114,9 +123,14 @@
       this.swOffline = true
     }
 
+    onServiceUpdateFound() {
+      this.swDownloading = true
+    }
+
     // noinspection JSUnusedGlobalSymbols Vue life cycle
     created() {
       document.addEventListener('updated', this.onServiceUpdated)
+      document.removeEventListener('updatefound', this.onServiceUpdateFound)
       document.addEventListener('offline', this.onServiceOffline)
       // Run adding Quasar icon mapping
       this.iconMap()
@@ -125,6 +139,7 @@
     // noinspection JSUnusedGlobalSymbols Vue life cycle
     beforeDestroy() {
       document.removeEventListener('updated', this.onServiceUpdated)
+      document.removeEventListener('updatefound', this.onServiceUpdateFound)
       document.removeEventListener('offline', this.onServiceOffline)
     }
   }
