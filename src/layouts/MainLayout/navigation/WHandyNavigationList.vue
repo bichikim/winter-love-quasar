@@ -12,10 +12,11 @@
 <script lang="ts">
   import {Component, Mixins, Prop} from 'vue-property-decorator'
   import WNavigationShare from './WNavigationShare'
+  import WHandyNavigationItem from './WHandyNavigationItem.vue'
 
   @Component({
     components: {
-      WHandyNavigationItem: () => (import('./WHandyNavigationItem.vue')),
+      WHandyNavigationItem,
     },
   })
   export default class WHandyNavigationList extends Mixins(WNavigationShare) {

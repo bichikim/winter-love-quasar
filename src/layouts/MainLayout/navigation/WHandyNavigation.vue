@@ -37,11 +37,12 @@
 <script lang="ts">
   import {Component, Mixins, Prop} from 'vue-property-decorator'
   import WNavigationShare from './WNavigationShare'
+  import WHandyNavigationList from './WHandyNavigationList.vue'
 
   // :icon="open ? 'las la-times' : 'las la-bars'"
   @Component({
     components: {
-      WHandyNavigationList: () => (import('./WHandyNavigationList.vue')),
+      WHandyNavigationList,
     },
   })
   export default class WHandyNavigation extends Mixins(WNavigationShare) {

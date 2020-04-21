@@ -5,6 +5,7 @@
 
 <script lang="ts">
   import {Component, Vue, Prop} from 'vue-property-decorator'
+  import app from 'src/store/modules/App'
 
   /**
    * Register component hook
@@ -25,7 +26,30 @@
     @Prop({default: false})  swUpdateSoftReload: boolean
 
     reloadKey: number = 0
-    swUpdateWaiting: 'none' | 'waiting' | 'error' = 'none'
+
+    get swUpdateWaiting() {
+      return app.swUpdateWaiting
+    }
+
+    set swUpdateWaiting(value: boolean) {
+      app.setSwUpdateWaiting(value)
+    }
+
+    get swError() {
+      return app.swError
+    }
+
+    set swError(message: string | null) {
+      app.setSwError(message)
+    }
+
+    get swOffline() {
+      return app.swOffline
+    }
+
+    set swOffline(value: boolean) {
+      app.setSwOffline(value)
+    }
 
     /**
      * Add Quasar icon mapping logic
@@ -54,11 +78,12 @@
       const channel = new MessageChannel()
       channel.port1.onmessage = (event) => {
         if(event.data.error) {
-          this.swUpdateWaiting = 'error'
+          this.swUpdateWaiting = false
+          this.swError = event.data.error?.message ?? 'Cannot install the updated service work'
           return
         }
 
-        this.swUpdateWaiting = 'none'
+        this.swUpdateWaiting = false
 
         if(this.swUpdateSoftReload) {
           this.reloadKey += 1
@@ -74,7 +99,7 @@
      * @param event
      */
     onServiceUpdated(event) {
-      this.swUpdateWaiting = 'waiting'
+      this.swUpdateWaiting = true
       this.$q.dialog({
         message: 'Service updated. Would you like to reload?',
         seamless: true,
@@ -85,9 +110,14 @@
       })
     }
 
+    onServiceOffline() {
+      this.swOffline = true
+    }
+
     // noinspection JSUnusedGlobalSymbols Vue life cycle
     created() {
       document.addEventListener('updated', this.onServiceUpdated)
+      document.addEventListener('offline', this.onServiceOffline)
       // Run adding Quasar icon mapping
       this.iconMap()
     }
@@ -95,6 +125,7 @@
     // noinspection JSUnusedGlobalSymbols Vue life cycle
     beforeDestroy() {
       document.removeEventListener('updated', this.onServiceUpdated)
+      document.removeEventListener('offline', this.onServiceOffline)
     }
   }
 </script>

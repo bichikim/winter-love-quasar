@@ -7,7 +7,7 @@ import {NavItem} from 'layouts/MainLayout/navigation/types'
   name: 'aside',
   dynamic: true,
 })
-class Aside extends VuexModule {
+class AsideModule extends VuexModule {
   items: NavItem[] = [
     {
       title: 'aside.history',
@@ -26,4 +26,4 @@ class Aside extends VuexModule {
   ]
 }
 
-export default getModule(Aside)
+export default getModule(AsideModule)
