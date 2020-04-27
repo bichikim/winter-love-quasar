@@ -2,17 +2,13 @@
   q-layout.main-layout(:view = "view" ref = "layout")
 
     template
-      portal(:to = "belowBreakpoint ? 'footer-search-bar' : 'header-search-bar'")
-        w-search-bar(@click-barcode="onClickBarcode" v-model="searchValue")
-
-    template
       .background.absolute-top-left.fit
         q-no-ssr
           earth-map(:dark="dark")
 
     q-header.bg-transparent.no-pointer-events
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs.all-pointer-events(:class="toolbarClass")
-        portal-target.w-grow(name="header-search-bar")
+        w-search-bar.w-grow(v-if="!belowBreakpoint" @click-barcode="onClickBarcode" v-model="searchValue")
 
         // dark mode button
         q-btn.shadow-3.glass(
@@ -38,9 +34,10 @@
             :value="true"
             :items="items"
             :side="side"
+            :display-name="displayName || undefined"
             @click="onNavClick"
           )
-          portal-target.w-grow(name="footer-search-bar")
+          w-search-bar.w-grow(v-if="belowBreakpoint" @click-barcode="onClickBarcode" v-model="searchValue")
 
     template(v-else)
       q-no-ssr()
@@ -97,6 +94,9 @@
 <script lang="ts">
   import userOptions from 'src/store/modules/UserOptions'
   import aside from 'src/store/modules/Aside'
+  import user from 'src/store/modules/User'
+
+
   import {Component, Prop, Ref, Vue} from 'vue-property-decorator'
   import WSideNavigation from './navigation/WSideNavigation.vue'
   import WHandyNavigation from './navigation/WHandyNavigation.vue'
@@ -133,6 +133,12 @@
     mapConfig: google.maps.MapOptions = {
       center: {lat: -34.397, lng: 150.644},
       zoom: 8,
+    }
+
+    loginTooltip: boolean = true
+
+    get displayName() {
+      return user.displayName
     }
 
     get side() {
@@ -195,6 +201,12 @@
 
     onToggleDark() {
       userOptions.setDark(!this.dark)
+    }
+
+    mounted() {
+      setTimeout(() => {
+        this.loginTooltip = false
+      }, 2000)
     }
 
   }

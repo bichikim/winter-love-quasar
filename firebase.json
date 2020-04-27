@@ -33,7 +33,7 @@
           },
           {
             "key": "Feature-Policy",
-            "value": "camera 'none'; microphone 'none'; geolocation 'none'; payment 'none'"
+            "value": "camera 'self'; microphone 'self'; geolocation 'self'; payment 'self'"
           },
           {
             "key": "Referrer-Policy",

@@ -51,7 +51,7 @@
     @Prop({default: true}) dense: boolean
     @Prop({default: 300}) maxHeight: number
     @Prop() avatar: string
-    @Prop({default: 'Unknown'}) name: string
+    @Prop({default: 'Unknown'}) displayName: string
 
     /**
      * animation side
@@ -61,8 +61,8 @@
     open: boolean = false
 
     get shortName() {
-      const {name} = this
-      return [name[0], name[1]].join('')
+      const {displayName} = this
+      return [displayName[0], displayName[1]].join('')
     }
   }
 </script>

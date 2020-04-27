@@ -5,7 +5,6 @@
  * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
 
-
 const httpCashList = [
   /^http/,
   // [/^https?:\/\/maps.googleapis.com\/maps\/vt\??/, false],

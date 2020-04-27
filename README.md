@@ -43,9 +43,8 @@ https://atinove.com/post/5e6d87f1d215fd0a9d45f005/
 
 ## Known issue 
 
-### .env should be added to .gitignore
 
-### browser zoom sometimes macks a scrollbar (quasar bug)
+### browser zoom sometimes makes a scrollbar (quasar bug)
 
 ![issue](./media/issue0.PNG)
 

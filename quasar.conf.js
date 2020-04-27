@@ -20,7 +20,6 @@ module.exports = function (ctx) {
       'axios',
       'firebase',
       'earth-map',
-      'portal',
       'winter-love',
       {path: 'icon', server: false},
     ],

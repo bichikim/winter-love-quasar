@@ -13,6 +13,5 @@
 
   @Component
   export default class HistoryPage extends Vue {
-
   }
 </script>

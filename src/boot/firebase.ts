@@ -1,5 +1,5 @@
 import * as Project from 'src/types'
-import Firebase, {app, auth} from 'firebase/app'
+import {app, auth, initializeApp} from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
 
@@ -24,7 +24,7 @@ const boot: Project.BootFileFunction = (context) => {
   if(Vue.prototype.$firebase) {
     return
   }
-  Vue.prototype['$firebase'] = Firebase.initializeApp({
+  Vue.prototype['$firebase'] = initializeApp({
     apiKey: process.env.VUE_FIREBASE_API_KEY,
     authDomain: `${process.env.VUE_FIREBASE_PROJECT_ID}.firebaseapp.com`,
     databaseURL: `https://${process.env.VUE_FIREBASE_PROJECT_ID}.firebaseio.com`,
