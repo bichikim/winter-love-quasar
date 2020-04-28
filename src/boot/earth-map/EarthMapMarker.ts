@@ -19,7 +19,7 @@ export default class EarthMapMarker extends Vue {
   @Prop() readonly place?: Google.maps.Place
   @Prop() readonly shape?: Google.maps.MarkerShape
   @Prop() readonly title?: string
-  @Prop({type: Boolean}) readonly visible?: boolean
+  @Prop({type: Boolean, default: true}) readonly visible?: boolean
   @Prop() readonly zIndex?: number
 
 
