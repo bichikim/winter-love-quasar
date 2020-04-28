@@ -2,7 +2,7 @@
   earth-map(
     :dark="dark"
   )
-    earth-map-marker(:position="{lat: 40.730, lng: -73.935}")
+    earth-map-marker(:position="{lat: 40.730, lng: -73.935}" clickable)
 </template>
 
 <style scoped lang="stylus">

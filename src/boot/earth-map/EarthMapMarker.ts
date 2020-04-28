@@ -4,22 +4,23 @@ import {
 import Google from './google'
 import {snakeCase} from 'lodash'
 
+
 @Component
 export default class EarthMapMarker extends Vue {
   @Prop() readonly position?: Google.maps.LatLng | Google.maps.ReadonlyLatLngLiteral
-  @Prop({default: false}) readonly clickable: boolean
+  @Prop({default: false, type: Boolean}) readonly clickable: boolean
   @Prop() readonly animation?: Google.maps.Animation
-  @Prop({default: false}) readonly crossOnDrag?: boolean
+  @Prop({default: false, type: Boolean}) readonly crossOnDrag?: boolean
   @Prop() readonly cursor?: string
-  @Prop() readonly draggable?: boolean
+  @Prop({type: Boolean}) readonly draggable?: boolean
   @Prop() readonly icon?: string | Google.maps.Icon | Google.maps.ReadonlySymbol
   @Prop() readonly label?: string | Google.maps.MarkerLabel
   @Prop() readonly opacity?: number
-  @Prop() readonly optimized?: boolean
+  @Prop({type: Boolean}) readonly optimized?: boolean
   @Prop() readonly place?: Google.maps.Place
   @Prop() readonly shape?: Google.maps.MarkerShape
   @Prop() readonly title?: string
-  @Prop() readonly visible?: boolean
+  @Prop({type: Boolean}) readonly visible?: boolean
   @Prop() readonly zIndex?: number
 
 

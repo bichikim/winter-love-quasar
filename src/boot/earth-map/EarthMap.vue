@@ -32,23 +32,23 @@
     @Prop() readonly mapConfig?: Google.maps.MapOptions
     @Prop({default: () => ({lat: 40.730, lng: -73.935})}) readonly center: Google.maps.LatLng
     @Prop({default: 13}) readonly zoom: number
-    @Prop({default: false}) readonly fullscreenControl: boolean
-    @Prop({default: false}) readonly scaleControl: boolean
-    @Prop({default: false}) readonly streetViewControl: boolean
-    @Prop({default: false}) readonly zoomControl: boolean
-    @Prop({default: false}) readonly rotateControl: boolean
-    @Prop({default: false}) readonly panControl: boolean
-    @Prop({default: false}) readonly mapTypeControl: boolean
+    @Prop({default: false, type: Boolean}) readonly fullscreenControl: boolean
+    @Prop({default: false, type: Boolean}) readonly scaleControl: boolean
+    @Prop({default: false, type: Boolean}) readonly streetViewControl: boolean
+    @Prop({default: false, type: Boolean}) readonly zoomControl: boolean
+    @Prop({default: false, type: Boolean}) readonly rotateControl: boolean
+    @Prop({default: false, type: Boolean}) readonly panControl: boolean
+    @Prop({default: false, type: Boolean}) readonly mapTypeControl: boolean
 
     /**
      * whether this.map is draggable
      */
-    @Prop({default: true}) readonly draggable: boolean
+    @Prop({default: true, type: Boolean}) readonly draggable: boolean
 
     /**
      * whether in dark mode
      */
-    @Prop({default: false}) readonly dark: boolean
+    @Prop({default: false, type: Boolean}) readonly dark: boolean
 
     /**
      * background color in dark mode
