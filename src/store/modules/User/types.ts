@@ -1,6 +1,6 @@
-import {UserInfo} from 'firebase'
+import {UserInfo as FirebaseUserInfo} from 'firebase'
 
-export interface User extends Omit<UserInfo, 'uid' | 'providerId'> {
+export interface UserInfo extends Omit<FirebaseUserInfo, 'uid' | 'providerId'> {
   uid: string | null
   emailVerified?: boolean
 }

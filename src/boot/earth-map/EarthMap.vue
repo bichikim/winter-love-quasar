@@ -1,14 +1,21 @@
 <template lang="pug">
   .google-map.fit(
-    ref="mapContainer"
+    :style="containerStyles"
     @touchstart.prevent="onTouchstart"
   )
+    .fit(
+      ref="mapContainer"
+    )
     template(v-if="Boolean(google) && Boolean(map)")
       slot(
         :google="google"
         :map="map"
       )
 </template>
+
+<style lang="stylus">
+
+</style>
 
 <script lang="ts">
   import {
@@ -18,64 +25,65 @@
   import lightStyle from './light.json'
   import Google from './google'
   import blur from 'src/lib/blur-active-element'
+  import {snakeCase} from 'lodash'
 
   @Component
   export default class EarthMap extends Vue {
-    @Prop() mapConfig?: Google.maps.MapOptions
-    @Prop({default: () => ({lat: 40.730, lng: -73.935})}) center: Google.maps.LatLng
-    @Prop({default: 13}) zoom: number
-    @Prop({default: false}) fullscreenControl: boolean
-    @Prop({default: false}) scaleControl: boolean
-    @Prop({default: false}) streetViewControl: boolean
-    @Prop({default: false}) zoomControl: boolean
-    @Prop({default: false}) rotateControl: boolean
-    @Prop({default: false}) panControl: boolean
-    @Prop({default: false}) mapTypeControl: boolean
+    @Prop() readonly mapConfig?: Google.maps.MapOptions
+    @Prop({default: () => ({lat: 40.730, lng: -73.935})}) readonly center: Google.maps.LatLng
+    @Prop({default: 13}) readonly zoom: number
+    @Prop({default: false}) readonly fullscreenControl: boolean
+    @Prop({default: false}) readonly scaleControl: boolean
+    @Prop({default: false}) readonly streetViewControl: boolean
+    @Prop({default: false}) readonly zoomControl: boolean
+    @Prop({default: false}) readonly rotateControl: boolean
+    @Prop({default: false}) readonly panControl: boolean
+    @Prop({default: false}) readonly mapTypeControl: boolean
 
     /**
      * whether this.map is draggable
      */
-    @Prop({default: true}) draggable: boolean
+    @Prop({default: true}) readonly draggable: boolean
 
     /**
      * whether in dark mode
      */
-    @Prop({default: false}) dark: boolean
+    @Prop({default: false}) readonly dark: boolean
 
     /**
      * background color in dark mode
      */
-    @Prop({default: '#FFFFFF'}) darkBackgroundColor: string
+    @Prop({default: '#FFFFFF'}) readonly darkBackgroundColor: string
 
     /**
      * background color in light mode
      */
-    @Prop({default: '#333333'}) lightBackgroundColor: string
+    @Prop({default: '#333333'}) readonly lightBackgroundColor: string
 
     /**
      * map style in dark mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (darkStyle)}) darkMapStyle: any
+    @Prop({default: () => (darkStyle)}) readonly darkMapStyle: any
 
     /**
      * map style in light mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (lightStyle)}) lightMapStyle: any
+    @Prop({default: () => (lightStyle)}) readonly lightMapStyle: any
 
-    @Prop({default: false}) getPosition: boolean
-
-    @Ref() mapContainer?: HTMLDivElement
+    @Ref() readonly mapContainer?: HTMLDivElement
 
     @ProvideReactive() map: null | Google.maps.Map = null
-
-    /**
-     *
-     */
-    google: null | Google = null
+    @ProvideReactive() google: null | Google = null
 
     currentGeo: any = null
+
+    get containerStyles() {
+      return {
+        backgroundColor: this.backgroundColor,
+      }
+    }
 
     // return this.map style
     get styles() {
@@ -92,22 +100,20 @@
       const {
         fullscreenControl, scaleControl, streetViewControl, zoomControl,
         rotateControl, panControl, mapTypeControl, draggable, styles,
-        backgroundColor,
       } = this
       return {
         fullscreenControl, scaleControl, streetViewControl, zoomControl,
         rotateControl, panControl, mapTypeControl, draggable, styles,
-        backgroundColor,
+        backgroundColor: 'none',
       }
     }
 
     created() {
       this.$earthMap.load().then((google) => {
         this.google = google
-        this.initializeMap(google)
+        this._initializeMap(google)
       })
     }
-
 
     // update this.map center
     @Watch('center')
@@ -133,65 +139,37 @@
       }
     }
 
-    @Watch('getPosition')
-    __setGeo(value) {
-      if(value) {
-        this.onGetGeo()
-      }
-    }
-
-
+    /**
+     * fix google map touch cannot call blur
+     */
     onTouchstart() {
       blur()
     }
 
-    onGetGeo() {
-      const end = () => {
-        this.$emit('update:get-position', false)
-      }
-      if(!navigator.geolocation) {
-        end()
-        return
-      }
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.currentGeo = position
-        this.$emit('current-position', position)
-        end()
-      }, () => {
-        end()
-      }, {
-        enableHighAccuracy: true,
-        maximumAge: 5,
-        timeout: 30,
-      })
-    }
-
-    initializeMap(google: Google) {
+    private _initializeMap(google: Google) {
       const {mapContainer} = this
       // should render mapContainer before render the map
       if(!mapContainer) {
         return this.$nextTick(() => {
-          this.initializeMap(google)
+          this._initializeMap(google)
         })
       }
       const {
-        center, zoom, fullscreenControl, scaleControl, streetViewControl,
-        zoomControl, rotateControl, panControl, mapTypeControl, draggable,
-        styles, backgroundColor,
+        center, zoom, options,
       } = this
-      const runner = () => {
-        this.map = new google.maps.Map(mapContainer, {
-          center, zoom, fullscreenControl, scaleControl, panControl, draggable,
-          streetViewControl, zoomControl, rotateControl, mapTypeControl,
-          styles, backgroundColor,
-        })
-      }
 
-      if(!mapContainer) {
-        this.$nextTick(runner)
-        return
-      }
-      runner()
+      const map = new google.maps.Map(mapContainer, {
+        center, zoom, ...options,
+      })
+
+      // add listeners to the map
+      const {$listeners} = this
+      Object.keys($listeners).forEach((key: string) => {
+        const value = $listeners[key] as any
+        map.addListener(snakeCase(key), value)
+      })
+
+      this.map = map
     }
 
   }

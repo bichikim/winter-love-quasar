@@ -1,9 +1,9 @@
 import {getModule, Module, Mutation, VuexModule, Action} from 'vuex-module-decorators'
 import {store} from 'src/store'
-import {User} from './types'
+import {UserInfo} from './types'
 import {auth} from 'src/boot/firebase'
 
-const initUser: User = {
+const initUser: UserInfo = {
   displayName: null,
   email: null,
   photoURL: null,
@@ -18,7 +18,7 @@ const initUser: User = {
   dynamic: true,
   namespaced: true,
 })
-class UserModel extends VuexModule implements User {
+class UserModel extends VuexModule implements UserInfo {
   displayName: string | null
   email: string | null
   photoURL: string | null
@@ -31,6 +31,7 @@ class UserModel extends VuexModule implements User {
     this.setUser({...initUser})
     auth().onAuthStateChanged((user) => {
       if(!user) {
+        this.setUser({...initUser})
         return
       }
       this.setUser(user)
@@ -38,7 +39,7 @@ class UserModel extends VuexModule implements User {
   }
 
   @Mutation
-  setUser(user: User) {
+  setUser(user: UserInfo) {
     this.displayName = user.displayName
     this.email = user.email
     this.photoURL = user.photoURL

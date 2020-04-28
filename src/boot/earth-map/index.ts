@@ -25,6 +25,7 @@ const boot: BootFileFunction = ({Vue}) => {
    * load map component
    */
   Vue.component('earth-map', () => (import('./EarthMap.vue')))
+  Vue.component('earth-map-marker', () => (import('./EarthMapMarker')))
 
   Vue.prototype['$earthMap'] = Object.freeze({
     load(key: string = _key) {

@@ -1,11 +1,9 @@
 <template lang="pug">
   q-layout.main-layout(:view = "view" ref = "layout")
-
     template
       .background.absolute-top-left.fit
         q-no-ssr
-          earth-map(:dark="dark")
-
+          w-spot-map(:dark="dark")
     q-header.bg-transparent.no-pointer-events
       q-toolbar.toolbar.q-gutter-x-sm.q-pr-xs.all-pointer-events(:class="toolbarClass")
         w-search-bar.w-grow(v-if="!belowBreakpoint" @click-barcode="onClickBarcode" v-model="searchValue")
@@ -41,43 +39,13 @@
 
     template(v-else)
       q-no-ssr()
-        w-side-navigation.glass(
-          :items="items"
-          :side="side"
+        w-wide-navigation(
           :mini="mini"
+          :side="side"
+          :items="items"
           :breakpoint="breakpoint"
-          @click="onNavClick"
-          :elevated="true"
-          ref="drawer"
+          @mini="mini = $event"
         )
-          template(#default="{mini: _mini}")
-            .navigation-header
-              .profile
-                q-item
-                  q-item-section(side)
-                    q-avatar.bg-red(size="xl")
-                      img(src="~assets/empty-avatar.png")
-                  q-item-section(v-show="!_mini")
-                    q-item-label.text-h5 helle
-                q-item
-                  q-item-section
-                  q-item-section(top side)
-                    .q-gutter-sm.row.no-wrap
-                      q-btn(
-                        v-show="!_mini"
-                        flat dense rounded
-                        aria-label="User"
-                        icon="las la-user"
-                      )
-                      q-btn(
-                        flat dense rounded
-                        aria-label="toggle pin mini"
-                        :icon="mini ? 'las la-thumbtack' : 'icon-thumbtack'"
-                        @click="mini = !mini"
-                      )
-
-                q-separator
-
     q-page-container.no-pointer-events
       router-view
 
@@ -95,13 +63,14 @@
   import userOptions from 'src/store/modules/UserOptions'
   import aside from 'src/store/modules/Aside'
   import user from 'src/store/modules/User'
-
-
   import {Component, Prop, Ref, Vue} from 'vue-property-decorator'
   import WSideNavigation from './navigation/WSideNavigation.vue'
   import WHandyNavigation from './navigation/WHandyNavigation.vue'
   import WSearchBar from './search-bar/WSearchBar.vue'
   import WBarCodeDialog from './bar-code/WBarCodeDialog.vue'
+  import WWideNavigation from './navigation/WWideNavigation.vue'
+  import WSpotMap from 'src/layouts/MainLayout/spot-map/WSpotMap.vue'
+
   import {Result} from '@zxing/library'
 
   @Component({
@@ -110,6 +79,8 @@
       WHandyNavigation,
       WSearchBar,
       WBarCodeDialog,
+      WWideNavigation,
+      WSpotMap,
     },
   })
   export default class MainLayout extends Vue {
@@ -129,11 +100,6 @@
     barcodeValue: Result | null = null
 
     searchValue: string = ''
-
-    mapConfig: google.maps.MapOptions = {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8,
-    }
 
     loginTooltip: boolean = true
 
@@ -166,6 +132,10 @@
 
     get belowBreakpoint() {
       return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+    }
+
+    onClickTest(event) {
+      console.log('click', event)
     }
 
     onScan(value) {

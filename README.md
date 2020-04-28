@@ -30,6 +30,10 @@ Windows
  --unsafely-treat-insecure-origin-as-secure=https://localhost:8080
 ```
 
+### In Windows 10
+
+- npm install --global --production windows-build-tools
+
 ## Security
 
 ### Expect-CT header

@@ -23,6 +23,8 @@ self.addEventListener('message', (event) => {
   }
 })
 
+workbox.setConfig({debug: false})
+
 workbox.core.clientsClaim()
 
 workbox.core.setCacheNameDetails({prefix: 'winter-love'})
