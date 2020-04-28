@@ -4,7 +4,6 @@ import {
 import Google from './google'
 import {snakeCase} from 'lodash'
 
-
 @Component
 export default class EarthMapMarker extends Vue {
   @Prop() readonly position?: Google.maps.LatLng | Google.maps.ReadonlyLatLngLiteral
