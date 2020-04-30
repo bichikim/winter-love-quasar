@@ -16,9 +16,14 @@
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
   ],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
+    "bootstrap": "yarn",
     "dev": "quasar dev -m pwa",
     "build": "quasar build -m pwa",
+    "build:functions": "yarn workspace functions build",
     "serve": "quasar serve dist/pwa",
     "deploy": "firebase deploy",
     "styleguide": "vue-styleguidist server",

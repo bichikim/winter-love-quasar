@@ -1,23 +1,22 @@
 import {
   Component, Prop, Vue, Watch, InjectReactive,
 } from 'vue-property-decorator'
-import Google from './google'
 import {snakeCase} from 'lodash'
 
 @Component
 export default class EarthMapMarker extends Vue {
-  @Prop() readonly position?: Google.maps.LatLng | Google.maps.ReadonlyLatLngLiteral
+  @Prop() readonly position?: google.maps.LatLng | google.maps.ReadonlyLatLngLiteral
   @Prop({default: false, type: Boolean}) readonly clickable: boolean
-  @Prop() readonly animation?: Google.maps.Animation
+  @Prop() readonly animation?: google.maps.Animation
   @Prop({default: false, type: Boolean}) readonly crossOnDrag?: boolean
   @Prop() readonly cursor?: string
   @Prop({type: Boolean}) readonly draggable?: boolean
-  @Prop() readonly icon?: string | Google.maps.Icon | Google.maps.ReadonlySymbol
-  @Prop() readonly label?: string | Google.maps.MarkerLabel
+  @Prop() readonly icon?: string | google.maps.Icon | google.maps.ReadonlySymbol
+  @Prop() readonly label?: string | google.maps.MarkerLabel
   @Prop() readonly opacity?: number
   @Prop({type: Boolean}) readonly optimized?: boolean
-  @Prop() readonly place?: Google.maps.Place
-  @Prop() readonly shape?: Google.maps.MarkerShape
+  @Prop() readonly place?: google.maps.Place
+  @Prop() readonly shape?: google.maps.MarkerShape
   @Prop() readonly title?: string
   @Prop({type: Boolean, default: true}) readonly visible?: boolean
   @Prop() readonly zIndex?: number
@@ -26,14 +25,14 @@ export default class EarthMapMarker extends Vue {
   @InjectReactive({
     from: 'map',
     default: () => null,
-  }) readonly map: Google.maps.Map | null
+  }) readonly map: google.maps.Map | null
 
   @InjectReactive({
     from: 'google',
     default: () => null,
   }) readonly google: Google | null
 
-  marker: Google.maps.Marker | null = null
+  marker: google.maps.Marker | null = null
 
   @Watch('position')
   __position(position) {

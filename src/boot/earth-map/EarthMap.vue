@@ -3,7 +3,7 @@
     :style="containerStyles"
     @touchstart.prevent="onTouchstart"
   )
-    .fit(
+    .google-map-container.fit(
       ref="mapContainer"
     )
     template(v-if="Boolean(google) && Boolean(map)")
@@ -23,14 +23,15 @@
   } from 'vue-property-decorator'
   import darkStyle from './dark.json'
   import lightStyle from './light.json'
-  import Google from './google'
   import blur from 'src/lib/blur-active-element'
   import {snakeCase} from 'lodash'
+  import {PointPosition} from './types'
 
   @Component
   export default class EarthMap extends Vue {
-    @Prop() readonly mapConfig?: Google.maps.MapOptions
-    @Prop({default: () => ({lat: 40.730, lng: -73.935})}) readonly center: Google.maps.LatLng
+    @Prop() readonly mapConfig?: google.maps.MapOptions
+    @Prop({default: () => ({lat: 40.730, lng: -73.935})})
+    readonly center: google.maps.LatLng | google.maps.LatLngLiteral
     @Prop({default: 13}) readonly zoom: number
     @Prop({default: false, type: Boolean}) readonly fullscreenControl: boolean
     @Prop({default: false, type: Boolean}) readonly scaleControl: boolean
@@ -39,6 +40,7 @@
     @Prop({default: false, type: Boolean}) readonly rotateControl: boolean
     @Prop({default: false, type: Boolean}) readonly panControl: boolean
     @Prop({default: false, type: Boolean}) readonly mapTypeControl: boolean
+    @Prop({default: () => ({x: 0, y: 0})}) readonly offset: PointPosition
 
     /**
      * whether this.map is draggable
@@ -74,7 +76,7 @@
 
     @Ref() readonly mapContainer?: HTMLDivElement
 
-    @ProvideReactive() map: null | Google.maps.Map = null
+    @ProvideReactive() map: null | google.maps.Map = null
     @ProvideReactive() google: null | Google = null
 
     currentGeo: any = null
@@ -119,7 +121,9 @@
     @Watch('center')
     __center(value) {
       if(this.map) {
+        const {offset} = this
         this.map.setCenter(value)
+        this.map.panBy(offset.x, offset.y)
       }
     }
 
@@ -155,12 +159,17 @@
         })
       }
       const {
-        center, zoom, options,
+        center, zoom, options, offset,
       } = this
 
       const map = new google.maps.Map(mapContainer, {
         center, zoom, ...options,
       })
+
+      this.map = map
+
+      map.panBy(offset.x, offset.y)
+
 
       // add listeners to the map
       const {$listeners} = this
