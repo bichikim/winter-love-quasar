@@ -1,0 +1,7 @@
+{
+  "params": {
+    "include": ["spa", "pwa", "ssr", "capacitor"],
+    "icon": "app-icon.png",
+    "pngColor": "FF5555"
+  }
+}

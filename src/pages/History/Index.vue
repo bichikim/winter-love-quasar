@@ -1,6 +1,6 @@
 <template lang="pug">
-  .history-page
-    h4 History
+  w-page.history-page
+    h1 History
 </template>
 
 <style scoped lang="stylus">
@@ -13,5 +13,6 @@
 
   @Component
   export default class HistoryPage extends Vue {
+
   }
 </script>

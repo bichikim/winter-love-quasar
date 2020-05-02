@@ -13,16 +13,14 @@ class AsideModule extends VuexModule {
     {
       title: 'aside.history',
       icon: 'las la-stopwatch',
-      active: false,
       disable: false,
       push: '/history',
     },
     {
       title: 'aside.cart',
-      icon: 'las la-snowflake',
-      active: false,
+      icon: 'las la-shopping-cart',
       disable: false,
-      push: '/smoothie',
+      push: '/cart',
     },
   ]
 }

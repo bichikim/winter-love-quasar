@@ -35,8 +35,11 @@
             :display-name="displayName || undefined"
             @click="onNavClick"
           )
+            q-item(clickable v-close-popup v-ripple @click="() => onNavClick({push: 'sign'})")
+              q-item-section(avatar)
+                q-icon(name="la la-key")
+              q-item-section.text-no-wrap sign-in / sign-up
           w-search-bar.w-grow(v-if="belowBreakpoint" @click-barcode="onClickBarcode" v-model="searchValue")
-
     template(v-else)
       q-no-ssr()
         w-wide-navigation(
@@ -45,6 +48,7 @@
           :items="items"
           :breakpoint="breakpoint"
           @mini="mini = $event"
+          @click="onNavClick"
         )
     q-page-container.no-pointer-events
       router-view
@@ -58,6 +62,8 @@
         @scan="onScan"
       )
 </template>
+
+<i18n src="./index.json"></i18n>
 
 <script lang="ts">
   import userOptions from 'src/store/modules/UserOptions'
@@ -132,6 +138,34 @@
 
     get belowBreakpoint() {
       return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+    }
+
+    get headerSize() {
+      if(!this.layout?.header.space) {
+        return 0
+      }
+      return this.layout?.header.size ?? 0
+    }
+
+    get footerSize() {
+      if(!this.layout?.footer.space) {
+        return 0
+      }
+      return this.layout?.footer.size ?? 0
+    }
+
+    get leftSize() {
+      if(!this.layout?.left.space) {
+        return 0
+      }
+      return this.layout?.left.size ?? 0
+    }
+
+    get rightSize() {
+      if(!this.layout?.right.space) {
+        return  0
+      }
+      return this.layout?.right.size ?? 0
     }
 
     onClickTest(event) {

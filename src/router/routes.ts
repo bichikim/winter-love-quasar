@@ -6,9 +6,9 @@ const routes: RouteConfig[] = [
     component: () => import(/* webpackMode: "eager" */'layouts/MainLayout/Index.vue'),
     children: [
       {path: '', component: () => import(/* webpackMode: "eager" */'pages/Index.vue')},
-      {path: '/history', component: () => import('pages/History.vue')},
-      {path: '/smoothie', component: () => import('pages/Smoothie.vue')},
-      {path: '/sign', component: () => import('pages/Sign.vue')},
+      {path: '/history', component: () => import('pages/History/Index.vue')},
+      {path: '/cart', component: () => import('pages/Cart/Index.vue')},
+      {path: '/sign', component: () => import('pages/Sign/Index.vue')},
     ],
   },
 ]

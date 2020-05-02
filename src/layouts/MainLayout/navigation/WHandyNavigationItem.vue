@@ -2,7 +2,7 @@
   q-item(clickable v-close-popup v-ripple @click="$emit('click', clickInfo)")
     q-item-section(avatar)
       q-icon(:name="icon")
-    q-item-section {{myTitle}}
+    q-item-section.text-no-wrap {{myTitle}}
 </template>
 
 <style lang="stylus" scoped>

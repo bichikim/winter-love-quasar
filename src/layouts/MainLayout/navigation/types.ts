@@ -59,11 +59,6 @@ export interface NavItem<R extends FunctionRecord = FunctionRecord> {
   items?: (NavItem<R>)[]
 
   /**
-   * item is active
-   */
-  active: boolean
-
-  /**
    * item is disable
    */
   disable: boolean

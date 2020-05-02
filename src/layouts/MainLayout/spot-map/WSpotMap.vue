@@ -7,9 +7,6 @@
     earth-map-marker(:position="{lat: 40.730, lng: -73.935}" clickable)
 </template>
 
-<style scoped lang="stylus">
-</style>
-
 <script lang="ts">
   import {
     Component, Prop, Vue,
@@ -18,8 +15,9 @@
 
   @Component
   export default class WSpotMap extends Vue {
-    @Prop({default: false}) readonly dark: boolean
-    @Prop({default: () => []}) spots: Spot[]
-    @Prop({}) center: google.maps.LatLng | google.maps.LatLngLiteral
+    @Prop({default: false, type: Boolean}) readonly dark: boolean
+    @Prop({default: () => [], type: Array}) spots: Spot[]
+    @Prop({}) center?: google.maps.LatLng | google.maps.LatLngLiteral
+    @Prop({default: () => ({x: 0, y: 0}), type: Object}) offset: {x: number, y: number}
   }
 </script>

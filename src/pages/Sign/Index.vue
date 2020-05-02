@@ -1,6 +1,8 @@
 <template lang="pug">
-  w-page()
-    q-card.all-pointer-events.glass
+  w-page(column-center row-center)
+    q-card.all-pointer-events.glass.w-max-w-xs.full-width
+      q-card-section.text-white.bg-primary
+        .text-h6 Sign-in / Sign-up
       q-card-section
         q-input(label="email")
         q-input(label="password")
@@ -13,7 +15,10 @@
 </style>
 
 <script lang="ts">
-  import {Component, Vue} from 'vue-property-decorator'
+  import {
+    Component,
+    Vue,
+  } from 'vue-property-decorator'
 
   @Component
   export default class SignPage extends Vue {

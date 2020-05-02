@@ -91,4 +91,12 @@ export default class EarthMapMarker extends Vue {
   render() {
     return ''
   }
+
+  beforeDestroy() {
+    const {marker} = this
+    if(!marker) {
+      return
+    }
+    marker.setMap(null)
+  }
 }

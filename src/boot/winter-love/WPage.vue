@@ -1,9 +1,13 @@
 <template lang="pug">
   q-page.column(
-    :class="classes"
+    :class="columnClasses"
     :style-fn="style"
   )
-    slot
+    q-no-ssr(v-if="noSsr")
+      .row(:class="rowClasses")
+        slot
+    .row(:class="rowClasses" v-else)
+      slot
 </template>
 
 <style lang="stylus" scoped>
@@ -24,41 +28,52 @@
     },
   })
   export default class WPage extends Vue {
-    @Prop({default: true}) padding: any
-    @Prop({default: true}) autoPosition: boolean
+    @Prop({default: true, type: Boolean}) padding: any
+    @Prop({default: true, type: Boolean}) handyPosition: boolean
     @Prop({default: 1023}) breakpoint: number
-    @Prop({default: true}) pageSize: boolean
+    @Prop({default: false, type: Boolean}) rowCenter: boolean
+    @Prop({default: false, type: Boolean}) columnCenter: boolean
+    @Prop({default: true, type: Boolean}) noSsr: boolean
     @Inject() layout?: any
 
     get belowBreakpoint() {
       return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
     }
 
-    get classes() {
-      const {autoPosition, belowBreakpoint, padding} = this
+    get columnClasses() {
+      const {handyPosition, belowBreakpoint, padding, columnCenter} = this
       const classes: string[] = []
 
       if(padding) {
         classes.push('padding')
       }
 
-      if(autoPosition) {
+      if(handyPosition) {
         if(belowBreakpoint) {
           classes.push('justify-end')
-        } else {
+        } else if(columnCenter) {
           classes.push('justify-center')
+        } else {
+          classes.push('justify-start')
         }
+      }
+      return classes
+    }
+
+    get rowClasses() {
+      const {rowCenter} = this
+      const classes: string[] = []
+      if(rowCenter) {
+        classes.push('justify-center')
+      } else {
+        classes.push('justify-start')
       }
 
       return classes
     }
 
     style(offset, height) {
-
-      const style: any = {height: `${height - offset}px`}
-      if(this.pageSize) {
-        style.maxHeight = `${this.breakpoint}px`
-      }
+      return {height: `${height - offset}px`}
     }
   }
 </script>

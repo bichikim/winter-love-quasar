@@ -13,10 +13,13 @@
       :offset="[8, 0]"
       v-model="open"
     )
-      w-handy-navigation-list(
-        :items="items"
-        :side="side"
-      )
+      q-card.glass.q-ma-sm
+        w-handy-navigation-list(
+          :items="items"
+          :side="side"
+          @click="$emit('click', $event)"
+        )
+          slot
 </template>
 
 <style lang="stylus" scoped>

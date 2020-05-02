@@ -13,10 +13,6 @@
       )
 </template>
 
-<style lang="stylus">
-
-</style>
-
 <script lang="ts">
   import {
     Component, Prop, Vue, Watch, Ref, ProvideReactive,
@@ -29,10 +25,9 @@
 
   @Component
   export default class EarthMap extends Vue {
-    @Prop() readonly mapConfig?: google.maps.MapOptions
-    @Prop({default: () => ({lat: 40.730, lng: -73.935})})
+    @Prop({default: () => ({lat: 40.730, lng: -73.935}), type: Object})
     readonly center: google.maps.LatLng | google.maps.LatLngLiteral
-    @Prop({default: 13}) readonly zoom: number
+    @Prop({default: 13, type: Number}) readonly zoom: number
     @Prop({default: false, type: Boolean}) readonly fullscreenControl: boolean
     @Prop({default: false, type: Boolean}) readonly scaleControl: boolean
     @Prop({default: false, type: Boolean}) readonly streetViewControl: boolean
@@ -40,7 +35,11 @@
     @Prop({default: false, type: Boolean}) readonly rotateControl: boolean
     @Prop({default: false, type: Boolean}) readonly panControl: boolean
     @Prop({default: false, type: Boolean}) readonly mapTypeControl: boolean
-    @Prop({default: () => ({x: 0, y: 0})}) readonly offset: PointPosition
+
+    /**
+     * setting center offset
+     */
+    @Prop({default: () => ({x: 0, y: 0}), type: Object}) readonly offset: PointPosition
 
     /**
      * whether this.map is draggable
@@ -55,24 +54,24 @@
     /**
      * background color in dark mode
      */
-    @Prop({default: '#FFFFFF'}) readonly darkBackgroundColor: string
+    @Prop({default: '#FFFFFF', type: String}) readonly darkBackgroundColor: string
 
     /**
      * background color in light mode
      */
-    @Prop({default: '#333333'}) readonly lightBackgroundColor: string
+    @Prop({default: '#333333', type: String}) readonly lightBackgroundColor: string
 
     /**
      * map style in dark mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (darkStyle)}) readonly darkMapStyle: any
+    @Prop({default: () => (darkStyle), type: Array}) readonly darkMapStyle: any
 
     /**
      * map style in light mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (lightStyle)}) readonly lightMapStyle: any
+    @Prop({default: () => (lightStyle), type: Array}) readonly lightMapStyle: any
 
     @Ref() readonly mapContainer?: HTMLDivElement
 

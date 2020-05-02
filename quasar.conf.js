@@ -72,6 +72,10 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: true,
 
+    supportTS: {
+      tsCheckerConfig: {eslint: true},
+    },
+
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       // in SSR mode history only
@@ -134,7 +138,7 @@ module.exports = function (ctx) {
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
-        theme_color: '#027be3',
+        theme_color: '#011C3D',
         icons: [
           {
             src: 'statics/icons/icon-128x128.png',
