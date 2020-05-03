@@ -37,7 +37,9 @@
     @Inject() layout?: any
 
     get belowBreakpoint() {
-      return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+      return (
+        (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+      )
     }
 
     get columnClasses() {

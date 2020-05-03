@@ -12,9 +12,7 @@ declare module 'vue/types/vue' {
   }
 }
 
-
 const boot: BootFileFunction = ({Vue}) => {
-
   const _key = process.env.VUE_GOOGLE_MAPS_API_KEY
 
   if(!_key) {
@@ -24,8 +22,8 @@ const boot: BootFileFunction = ({Vue}) => {
   /**
    * load map component
    */
-  Vue.component('earth-map', () => (import('./EarthMap.vue')))
-  Vue.component('earth-map-marker', () => (import('./EarthMapMarker')))
+  Vue.component('earth-map', () => import('./EarthMap.vue'))
+  Vue.component('earth-map-marker', () => import('./EarthMapMarker'))
 
   Vue.prototype['$earthMap'] = Object.freeze({
     load(key: string = _key) {

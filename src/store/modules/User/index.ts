@@ -54,11 +54,10 @@ class UserModel extends VuexModule implements UserInfo {
     if(!user) {
       throw new Error('cannot restore user')
     }
-
   }
 
   @Action
-  signIn(payload: {email: string, password: string}) {
+  signIn(payload: {email: string; password: string}) {
     const {email, password} = payload
     return auth().signInWithEmailAndPassword(email, password)
   }
@@ -68,7 +67,6 @@ class UserModel extends VuexModule implements UserInfo {
     await auth().signOut()
     this.setUser({...initUser})
   }
-
 }
 
 export default getModule(UserModel)

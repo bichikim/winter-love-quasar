@@ -19,7 +19,9 @@
   import WNavigationItemShare from './WNavigationItemShare'
 
   @Component
-  export default class WHandyNavigationItem extends Mixins(WNavigationItemShare) {
+  export default class WHandyNavigationItem extends Mixins(
+    WNavigationItemShare
+  ) {
     @Prop({default: true}) dense: boolean
   }
 </script>

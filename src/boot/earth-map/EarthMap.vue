@@ -24,7 +24,12 @@
 
 <script lang="ts">
   import {
-    Component, Prop, Vue, Watch, Ref, ProvideReactive,
+    Component,
+    Prop,
+    Vue,
+    Watch,
+    Ref,
+    ProvideReactive,
   } from 'vue-property-decorator'
   import darkStyle from './dark.json'
   import lightStyle from './light.json'
@@ -34,7 +39,7 @@
 
   @Component
   export default class EarthMap extends Vue {
-    @Prop({default: () => ({lat: 40.730, lng: -73.935}), type: Object})
+    @Prop({default: () => ({lat: 40.73, lng: -73.935}), type: Object})
     readonly center: google.maps.LatLng | google.maps.LatLngLiteral
     @Prop({default: 13, type: Number}) readonly zoom: number
     @Prop({default: false, type: Boolean}) readonly fullscreenControl: boolean
@@ -48,7 +53,8 @@
     /**
      * setting center offset
      */
-    @Prop({default: () => ({x: 0, y: 0}), type: Object}) readonly offset: PointPosition
+    @Prop({default: () => ({x: 0, y: 0}), type: Object})
+    readonly offset: PointPosition
 
     /**
      * whether this.map is draggable
@@ -63,24 +69,26 @@
     /**
      * background color in dark mode
      */
-    @Prop({default: '#FFFFFF', type: String}) readonly darkBackgroundColor: string
+    @Prop({default: '#FFFFFF', type: String})
+    readonly darkBackgroundColor: string
 
     /**
      * background color in light mode
      */
-    @Prop({default: '#333333', type: String}) readonly lightBackgroundColor: string
+    @Prop({default: '#333333', type: String})
+    readonly lightBackgroundColor: string
 
     /**
      * map style in dark mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (darkStyle), type: Array}) readonly darkMapStyle: any
+    @Prop({default: () => darkStyle, type: Array}) readonly darkMapStyle: any
 
     /**
      * map style in light mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (lightStyle), type: Array}) readonly lightMapStyle: any
+    @Prop({default: () => lightStyle, type: Array}) readonly lightMapStyle: any
 
     @Ref() readonly mapContainer?: HTMLDivElement
 
@@ -108,12 +116,26 @@
     // get options for this.map.setOptions
     get options() {
       const {
-        fullscreenControl, scaleControl, streetViewControl, zoomControl,
-        rotateControl, panControl, mapTypeControl, draggable, styles,
+        fullscreenControl,
+        scaleControl,
+        streetViewControl,
+        zoomControl,
+        rotateControl,
+        panControl,
+        mapTypeControl,
+        draggable,
+        styles,
       } = this
       return {
-        fullscreenControl, scaleControl, streetViewControl, zoomControl,
-        rotateControl, panControl, mapTypeControl, draggable, styles,
+        fullscreenControl,
+        scaleControl,
+        streetViewControl,
+        zoomControl,
+        rotateControl,
+        panControl,
+        mapTypeControl,
+        draggable,
+        styles,
         backgroundColor: 'none',
       }
     }
@@ -166,18 +188,17 @@
           this._initializeMap(google)
         })
       }
-      const {
-        center, zoom, options, offset,
-      } = this
+      const {center, zoom, options, offset} = this
 
       const map = new google.maps.Map(mapContainer, {
-        center, zoom, ...options,
+        center,
+        zoom,
+        ...options,
       })
 
       this.map = map
 
       map.panBy(offset.x, offset.y)
-
 
       // add listeners to the map
       const {$listeners} = this
@@ -188,6 +209,5 @@
 
       this.map = map
     }
-
   }
 </script>

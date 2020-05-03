@@ -4,7 +4,7 @@ let googleApi: Google | null = null
 
 export const googleApiCallback = '__GoogleApiCallback__'
 
-export function createErrorMessage(where: string,message: string) {
+export function createErrorMessage(where: string, message: string) {
   return `google-map-api-loader.${where}: ${message}`
 }
 
@@ -38,15 +38,11 @@ export function load(key, waitTime: number = 5000): Google | Promise<Google> {
 
       resolve(googleApi)
     }
-    loadGoogleMapsApi(
-      createGoogleMapsApiSrc(key, googleApiCallback),
-    )
+    loadGoogleMapsApi(createGoogleMapsApiSrc(key, googleApiCallback))
 
     setTimeout(() => {
       if(!window.google) {
-        reject(new Error(
-          createErrorMessage('load', 'cannot load google-map-api'),
-        ))
+        reject(new Error(createErrorMessage('load', 'cannot load google-map-api')))
       }
     }, waitTime)
   })

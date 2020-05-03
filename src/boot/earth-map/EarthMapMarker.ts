@@ -1,6 +1,4 @@
-import {
-  Component, Prop, Vue, Watch, InjectReactive,
-} from 'vue-property-decorator'
+import {Component, Prop, Vue, Watch, InjectReactive} from 'vue-property-decorator'
 import {snakeCase} from 'lodash'
 
 @Component
@@ -21,16 +19,17 @@ export default class EarthMapMarker extends Vue {
   @Prop({type: Boolean, default: true}) readonly visible?: boolean
   @Prop() readonly zIndex?: number
 
-
   @InjectReactive({
     from: 'map',
     default: () => null,
-  }) readonly map: google.maps.Map | null
+  })
+  readonly map: google.maps.Map | null
 
   @InjectReactive({
     from: 'google',
     default: () => null,
-  }) readonly google: Google | null
+  })
+  readonly google: Google | null
 
   marker: google.maps.Marker | null = null
 
@@ -79,12 +78,36 @@ export default class EarthMapMarker extends Vue {
 
   get options() {
     const {
-      clickable, animation, crossOnDrag, cursor, draggable, icon, label, opacity,
-      optimized, place, shape, title, visible, zIndex,
+      clickable,
+      animation,
+      crossOnDrag,
+      cursor,
+      draggable,
+      icon,
+      label,
+      opacity,
+      optimized,
+      place,
+      shape,
+      title,
+      visible,
+      zIndex,
     } = this
     return {
-      clickable, animation, crossOnDrag, cursor, draggable, icon, label, opacity,
-      optimized, place, shape, title, visible, zIndex,
+      clickable,
+      animation,
+      crossOnDrag,
+      cursor,
+      draggable,
+      icon,
+      label,
+      opacity,
+      optimized,
+      place,
+      shape,
+      title,
+      visible,
+      zIndex,
     }
   }
 

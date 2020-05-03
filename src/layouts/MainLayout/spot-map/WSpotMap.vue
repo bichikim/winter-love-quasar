@@ -8,9 +8,7 @@
 </template>
 
 <script lang="ts">
-  import {
-    Component, Prop, Vue,
-  } from 'vue-property-decorator'
+  import {Component, Prop, Vue} from 'vue-property-decorator'
   import {Spot} from './types'
 
   @Component
@@ -18,6 +16,9 @@
     @Prop({default: false, type: Boolean}) readonly dark: boolean
     @Prop({default: () => [], type: Array}) spots: Spot[]
     @Prop({}) center?: google.maps.LatLng | google.maps.LatLngLiteral
-    @Prop({default: () => ({x: 0, y: 0}), type: Object}) offset: {x: number, y: number}
+    @Prop({default: () => ({x: 0, y: 0}), type: Object}) offset: {
+      x: number
+      y: number
+    }
   }
 </script>

@@ -10,9 +10,7 @@ export interface Spot {
   avatar?: string
 }
 
-export interface Shop extends Spot {
-
-}
+export interface Shop extends Spot {}
 
 export interface ShopSearch extends Shop {
   targetProduct?: Product

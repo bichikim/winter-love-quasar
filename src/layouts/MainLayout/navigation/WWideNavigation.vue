@@ -38,18 +38,12 @@
 <style lang="stylus" scoped></style>
 
 <script lang="ts">
-  import {
-    Component,
-    Prop,
-    Vue,
-  } from 'vue-property-decorator'
-  import WSideNavigation
-    from './WSideNavigation.vue'
+  import {Component, Prop, Vue} from 'vue-property-decorator'
+  import WSideNavigation from './WSideNavigation.vue'
   import {NavItem} from 'layouts/MainLayout/navigation/types'
   import {Side} from 'src/store/modules/UserOptions/types'
   import shortName from 'src/filters/shart-name'
   import WUserAvatar from 'src/components/WUserAvatar.vue'
-
 
   @Component({
     components: {

@@ -3,7 +3,7 @@
     <p>
       <img
         src="~assets/sad.svg"
-        style="width:30vw;max-width:150px;"
+        style="width: 30vw; max-width: 150px;"
       >
     </p>
     <p class="text-faded">
@@ -11,7 +11,7 @@
     </p>
     <q-btn
       color="secondary"
-      style="width:200px;"
+      style="width: 200px;"
       @click="$router.push('/')"
     >
       Go back
@@ -20,9 +20,9 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+  import Vue from 'vue'
 
-export default Vue.extend({
-  name: 'Error404',
-})
+  export default Vue.extend({
+    name: 'Error404',
+  })
 </script>

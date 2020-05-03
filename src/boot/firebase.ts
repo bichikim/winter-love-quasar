@@ -35,8 +35,6 @@ const boot: Project.BootFileFunction = (context) => {
   })
 }
 
-export {
-  auth, app,
-}
+export {auth, app}
 
 export default boot

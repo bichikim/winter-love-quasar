@@ -21,8 +21,6 @@
     @Prop() content: string
 
     get contentHtml() {
-
-
       if(this.content) {
         return replace(this.content)
       }

@@ -8,8 +8,8 @@ interface Options {
 export function applyRecord(
   target: Record<string, any>,
   source: Record<string, any>,
-  options: Options = {},
-  ) {
+  options: Options = {}
+) {
   const {avoidApplyUndefined = true} = options
   Object.keys(target).forEach((key) => {
     const sourceValue = source[key]

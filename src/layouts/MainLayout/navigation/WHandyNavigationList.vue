@@ -10,15 +10,9 @@
 </template>
 
 <script lang="ts">
-  import {
-    Component,
-    Mixins,
-    Prop,
-  } from 'vue-property-decorator'
-  import WNavigationShare
-    from './WNavigationShare'
-  import WHandyNavigationItem
-    from './WHandyNavigationItem.vue'
+  import {Component, Mixins, Prop} from 'vue-property-decorator'
+  import WNavigationShare from './WNavigationShare'
+  import WHandyNavigationItem from './WHandyNavigationItem.vue'
 
   @Component({
     components: {

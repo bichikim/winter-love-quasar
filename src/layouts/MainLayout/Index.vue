@@ -137,7 +137,9 @@
     }
 
     get belowBreakpoint() {
-      return (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+      return (
+        (this.layout?.totalWidth ?? this.$q.screen.width) <= this.breakpoint
+      )
     }
 
     get headerSize() {
@@ -163,7 +165,7 @@
 
     get rightSize() {
       if(!this.layout?.right.space) {
-        return  0
+        return 0
       }
       return this.layout?.right.size ?? 0
     }
@@ -212,7 +214,5 @@
         this.loginTooltip = false
       }, 2000)
     }
-
   }
 </script>
-

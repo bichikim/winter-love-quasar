@@ -35,9 +35,11 @@
 
   @Component({
     components: {
-      WSideNavigationList: () => (import(
-        /* webpackMode: "eager" */
-        './WSideNavigationList.vue')),
+      WSideNavigationList: () =>
+        import(
+          /* webpackMode: "eager" */
+          './WSideNavigationList.vue'
+        ),
     },
   })
   export default class WSideNavigation<R> extends Mixins(WNavigationShare) {
@@ -82,7 +84,6 @@
       }
       return classes.join(' ')
     }
-
 
     onMouseover() {
       if(!this.mini) {

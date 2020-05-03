@@ -4,5 +4,4 @@ export const promisify = (func) => (...args: any[]) => {
   })
 }
 
-
 export default promisify

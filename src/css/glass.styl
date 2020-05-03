@@ -1,10 +1,10 @@
 light-dimmed-glass()
   background $light-dimmed-background
-  backdrop-filter: blur(3px)
+  backdrop-filter blur(3px)
 
 dark-dimmed-glass()
   background $dimmed-background
-  backdrop-filter: blur(3px)
+  backdrop-filter blur(3px)
 
 .q-btn.glass
   color $primary
@@ -44,9 +44,8 @@ body.body--dark
       light-dimmed-glass()
 
   &.q-field--focused.q-field--standout
-    //.q-field__control::after
-    //  box-shadow 0 1px 5px $accent
-
+    // .q-field__control::after
+    // box-shadow 0 1px 5px $accent
     input
       color inherit
 
@@ -63,5 +62,3 @@ body.body--dark .glass
   &.q-field--focused.q-field--standout
     input
       color inherit
-
-// <<

@@ -3,7 +3,6 @@ import {ComponentOptions, PropsDefinition} from 'vue/types/options'
 import {CombinedVueInstance} from 'vue/types/vue'
 import {ComponentStorage} from './index'
 
-
 // declare module 'vue/types/options' {
 //   interface ComponentOptions<V extends Vue> {
 //     serverPrefetch(this: V, vm: V)
@@ -31,30 +30,20 @@ export interface SaveObject {
   except?: string[]
 }
 
-export interface Methods {
-}
+export interface Methods {}
 
-export interface Data {
-
-}
+export interface Data {}
 
 export interface Computed {
   $componentStorage: ComponentStorage
 }
 
-export interface Props {
-
-}
+export interface Props {}
 
 export type VueInstance = CombinedVueInstance<Vue, Data, Methods, Computed, Props>
 
 export interface StorageComponentOptions
-  extends ComponentOptions<Vue,
-    Data,
-    Methods,
-    Computed,
-    PropsDefinition<Props>,
-    Props> {
+  extends ComponentOptions<Vue, Data, Methods, Computed, PropsDefinition<Props>, Props> {
   __componentStorage: ComponentStorage
 }
 

@@ -10,18 +10,11 @@
         q-btn(label="submit")
 </template>
 
-<style lang="stylus" scoped>
-
-</style>
+<style lang="stylus" scoped></style>
 
 <script lang="ts">
-  import {
-    Component,
-    Vue,
-  } from 'vue-property-decorator'
+  import {Component, Vue} from 'vue-property-decorator'
 
   @Component
-  export default class SignPage extends Vue {
-
-  }
+  export default class SignPage extends Vue {}
 </script>

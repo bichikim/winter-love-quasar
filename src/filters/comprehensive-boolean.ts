@@ -1,6 +1,4 @@
-export const comprehensiveBoolean = (
-  value: any,
-) => {
+export const comprehensiveBoolean = (value: any) => {
   if(value === '') {
     return true
   }

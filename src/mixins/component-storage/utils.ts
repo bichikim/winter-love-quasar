@@ -41,21 +41,18 @@ export function saveCookie(
   key: string,
   namespace: string,
   data: Record<string, any>,
-  options: any,
-  ) {
+  options: any
+) {
   document.cookie = Cookie.serialize(getStorageName(key, namespace), JSON.stringify(data), options)
 }
 
-export function getServerCookie(
-  req: ClientRequest,
-  key: string,
-  namespace: string,
-  ) {
+export function getServerCookie(req: ClientRequest, key: string, namespace: string) {
   const rawCookie = req.getHeader('cookie')
   if(rawCookie) {
-    return forceDefault(() => (
-      JSON.parse(Cookie.parse(rawCookie)[getStorageName(key, namespace)])
-    ), {})
+    return forceDefault(
+      () => JSON.parse(Cookie.parse(rawCookie)[getStorageName(key, namespace)]),
+      {}
+    )
   }
 }
 
@@ -64,11 +61,11 @@ export function saveServerCookie(
   key: string,
   namespace: string,
   data: Record<string, any>,
-  options,
-  ) {
+  options
+) {
   res.setHeader(
     'Set-Cookie',
-    Cookie.serialize(getStorageName(key, namespace), JSON.stringify(data), options),
+    Cookie.serialize(getStorageName(key, namespace), JSON.stringify(data), options)
   )
 }
 

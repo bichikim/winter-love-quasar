@@ -44,7 +44,6 @@
     @Prop({default: ''}) value: string
     @Prop({default: true}) show: boolean
 
-
     myValue: string = ''
 
     get isSearchAble() {
