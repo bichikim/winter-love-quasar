@@ -35,9 +35,7 @@
 </style>
 
 <script lang="ts">
-  import {
-    Component, Prop, Vue, Watch, Ref,
-  } from 'vue-property-decorator'
+  import {Component, Prop, Vue, Watch, Ref} from 'vue-property-decorator'
   // only type casting
   import {BrowserMultiFormatReader, Result} from '@zxing/library'
 
@@ -88,13 +86,15 @@
       })
       if(__codeReader && deviceId) {
         __codeReader.reset()
-        __codeReader.decodeOnceFromVideoDevice(deviceId, this.video).then((result) => {
-          this.result = result
-          this.$emit('scan', result)
-          if(this.scanAndClose) {
-            this.$emit('input', false)
-          }
-        })
+        __codeReader
+          .decodeOnceFromVideoDevice(deviceId, this.video)
+          .then((result) => {
+            this.result = result
+            this.$emit('scan', result)
+            if(this.scanAndClose) {
+              this.$emit('input', false)
+            }
+          })
       }
     }
 
@@ -107,21 +107,21 @@
         return
       }
       if(!this.videoInputDevices) {
-        this.videoInputDevices = await this.__codeReader?.listVideoInputDevices() ?? null
-
+        this.videoInputDevices =
+          (await this.__codeReader?.listVideoInputDevices()) ?? null
       }
       const {preferCameraId} = this
       if(preferCameraId) {
-        const preferDevice = this.videoInputDevices?.find((deviece) => {
-          return deviece.deviceId === preferCameraId
-        }) ?? null
+        const preferDevice =
+          this.videoInputDevices?.find((deviece) => {
+            return deviece.deviceId === preferCameraId
+          }) ?? null
 
         this.deviceId = preferDevice?.deviceId ?? null
         this.deviceLabel = preferDevice?.label ?? null
         this.$nextTick(() => {
           this.onChangeVideoDevice()
         })
-
       } else {
         this.deviceId = null
         this.deviceLabel = null
@@ -135,7 +135,7 @@
     }
 
     async mounted() {
-      const Zxing = (await import('@zxing/library'))
+      const Zxing = await import('@zxing/library')
       this.__codeReader = new Zxing.BrowserMultiFormatReader()
     }
   }

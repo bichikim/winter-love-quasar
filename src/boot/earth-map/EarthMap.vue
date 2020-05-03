@@ -1,8 +1,11 @@
 <template lang="pug">
   .google-map.fit(
-    ref="mapContainer"
+    :style="containerStyles"
     @touchstart.prevent="onTouchstart"
   )
+    .google-map-container.fit(
+      ref="mapContainer"
+    )
     template(v-if="Boolean(google) && Boolean(map)")
       slot(
         :google="google"
@@ -10,72 +13,95 @@
       )
 </template>
 
+<style lang="stylus" scoped>
+  .google-map.no-display-link
+    a[href^="http://maps.google.com/maps"]
+      display none !important
+
+    a[href^="https://maps.google.com/maps"]
+        display none !important
+</style>
+
 <script lang="ts">
   import {
-    Component, Prop, Vue, Watch, Ref, ProvideReactive,
+    Component,
+    Prop,
+    Vue,
+    Watch,
+    Ref,
+    ProvideReactive,
   } from 'vue-property-decorator'
   import darkStyle from './dark.json'
   import lightStyle from './light.json'
-  import Google from './google'
   import blur from 'src/lib/blur-active-element'
+  import {snakeCase} from 'lodash'
+  import {PointPosition} from './types'
 
   @Component
   export default class EarthMap extends Vue {
-    @Prop() mapConfig?: Google.maps.MapOptions
-    @Prop({default: () => ({lat: 40.730, lng: -73.935})}) center: Google.maps.LatLng
-    @Prop({default: 13}) zoom: number
-    @Prop({default: false}) fullscreenControl: boolean
-    @Prop({default: false}) scaleControl: boolean
-    @Prop({default: false}) streetViewControl: boolean
-    @Prop({default: false}) zoomControl: boolean
-    @Prop({default: false}) rotateControl: boolean
-    @Prop({default: false}) panControl: boolean
-    @Prop({default: false}) mapTypeControl: boolean
+    @Prop({default: () => ({lat: 40.73, lng: -73.935}), type: Object})
+    readonly center: google.maps.LatLng | google.maps.LatLngLiteral
+    @Prop({default: 13, type: Number}) readonly zoom: number
+    @Prop({default: false, type: Boolean}) readonly fullscreenControl: boolean
+    @Prop({default: false, type: Boolean}) readonly scaleControl: boolean
+    @Prop({default: false, type: Boolean}) readonly streetViewControl: boolean
+    @Prop({default: false, type: Boolean}) readonly zoomControl: boolean
+    @Prop({default: false, type: Boolean}) readonly rotateControl: boolean
+    @Prop({default: false, type: Boolean}) readonly panControl: boolean
+    @Prop({default: false, type: Boolean}) readonly mapTypeControl: boolean
+
+    /**
+     * setting center offset
+     */
+    @Prop({default: () => ({x: 0, y: 0}), type: Object})
+    readonly offset: PointPosition
 
     /**
      * whether this.map is draggable
      */
-    @Prop({default: true}) draggable: boolean
+    @Prop({default: true, type: Boolean}) readonly draggable: boolean
 
     /**
      * whether in dark mode
      */
-    @Prop({default: false}) dark: boolean
+    @Prop({default: false, type: Boolean}) readonly dark: boolean
 
     /**
      * background color in dark mode
      */
-    @Prop({default: '#FFFFFF'}) darkBackgroundColor: string
+    @Prop({default: '#FFFFFF', type: String})
+    readonly darkBackgroundColor: string
 
     /**
      * background color in light mode
      */
-    @Prop({default: '#333333'}) lightBackgroundColor: string
+    @Prop({default: '#333333', type: String})
+    readonly lightBackgroundColor: string
 
     /**
      * map style in dark mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (darkStyle)}) darkMapStyle: any
+    @Prop({default: () => darkStyle, type: Array}) readonly darkMapStyle: any
 
     /**
      * map style in light mode
      * @see https://mapstyle.withgoogle.com/
      */
-    @Prop({default: () => (lightStyle)}) lightMapStyle: any
+    @Prop({default: () => lightStyle, type: Array}) readonly lightMapStyle: any
 
-    @Prop({default: false}) getPosition: boolean
+    @Ref() readonly mapContainer?: HTMLDivElement
 
-    @Ref() mapContainer?: HTMLDivElement
-
-    @ProvideReactive() map: null | Google.maps.Map = null
-
-    /**
-     *
-     */
-    google: null | Google = null
+    @ProvideReactive() map: null | google.maps.Map = null
+    @ProvideReactive() google: null | Google = null
 
     currentGeo: any = null
+
+    get containerStyles() {
+      return {
+        backgroundColor: this.backgroundColor,
+      }
+    }
 
     // return this.map style
     get styles() {
@@ -90,30 +116,44 @@
     // get options for this.map.setOptions
     get options() {
       const {
-        fullscreenControl, scaleControl, streetViewControl, zoomControl,
-        rotateControl, panControl, mapTypeControl, draggable, styles,
-        backgroundColor,
+        fullscreenControl,
+        scaleControl,
+        streetViewControl,
+        zoomControl,
+        rotateControl,
+        panControl,
+        mapTypeControl,
+        draggable,
+        styles,
       } = this
       return {
-        fullscreenControl, scaleControl, streetViewControl, zoomControl,
-        rotateControl, panControl, mapTypeControl, draggable, styles,
-        backgroundColor,
+        fullscreenControl,
+        scaleControl,
+        streetViewControl,
+        zoomControl,
+        rotateControl,
+        panControl,
+        mapTypeControl,
+        draggable,
+        styles,
+        backgroundColor: 'none',
       }
     }
 
     created() {
       this.$earthMap.load().then((google) => {
         this.google = google
-        this.initializeMap(google)
+        this._initializeMap(google)
       })
     }
-
 
     // update this.map center
     @Watch('center')
     __center(value) {
       if(this.map) {
+        const {offset} = this
         this.map.setCenter(value)
+        this.map.panBy(offset.x, offset.y)
       }
     }
 
@@ -133,66 +173,41 @@
       }
     }
 
-    @Watch('getPosition')
-    __setGeo(value) {
-      if(value) {
-        this.onGetGeo()
-      }
-    }
-
-
+    /**
+     * fix google map touch cannot call blur
+     */
     onTouchstart() {
       blur()
     }
 
-    onGetGeo() {
-      const end = () => {
-        this.$emit('update:get-position', false)
-      }
-      if(!navigator.geolocation) {
-        end()
-        return
-      }
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.currentGeo = position
-        this.$emit('current-position', position)
-        end()
-      }, () => {
-        end()
-      }, {
-        enableHighAccuracy: true,
-        maximumAge: 5,
-        timeout: 30,
-      })
-    }
-
-    initializeMap(google: Google) {
+    private _initializeMap(google: Google) {
       const {mapContainer} = this
       // should render mapContainer before render the map
       if(!mapContainer) {
         return this.$nextTick(() => {
-          this.initializeMap(google)
+          this._initializeMap(google)
         })
       }
-      const {
-        center, zoom, fullscreenControl, scaleControl, streetViewControl,
-        zoomControl, rotateControl, panControl, mapTypeControl, draggable,
-        styles, backgroundColor,
-      } = this
-      const runner = () => {
-        this.map = new google.maps.Map(mapContainer, {
-          center, zoom, fullscreenControl, scaleControl, panControl, draggable,
-          streetViewControl, zoomControl, rotateControl, mapTypeControl,
-          styles, backgroundColor,
-        })
-      }
+      const {center, zoom, options, offset} = this
 
-      if(!mapContainer) {
-        this.$nextTick(runner)
-        return
-      }
-      runner()
+      const map = new google.maps.Map(mapContainer, {
+        center,
+        zoom,
+        ...options,
+      })
+
+      this.map = map
+
+      map.panBy(offset.x, offset.y)
+
+      // add listeners to the map
+      const {$listeners} = this
+      Object.keys($listeners).forEach((key: string) => {
+        const value = $listeners[key] as any
+        map.addListener(snakeCase(key), value)
+      })
+
+      this.map = map
     }
-
   }
 </script>

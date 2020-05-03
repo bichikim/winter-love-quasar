@@ -1,6 +1,15 @@
-export const getType = (value):
-  'undefined' | 'object' | 'boolean' | 'number' | 'string' |
-  'function' | 'symbol' | 'bigint' | 'array' => {
+export const getType = (
+  value
+):
+  | 'undefined'
+  | 'object'
+  | 'boolean'
+  | 'number'
+  | 'string'
+  | 'function'
+  | 'symbol'
+  | 'bigint'
+  | 'array' => {
   if(Array.isArray(value)) {
     return 'array'
   }

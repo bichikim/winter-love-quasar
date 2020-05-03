@@ -11,7 +11,6 @@ import routes from './routes'
  */
 
 export default function (ctx) {
-
   const {Vue} = ctx
 
   Vue.use(VueRouter)

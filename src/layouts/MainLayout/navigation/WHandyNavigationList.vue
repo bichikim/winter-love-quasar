@@ -1,12 +1,12 @@
 <template lang="pug">
-  q-card.glass.q-ma-sm
-    q-list.q-pa-xs
-      w-handy-navigation-item.navigation-item(
-        v-for="(item, key) in items"
-        v-bind="item"
-        :key="key"
-        @click="$emit('click', $event)"
-      )
+  q-list.q-pa-xs
+    w-handy-navigation-item.navigation-item(
+      v-for="(item, key) in items"
+      v-bind="item"
+      :key="key"
+      @click="$emit('click', $event)"
+    )
+    slot
 </template>
 
 <script lang="ts">

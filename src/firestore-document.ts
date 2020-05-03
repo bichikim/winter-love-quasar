@@ -1,6 +1,5 @@
 export interface Claims {
   target: string
-
 }
 
 export interface Users {
@@ -16,6 +15,4 @@ export interface SearchHistory {
   user: string
 }
 
-export interface Place {
-
-}
+export interface Place {}

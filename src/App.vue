@@ -23,7 +23,7 @@
     /**
      * how to reload page after installing updated sw
      */
-    @Prop({default: false})  swUpdateSoftReload: boolean
+    @Prop({default: false}) swUpdateSoftReload: boolean
 
     reloadKey: number = 0
 
@@ -87,7 +87,9 @@
       channel.port1.onmessage = (event) => {
         if(event.data.error) {
           this.swUpdateWaiting = false
-          this.swError = event.data.error?.message ?? 'Cannot install the updated service work'
+          this.swError =
+            event.data.error?.message ??
+            'Cannot install the updated service work'
           return
         }
 
@@ -109,14 +111,16 @@
     onServiceUpdated(event) {
       this.swUpdateWaiting = true
       this.swDownloading = false
-      this.$q.dialog({
-        message: 'Service updated. Would you like to reload?',
-        seamless: true,
-        position: 'top',
-        cancel: true,
-      }).onOk(() => {
-        this.onOkUpdate(event)
-      })
+      this.$q
+        .dialog({
+          message: 'Service updated. Would you like to reload?',
+          seamless: true,
+          position: 'top',
+          cancel: true,
+        })
+        .onOk(() => {
+          this.onOkUpdate(event)
+        })
     }
 
     onServiceOffline() {
@@ -155,5 +159,4 @@
   }
 </script>
 
-<style>
-</style>
+<style></style>

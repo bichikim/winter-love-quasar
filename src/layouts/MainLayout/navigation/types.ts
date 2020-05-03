@@ -56,12 +56,7 @@ export interface NavItem<R extends FunctionRecord = FunctionRecord> {
   /**
    * NavItem list Tree structure
    */
-  items?: (NavItem<R>)[]
-
-  /**
-   * item is active
-   */
-  active: boolean
+  items?: NavItem<R>[]
 
   /**
    * item is disable

@@ -30,6 +30,10 @@ Windows
  --unsafely-treat-insecure-origin-as-secure=https://localhost:8080
 ```
 
+### In Windows 10
+
+- npm install --global --production windows-build-tools
+
 ## Security
 
 ### Expect-CT header
@@ -43,9 +47,8 @@ https://atinove.com/post/5e6d87f1d215fd0a9d45f005/
 
 ## Known issue 
 
-### .env should be added to .gitignore
 
-### browser zoom sometimes macks a scrollbar (quasar bug)
+### browser zoom sometimes makes a scrollbar (quasar bug)
 
 ![issue](./media/issue0.PNG)
 
@@ -62,3 +65,8 @@ Not support yet
 ### Content-Security-Policy  style-src unsafe-inline 
 
 unsafe-inline may be dangerous
+
+
+## stacks
+
+https://stackshare.io/winter-love/winter-love

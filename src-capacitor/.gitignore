@@ -3,6 +3,7 @@
 .thumbs.db
 node_modules
 /android
+/ios
 /dist
 /src-cordova/node_modules
 /src-cordova/platforms

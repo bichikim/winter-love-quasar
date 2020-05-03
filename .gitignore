@@ -26,3 +26,9 @@ node_modules
 .DS_Store
 .thumbs.db
 /reports
+
+# trash
+/.old
+
+# Environment variable
+.env

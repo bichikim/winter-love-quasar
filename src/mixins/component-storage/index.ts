@@ -105,7 +105,7 @@ export class ComponentStorage {
     const _namespace = this.getNamespace()
     const data: Record<string, any> = clone(filterPrivate(vm.$data, _privatePrefix))
 
-    const getFilter = (filter: SaveObject | boolean): {only: string[], except: string[]} => {
+    const getFilter = (filter: SaveObject | boolean): {only: string[]; except: string[]} => {
       const {only = [], except = []} = typeof filter === 'boolean' ? {} : filter
       return {only, except}
     }
@@ -119,19 +119,13 @@ export class ComponentStorage {
     if(saves.session) {
       const {only, except} = getFilter(saves.session)
 
-      saveSession(
-        _key, _namespace, filterRecord(data, only, except))
+      saveSession(_key, _namespace, filterRecord(data, only, except))
     }
 
     if(saves.cookie) {
       const {only, except} = getFilter(saves.cookie)
 
-      saveCookie(
-        _key,
-        _namespace,
-        filterRecord(data, only, except),
-        this._cookieOptions,
-      )
+      saveCookie(_key, _namespace, filterRecord(data, only, except), this._cookieOptions)
     }
   }
 
@@ -167,17 +161,7 @@ export class ComponentStorage {
     const {except = [], only = []} = typeof filter === 'boolean' ? {} : filter
     const {_privatePrefix} = this
 
-    applyRecord(
-      this.vm.$data,
-      filterPrivate(
-        filterRecord(
-          data,
-          only,
-          except,
-        ),
-        _privatePrefix,
-      ),
-    )
+    applyRecord(this.vm.$data, filterPrivate(filterRecord(data, only, except), _privatePrefix))
   }
 
   restoreServerCookie(req: ClientRequest) {
@@ -202,31 +186,27 @@ export class ComponentStorage {
     const {only = [], except = []} = typeof cookie === 'boolean' ? {} : cookie
     const namespace = this.getNamespace()
     const data = filterPrivate(
-      filterRecord(
-        cloneDeep(this.vm.$data),
-        only, except,
-      ),
-      this._privatePrefix,
+      filterRecord(cloneDeep(this.vm.$data), only, except),
+      this._privatePrefix
     )
     saveServerCookie(res, this.key, namespace, data, _cookieOptions)
   }
 
   getNamespace() {
     const {vm, _namespaceGetterName, _namespace} = this
-    return _namespace ??
+    return (
+      _namespace ??
       vm[_namespaceGetterName] ??
       vm.$options[_namespaceGetterName] ??
       vm.$options.name
+    )
   }
-
 }
 
 /**
  * Please use this as mixin
  */
-export function createStorageComponentOptions(options: Options = {}):
-  StorageComponentOptions {
-
+export function createStorageComponentOptions(options: Options = {}): StorageComponentOptions {
   return {
     __componentStorage: new ComponentStorage(options),
     computed: {

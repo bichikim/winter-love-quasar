@@ -36,14 +36,17 @@
 
   @Component({
     components: {
-      WSideNavigationItemList: () => (import(
-        /* webpackMode: "eager" */
-        './WSideNavigationList.vue')),
+      WSideNavigationItemList: () =>
+        import(
+          /* webpackMode: "eager" */
+          './WSideNavigationList.vue'
+        ),
     },
   })
-  export default class WSideNavigationItem extends Mixins(WNavigationItemShare,
-    NavigationItemDepth) {
-
+  export default class WSideNavigationItem extends Mixins(
+    WNavigationItemShare,
+    NavigationItemDepth
+  ) {
     /**
      * Whether the expansion item will also emit click event
      */

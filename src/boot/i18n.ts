@@ -28,7 +28,7 @@ export interface QuasarMessages {
 
 export type SupportLocale = keyof QuasarMessages
 
-export type MaybeEsModule = any | {default: any, [key: string]: any}
+export type MaybeEsModule = any | {default: any; [key: string]: any}
 
 const resolveEsModule = (module: MaybeEsModule): any => {
   return module.default ?? module
@@ -42,13 +42,11 @@ const findVuePluginInstance = (vue: Vue, name: string) => {
 }
 
 const boot: BootFileFunction = ({Vue, app}) => {
-
   Vue.use(VueI18n)
 
   // local is single Singleton
   Vue.mixin({
     created(this: Vue) {
-
       this.$locale = findVuePluginInstance(this, 'locale')
     },
   })
@@ -62,8 +60,8 @@ const boot: BootFileFunction = ({Vue, app}) => {
 
   // It tells Webpack quasar which quasar/lang Webpack need
   const quasarMessages: QuasarMessages = {
-    'en-us': () => (import('quasar/lang/en-us')),
-    'ko-kr': () => (import('quasar/lang/ko-kr')),
+    'en-us': () => import('quasar/lang/en-us'),
+    'ko-kr': () => import('quasar/lang/ko-kr'),
   }
 
   // add new $locale
@@ -88,6 +86,4 @@ const boot: BootFileFunction = ({Vue, app}) => {
   }
 }
 
-
 export default boot
-

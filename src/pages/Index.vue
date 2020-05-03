@@ -14,7 +14,6 @@
 
   @Component
   export default class IndexPage extends Vue {
-
     meta: {}
 
     hook: any = null

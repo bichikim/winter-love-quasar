@@ -17,11 +17,15 @@
 
   @Component({
     components: {
-      WSideNavigationItem: () => (import(
-        /* webpackMode: "eager" */
-        './WSideNavigationItem.vue')),
+      WSideNavigationItem: () =>
+        import(
+          /* webpackMode: "eager" */
+          './WSideNavigationItem.vue'
+        ),
     },
   })
-  export default class WSideNavigationList extends Mixins(WNavigationShare, NavigationItemDepth) {
-  }
+  export default class WSideNavigationList extends Mixins(
+    WNavigationShare,
+    NavigationItemDepth
+  ) {}
 </script>

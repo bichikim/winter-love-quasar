@@ -5,7 +5,6 @@
  * quasar.conf > pwa > workboxPluginMode is set to "InjectManifest"
  */
 
-
 const httpCashList = [
   /^http/,
   // [/^https?:\/\/maps.googleapis.com\/maps\/vt\??/, false],
@@ -23,6 +22,8 @@ self.addEventListener('message', (event) => {
     )
   }
 })
+
+workbox.setConfig({debug: false})
 
 workbox.core.clientsClaim()
 

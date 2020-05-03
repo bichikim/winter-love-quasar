@@ -1,10 +1,10 @@
-import Google from './google'
-
 let googleApi: Google | null = null
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
 
 export const googleApiCallback = '__GoogleApiCallback__'
 
-export function createErrorMessage(where: string,message: string) {
+export function createErrorMessage(where: string, message: string) {
   return `google-map-api-loader.${where}: ${message}`
 }
 
@@ -35,17 +35,14 @@ export function load(key, waitTime: number = 5000): Google | Promise<Google> {
   return new Promise((resolve, reject) => {
     window[googleApiCallback] = function () {
       googleApi = window.google
+
       resolve(googleApi)
     }
-    loadGoogleMapsApi(
-      createGoogleMapsApiSrc(key, googleApiCallback),
-    )
+    loadGoogleMapsApi(createGoogleMapsApiSrc(key, googleApiCallback))
 
     setTimeout(() => {
       if(!window.google) {
-        reject(new Error(
-          createErrorMessage('load', 'cannot load google-map-api'),
-        ))
+        reject(new Error(createErrorMessage('load', 'cannot load google-map-api')))
       }
     }, waitTime)
   })

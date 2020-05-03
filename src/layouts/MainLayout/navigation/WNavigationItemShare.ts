@@ -8,7 +8,6 @@ import {ExecutionInfo, NavItem} from './types'
  */
 @Component
 export default class WNavigationItemShare extends Vue implements NavItem {
-
   @Prop() icon?: string
   @Prop() title: string
   @Prop() replace?: RawLocation
