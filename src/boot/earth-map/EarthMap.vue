@@ -1,5 +1,6 @@
 <template lang="pug">
   .google-map.fit(
+    :class="googleMapWrapperClasses"
     :style="containerStyles"
     @touchstart.prevent="onTouchstart"
   )
@@ -13,13 +14,17 @@
       )
 </template>
 
-<style lang="stylus" scoped>
-  .google-map.no-display-link
+<style lang="stylus">
+  .google-map.no-display-gbtn
     a[href^="http://maps.google.com/maps"]
       display none !important
 
     a[href^="https://maps.google.com/maps"]
-        display none !important
+      display none !important
+
+  .google-map.korea-grayscale
+    img[src^="https://maps.googleapis.com/maps"]
+      filter grayscale(100%)  !important
 </style>
 
 <script lang="ts">
@@ -49,6 +54,8 @@
     @Prop({default: false, type: Boolean}) readonly rotateControl: boolean
     @Prop({default: false, type: Boolean}) readonly panControl: boolean
     @Prop({default: false, type: Boolean}) readonly mapTypeControl: boolean
+    @Prop({default: false, type: Boolean}) readonly googleButton: boolean
+    @Prop({default: true, type: Boolean}) readonly koreaMapGrayscale: boolean
 
     /**
      * setting center offset
@@ -96,6 +103,17 @@
     @ProvideReactive() google: null | Google = null
 
     currentGeo: any = null
+
+    get googleMapWrapperClasses() {
+      const classes: string[] = []
+      if(!this.googleButton) {
+        classes.push('no-display-gbtn')
+      }
+      if(this.koreaMapGrayscale) {
+        classes.push('korea-grayscale')
+      }
+      return classes
+    }
 
     get containerStyles() {
       return {
