@@ -33,7 +33,7 @@
     "test:node": "mocha",
     "test:firebase": "echo need to add this script",
     "firebase:emulator": "firebase serve --only firestore,database",
-    "format": "prettier-eslint src/**/*.ts --log-level trace"
+    "format": "prettier-eslint --write src/**/*.ts"
   },
   "scriptsDescription": {
     "dev": "serve in development mode (pwa)",
@@ -97,7 +97,7 @@
     "core-js": "^2.6.11",
     "cross-spawn": "^7.0.1",
     "css-loader": "^3.2.0",
-    "eslint": "^6.5.1",
+    "eslint": "~6.4.0",
     "eslint-loader": "^4.0.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-pug": "^1.2.2",
@@ -117,6 +117,7 @@
     "karma-webpack": "^4.0.2",
     "mocha": "^7.0.1",
     "preload-webpack-plugin": "^3.0.0-beta.4",
+    "prettier": "^2.0.5",
     "prettier-eslint": "^9.0.1",
     "prettier-eslint-cli": "^5.0.0",
     "pug": "^2.0.3",

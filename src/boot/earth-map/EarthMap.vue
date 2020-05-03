@@ -13,6 +13,15 @@
       )
 </template>
 
+<style lang="stylus" scoped>
+  .google-map.no-display-link
+    a[href^="http://maps.google.com/maps"]
+      display none !important
+
+    a[href^="https://maps.google.com/maps"]
+        display none !important
+</style>
+
 <script lang="ts">
   import {
     Component, Prop, Vue, Watch, Ref, ProvideReactive,
