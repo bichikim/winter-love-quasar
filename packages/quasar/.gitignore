@@ -1,0 +1,34 @@
+# build resules
+/.quasar
+/.coverage
+/.firebase
+/dist
+
+# Installed Libraries
+node_modules
+/src-cordova/node_modules
+/src-cordova/platforms
+/src-cordova/plugins
+/src-cordova/www
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# logs
+/*.log*
+
+# ETC.
+.DS_Store
+.thumbs.db
+/reports
+
+# trash
+/.old
+
+# Environment variable
+.env

@@ -1,6 +1,5 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
 const Eslint = require('eslint')
@@ -32,7 +31,7 @@ function tsConfig(config, ctx) {
             {
               vue: true,
               eslint: true,
-              tsconfig: 'tsconfig.bundle.json',
+              tsconfig: path.resolve(__dirname, '../../../', 'tsconfig.bundle.json'),
             }])
   }
   return config
@@ -206,14 +205,6 @@ function i18n(config) {
         .end()
 }
 
-function preload(config) {
-  config.plugin('preload-webpack')
-  .after('html-webpack')
-  .use(PreloadWebpackPlugin, [{
-      rel: 'preload',
-  }])
-}
-
 function copy(config) {
   config.plugin('copy-webpack')
     .tap((args) => {
@@ -229,5 +220,5 @@ function copy(config) {
 // noinspection WebpackConfigHighlighting
 module.exports = {
   tsConfig, pugConfig, jsConfig, vueConfig, stylusConfig, imgConfig, aliasConfig,
-  iconFont, i18n, eslint, preload, copy,
+  iconFont, i18n, eslint, copy,
 }

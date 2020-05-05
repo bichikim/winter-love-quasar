@@ -2,6 +2,7 @@ module.exports = {
   presets: [
     [
       '@quasar/babel-preset-app', {
+      corejs: 3,
     }],
     [
       'typescript-vue',

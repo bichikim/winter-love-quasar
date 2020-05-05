@@ -128,7 +128,8 @@
     "noEmit": true
   },
   "include": [
-    "src",
+    "packages/quasar/src",
+    "packages/functions/src",
     "node_modules/vue-tsx-support/enable-check.d.ts"
   ],
   "exclude": [

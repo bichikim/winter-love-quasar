@@ -4,7 +4,6 @@
 const {
   tsConfig, pugConfig, iconFont, eslint, i18n, copy,
 } = require('./build/webpack.chain.js')
-const envReader = require('./build/env-reader')
 const pkg = require('./package.json')
 
 module.exports = function (ctx) {
@@ -21,7 +20,7 @@ module.exports = function (ctx) {
       'firebase',
       'earth-map',
       'winter-love',
-      {path: 'icon', server: false},
+      // {path: 'icon', server: false},
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -72,9 +71,6 @@ module.exports = function (ctx) {
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie
     supportIE: true,
 
-    supportTS: {
-      tsCheckerConfig: {eslint: true},
-    },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
@@ -89,7 +85,6 @@ module.exports = function (ctx) {
       // extractCSS: false,
       env: {
         VERSION: JSON.stringify(version),
-        ...envReader(process.env, 'VUE'),
       },
 
       // https://quasar.dev/quasar-cli/cli-documentation/handling-webpack
@@ -100,7 +95,7 @@ module.exports = function (ctx) {
 
         tsConfig(cfg, ctx)
         pugConfig(cfg)
-        iconFont(cfg, {extract: prod})
+        // iconFont(cfg, {extract: prod})
         i18n(cfg)
         if(prod) {
           copy(cfg)

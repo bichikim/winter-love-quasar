@@ -11,8 +11,8 @@
     "predeploy": "npm --prefix \"$RESOURCE_DIR\" run build"
   },
   "hosting": {
-    "predeploy": "yarn build",
-    "public": "dist/pwa",
+    "predeploy": "yarn quasar:build",
+    "public": "packages/quasar/dist/pwa",
     "cleanUrls": true,
     "trailingSlash": true,
     "ignore": [

@@ -66,7 +66,11 @@ Not support yet
 
 unsafe-inline may be dangerous
 
+### eslint - prettier
+eslint ~6.4.0 for fix path bug for now
+
 
 ## stacks
 
 https://stackshare.io/winter-love/winter-love
+

@@ -1,4 +1,4 @@
-import * as Project from 'src/types'
+import {BootFileFunction} from 'src/types'
 import {app, auth, initializeApp} from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
@@ -19,7 +19,7 @@ declare module 'vue/types/vue' {
   }
 }
 
-const boot: Project.BootFileFunction = (context) => {
+const boot: BootFileFunction = (context) => {
   const {Vue} = context
   if(Vue.prototype.$firebase) {
     return
