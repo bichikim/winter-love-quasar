@@ -1,6 +1,12 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/bichikim/winter-love-quasar) 
 
+
+
 # Quasar App
+
+## ! Use Yarn for workspaces
+
+adding Lerna is WIP
 
 > WIP
 
