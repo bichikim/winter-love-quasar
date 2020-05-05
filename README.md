@@ -51,6 +51,25 @@ https://atinove.com/post/5e6d87f1d215fd0a9d45f005/
 
 ### Web Application Firewall (WAF)
 
+## Root?
+
+the Root for ...
+
+1. Deploy
+2. Eslint
+3. Prettier
+4. Online editor (Gitpod)
+5. Generate icons (icongenie)
+6. ENV
+7. Type settings (except packages/functions)
+
+## Packages?
+
+- functions: google firebase functions
+- quasar: client app
+- doc: vuepress doc + docgen for quasar (WIP)
+
+
 ## Known issue 
 
 
