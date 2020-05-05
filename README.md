@@ -1,7 +1,5 @@
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/bichikim/winter-love-quasar) 
 
-
-
 # Quasar App
 
 ## ! Use Yarn for workspaces
@@ -94,6 +92,9 @@ unsafe-inline may be dangerous
 ### eslint - prettier
 eslint ~6.4.0 for fix path bug for now
 
+### node engine version issue
+The Functions version is stubbornly fixed at 10, so it gets caught in yarn engine version checking.
+Please use node.js version 10
 
 ## stacks
 
