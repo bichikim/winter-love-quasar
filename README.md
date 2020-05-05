@@ -93,7 +93,7 @@ unsafe-inline may be dangerous
 eslint ~6.4.0 for fix path bug for now
 
 ### node engine version issue
-The Functions version is stubbornly fixed at 10, so it gets caught in yarn engine version checking.
+The Functions version is stubbornly fixed at 10, so Yarn engine version checking throw an error.
 Please use node.js version 10
 
 ## stacks
