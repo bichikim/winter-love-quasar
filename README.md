@@ -4,7 +4,7 @@
 
 ## ! Use Yarn for workspaces
 
-adding Lerna is WIP
+Adding Lerna is WIP
 
 > WIP
 
@@ -24,9 +24,12 @@ Set TS_NODE_PROJECT=null in your config
 > An SSL certificate error occurred when fetching the script.
 
 
-Windows
+for Windows
 
-- close all windows of chrome first
+1. close all windows of chrome first
+
+2. Run Chrome with `--ignore-certificate-errors` and `--unsafely-treat-insecure-origin-as-secure
+=https://localhost:8080` options
 
 ```
 /Applications/Google/Chrome/Canary.app/Contents/MacOS/Google/Chrome
@@ -34,9 +37,12 @@ Windows
  --unsafely-treat-insecure-origin-as-secure=https://localhost:8080
 ```
 
-### In Windows 10
+### yarn install In Windows 10
+
+Run the following command first
 
 - npm install --global --production windows-build-tools
+
 
 ## Security
 
