@@ -31,7 +31,7 @@ function tsConfig(config, ctx) {
             {
               vue: true,
               eslint: true,
-              tsconfig: path.resolve(__dirname, '../../../', 'tsconfig.bundle.json'),
+              tsconfig: 'tsconfig.bundle.json',
             }])
   }
   return config

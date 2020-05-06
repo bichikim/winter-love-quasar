@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compileOnSave": false,
+  "compilerOptions": {
+    "paths": {
+      "src/*": ["packages/quasar/src/*"],
+      "components/*": ["packages/quasar/src/components/*"],
+      "layouts/*": ["packages/quasar/src/layouts/*"],
+      "pages/*": ["packages/quasar/src/pages/*"]
+    }
+  },
+  "include": [
+    "src",
+    "node_modules/vue-tsx-support/enable-check.d.ts"
+  ],
+  "exclude": [
+  ]
+}

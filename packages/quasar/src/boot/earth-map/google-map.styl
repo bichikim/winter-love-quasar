@@ -1,64 +1,11 @@
-$google-korea-token = 28944,
-        84530,
-        115231,
-        59645,
-        2484,
-        102854,
-        78535,
-        3050,
-        97604,
-        93829,
-        38243,
-        113728,
-        22228,
-        71819,
-        104970,
-        7050,
-        40201,
-        121681,
-        18344,
-        99824,
-        44238,
-        119723,
-        64137,
-        6976,
-        56567,
-        18393,
-        121410,
-        23490,
-        56641,
-        89792,
-        88530,
-        55379,
-        116313,
-        981,
-        82461,
-        8312,
-        106232,
-        73081,
-        18233,
-        116153,
-        34673,
-        84264,
-        117415,
-        19495,
-        52646,
-        3055,
-        84535,
-        83002,
-        1522,
-        51113,
-        130804,
-        32884,
-        66035,
-$google-korea-token-dark = 117982
+$google-korea-token = 28944, 84530, 115231, 59645, 2484, 102854, 78535, 3050, 97604, 93829, 38243, 113728, 22228, 71819, 104970, 7050, 40201, 121681, 18344, 99824, 44238, 119723, 64137, 6976, 56567, 18393, 121410, 23490, 56641, 89792, 88530, 55379, 116313, 981, 82461, 8312, 106232, 73081, 18233, 116153, 34673, 84264, 117415, 19495, 52646, 3055, 84535, 83002, 1522, 51113, 130804, 32884, 66035, $google-korea-token-dark = 117982
 
-for $num in range(0, (length($google-korea-token) - 1))
+for $num in range(0, length($google-korea-token) - 1)
   .google-map.korea-grayscale
     img[src$=\"{'token=' + $google-korea-token[$num]}\"]
-     filter grayscale(100%)  !important
+      filter grayscale(100%) !important
 
-for $num in range(0, (length($google-korea-token-dark) - 1))
+for $num in range(0, length($google-korea-token-dark) - 1)
   .google-map.korea-grayscale
     img[src$=\"{'token=' + $google-korea-token-dark[$num]}\"]
       filter grayscale(100%) brightness(80%) !important

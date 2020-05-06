@@ -96,7 +96,7 @@ Not support yet
 unsafe-inline may be dangerous
 
 ### eslint - prettier
-eslint ~6.4.0 for fix path bug for now
+eslint ~6.4.0 for fixing path bug for now
 
 ### node engine version issue
 The Functions version is stubbornly fixed at 10, so Yarn engine version checking throw an error.

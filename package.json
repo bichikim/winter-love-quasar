@@ -22,8 +22,6 @@
   "scripts": {
     "bootstrap": "yarn",
     "dev": "yarn quasar:dev",
-    "quasar:dev": "yarn workspace quasar dev",
-    "quasar:build": "yarn workspace quasar build",
     "build:functions": "yarn workspace functions build",
     "icon": "icongenie generate -p icongenie.json",
     "serve": "quasar serve dist/pwa",
@@ -34,7 +32,10 @@
     "test:node": "mocha",
     "test:firebase": "echo need to add this script",
     "firebase:emulator": "firebase serve --only firestore,database",
-    "format": "prettier-eslint --write \"src/**/*.ts\" \"src/**/*.vue\" && stylus-supremacy format -r src/**/*.styl --options .stylintrc"
+    "format": "yarn quasar:format",
+    "quasar:dev": "yarn workspace quasar dev",
+    "quasar:build": "yarn workspace quasar build",
+    "quasar:format": "prettier-eslint --write \"packages/quasar/src/**/*.@(js?x|ts?x|vue)\" && stylus-supremacy format -r \"packages/quasar/src/**/*.styl\" --options .stylintrc"
   },
   "scriptsDescription": {
     "dev": "serve in development mode (pwa)",
@@ -68,8 +69,6 @@
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "^2.6.11",
-    "cross-spawn": "^7.0.1",
-    "css-loader": "^3.2.0",
     "eslint": "~6.4.0",
     "eslint-loader": "^4.0.0",
     "eslint-plugin-import": "^2.18.0",
@@ -79,15 +78,15 @@
     "firebase-tools": "^8.0.2",
     "fork-ts-checker-webpack-plugin": "^4.0.4",
     "mocha": "^7.0.1",
-    "prettier": "^2.0.5",
-    "prettier-eslint": "^9.0.1",
-    "prettier-eslint-cli": "^5.0.0",
-    "stylus-supremacy": "^2.14.0",
     "typescript": "^3.8.3",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.11",
+    "stylus-supremacy": "^2.14.0",
     "vuepress": "^1.4.1",
     "vuepress-plugin-docgen": "^1.2.9",
+    "prettier": "^2.0.5",
+    "prettier-eslint": "^9.0.1",
+    "prettier-eslint-cli": "^5.0.0",
     "webpack": "^4.33.0",
     "webpack-chain": "^6.0.0"
   }
