@@ -29,7 +29,7 @@
     "test:node": "mocha",
     "test:firebase": "echo need to add this script",
     "firebase:emulator": "firebase serve --only firestore,database",
-    "format": "prettier-eslint --write \"src/**/*.ts\" \"src/**/*.vue\" && stylus-supremacy format -r src/**/*.styl --options .stylintrc"
+    "format": ""
   },
   "scriptsDescription": {
     "dev": "serve in development mode (pwa)",
@@ -88,14 +88,7 @@
     "chai": "^4.2.0",
     "copy-webpack-plugin": "^5.1.1",
     "core-js": "^2.6.11",
-    "cross-spawn": "^7.0.1",
     "css-loader": "^3.2.0",
-    "eslint": "~6.4.0",
-    "eslint-loader": "^4.0.0",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-pug": "^1.2.2",
-    "eslint-plugin-sort-class-members": "^1.5.0",
-    "eslint-plugin-vue": "^6.0.1",
     "firebase-tools": "^8.0.2",
     "fork-ts-checker-webpack-plugin": "^4.0.4",
     "helmet-csp": "^2.10.0",
@@ -109,13 +102,10 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^4.0.2",
     "mocha": "^7.0.1",
-    "prettier": "^2.0.5",
-    "prettier-eslint": "^9.0.1",
-    "prettier-eslint-cli": "^5.0.0",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
     "pug-plain-loader": "^1.0.0",
-    "stylus-supremacy": "^2.14.0",
+
     "typescript": "^3.8.3",
     "vue-loader": "^15.7.0",
     "vue-template-compiler": "^2.6.11",
