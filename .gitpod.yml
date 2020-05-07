@@ -1,5 +1,5 @@
 tasks:
-  - init: yarn install && yarn run build
+  - init: nvm install 10.20.1 && nvm use 10.20.1 && yarn install && yarn run build
     command: yarn run dev
 image:
   file: .gitpod.Dockerfile
