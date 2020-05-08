@@ -7,40 +7,38 @@ admin.initializeApp({
   databaseURL: 'https://winter-love.firebaseio.com',
 })
 
-const getFirebaseAuth =
-  async (request: Request): Promise<admin.auth.DecodedIdToken | undefined> => {
-    const hasHeaderAuth = (
-      request.headers.authorization && request.headers.authorization.startsWith('Bearer ')
-    )
-    const hasCookieAuth = (request.cookies && request.cookies.__session)
+const getFirebaseAuth = async (
+  request: Request
+): Promise<admin.auth.DecodedIdToken | undefined> => {
+  const hasHeaderAuth =
+    request.headers.authorization && request.headers.authorization.startsWith('Bearer ')
+  const hasCookieAuth = request.cookies && request.cookies.__session
 
-    let token: string | undefined
-    if(hasHeaderAuth) {
-      token = request.headers.authorization?.split('Bearer ')[1]
-    } else if(hasCookieAuth) {
-      token = request.cookies.__session
-    }
-    if(!token) {
-      return
-    }
-
-    try {
-      return await admin.auth().verifyIdToken(token)
-    } catch(e) {
-      return undefined
-    }
+  let token: string | undefined
+  if(hasHeaderAuth) {
+    token = request.headers.authorization?.split('Bearer ')[1]
+  } else if(hasCookieAuth) {
+    token = request.cookies.__session
   }
+  if(!token) {
+    return
+  }
+
+  try {
+    return await admin.auth().verifyIdToken(token)
+  } catch(e) {
+    return undefined
+  }
+}
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
 //
-export const helloWorld = functions.https
-.onRequest((request, response) => {
+export const helloWorld = functions.https.onRequest((request, response) => {
   response.send('Hello from Firebase!')
 })
 
-export const changeUserClaims = functions.https
-.onRequest(async (request, response) => {
+export const changeUserClaims = functions.https.onRequest(async (request, response) => {
   const {targetUid, admin = false} = request.body
 
   if(!targetUid) {
