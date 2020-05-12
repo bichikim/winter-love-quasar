@@ -33,10 +33,11 @@
     "test:node": "mocha",
     "test:firebase": "echo need to add this script",
     "firebase:emulator": "firebase serve --only firestore,database",
-    "format": "yarn quasar:format",
+    "format": "yarn quasar:format && yarn functions:format",
+    "functions:format": "prettier-eslint --write \"packages/functions/src/**/*.ts\" ",
     "quasar:dev": "yarn workspace quasar dev",
     "quasar:build": "yarn workspace quasar build",
-    "quasar:format": "prettier-eslint --write \"packages/quasar/src/**/*.@(js?(x)|ts?(x)|vue)\" && stylus-supremacy format -r \"packages/quasar/src/**/*.styl\" --options .stylintrc"
+    "quasar:format": "prettier-eslint --write \"packages/quasar/src/**/*.@(js?x|ts?x|vue)\" && stylus-supremacy format -r \"packages/quasar/src/**/*.styl\" --options .stylintrc"
   },
   "scriptsDescription": {
     "dev": "serve in development mode (pwa)",
@@ -65,7 +66,6 @@
     "@typescript-eslint/eslint-plugin": "^2.3.2",
     "@typescript-eslint/parser": "^2.3.2",
     "chai": "^4.2.0",
-    "copy-webpack-plugin": "^5.1.1",
     "core-js": "^2.6.11",
     "eslint": "~6.4.0",
     "eslint-loader": "^4.0.0",
@@ -77,8 +77,6 @@
     "fork-ts-checker-webpack-plugin": "^4.0.4",
     "mocha": "^7.0.1",
     "typescript": "^3.8.3",
-    "vue-loader": "^15.7.0",
-    "vue-template-compiler": "^2.6.11",
     "stylus-supremacy": "^2.14.0",
     "vuepress": "^1.4.1",
     "vuepress-plugin-docgen": "^1.2.9",
