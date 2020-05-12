@@ -22,7 +22,8 @@
   "scripts": {
     "bootstrap": "yarn",
     "dev": "yarn quasar:dev",
-    "build:functions": "yarn workspace functions build",
+    "build": "yarn functions:build && yarn quasar:build",
+    "functions:build": "yarn workspace functions build",
     "icon": "icongenie generate -p icongenie.json",
     "serve": "quasar serve dist/pwa",
     "deploy": "firebase deploy",
@@ -35,7 +36,7 @@
     "format": "yarn quasar:format",
     "quasar:dev": "yarn workspace quasar dev",
     "quasar:build": "yarn workspace quasar build",
-    "quasar:format": "prettier-eslint --write \"packages/quasar/src/**/*.@(js?x|ts?x|vue)\" && stylus-supremacy format -r \"packages/quasar/src/**/*.styl\" --options .stylintrc"
+    "quasar:format": "prettier-eslint --write \"packages/quasar/src/**/*.@(js?(x)|ts?(x)|vue)\" && stylus-supremacy format -r \"packages/quasar/src/**/*.styl\" --options .stylintrc"
   },
   "scriptsDescription": {
     "dev": "serve in development mode (pwa)",
@@ -52,9 +53,6 @@
     "lodash": "^4.17.15",
     "@firebase/testing": "^0.19.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
-    "@quasar/app": "^1.8.4",
-    "@quasar/cli": "^1.0.7",
-    "@quasar/quasar-app-extension-dotenv": "^1.0.1",
     "@types/chai": "^4.1.7",
     "@types/googlemaps": "^3.39.3",
     "@types/jquery": "^3.3.31",

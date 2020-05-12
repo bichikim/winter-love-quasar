@@ -37,6 +37,16 @@ for Windows
  --unsafely-treat-insecure-origin-as-secure=https://localhost:8080
 ```
 
+for OSX
+
+1. close all chrome first
+
+2. Run Chrome with ...
+
+```
+open -a /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --args --ignore-certificate-errors --unsafely-treat-insecure-origin-as-secure=https://localhost:8080
+```
+
 ### yarn install In Windows 10
 
 Run the following command first
