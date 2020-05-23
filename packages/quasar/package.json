@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.7.0",
-    "@zxing/library": "^0.16.1",
+    "@zxing/library": "^0.17.0",
     "axios": "^0.19.2",
     "cookie": "^0.4.0",
     "firebase": "^7.14.0",
