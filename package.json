@@ -37,6 +37,7 @@
     "functions:format": "prettier-eslint --write \"packages/functions/src/**/*.ts\" ",
     "quasar:dev": "yarn workspace quasar dev",
     "quasar:build": "yarn workspace quasar build",
+    "quaser:serve": "yarn workspace quasar serve",
     "quasar:format": "prettier-eslint --write \"packages/quasar/src/**/*.@(js?x|ts?x|vue)\" && stylus-supremacy format -r \"packages/quasar/src/**/*.styl\" --options .stylintrc"
   },
   "scriptsDescription": {

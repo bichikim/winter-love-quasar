@@ -19,30 +19,20 @@
   "scripts": {
     "dev": "quasar dev -m pwa",
     "build": "quasar build -m pwa",
-    "build:functions": "yarn workspace functions build",
-    "icon": "icongenie generate -p icongenie.json",
     "serve": "quasar serve dist/pwa",
-    "deploy": "firebase deploy",
-    "docs": "vuepress dev docs",
-    "test": "npm run test:quasar",
-    "test:quasar": "karma start karma.config.js --browsers=Chrome",
-    "test:node": "mocha",
-    "test:firebase": "echo need to add this script",
-    "firebase:emulator": "firebase serve --only firestore,database",
+    "test": "karma start karma.config.js --browsers=Chrome",
     "format": ""
   },
   "scriptsDescription": {
     "dev": "serve in development mode (pwa)",
     "build": "build app as pwa mode",
     "serve": "serve builded app",
-    "deploy": "deploy to firebase host",
-    "test": "run app unit test",
-    "test:firebase": "run firebase test [WIP]",
-    "firebase:emulator": "run firebase emulator"
+    "test": "run app unit test"
   },
   "dependencies": {
     "@quasar/extras": "^1.7.0",
-    "@zxing/library": "^0.17.0",
+    "@zxing/library": "~0.15.2",
+    "big-integer": "^1.6.48",
     "axios": "^0.19.2",
     "cookie": "^0.4.0",
     "firebase": "^7.14.0",

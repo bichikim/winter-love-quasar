@@ -55,7 +55,8 @@ module.exports = function (ctx) {
       // * true   - Import everything from Quasar
       //            (not treeshaking Quasar; biggest bundle size; convenient)
       // auto import in production mode
-      all: prod ? 'auto' : true,
+      // all: prod ? 'auto' : true,
+      all: true,
 
       // components: [],
       // directives: [],
