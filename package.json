@@ -52,7 +52,7 @@
   "dependencies": {
   },
   "devDependencies": {
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "@firebase/testing": "^0.19.0",
     "@intlify/vue-i18n-loader": "^1.0.0",
     "@types/chai": "^4.1.7",
