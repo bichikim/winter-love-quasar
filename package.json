@@ -69,7 +69,7 @@
     "eslint-plugin-vue": "^6.0.1",
     "firebase-tools": "^8.0.2",
     "fork-ts-checker-webpack-plugin": "^4.0.4",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "mocha": "^7.0.1",
     "prettier": "^2.0.5",
     "prettier-eslint": "^9.0.1",
